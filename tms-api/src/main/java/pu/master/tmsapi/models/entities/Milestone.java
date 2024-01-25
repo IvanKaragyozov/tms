@@ -1,4 +1,4 @@
-package pu.master.tmsapi.tmsapi.models.entities;
+package pu.master.tmsapi.models.entities;
 
 
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import pu.master.tmsapi.tmsapi.models.enums.MilestonePriority;
+import pu.master.tmsapi.models.enums.MilestonePriority;
 
 
 @Entity

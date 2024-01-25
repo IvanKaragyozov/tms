@@ -1,4 +1,4 @@
-package pu.master.tmsapi.tmsapi.models.entities;
+package pu.master.tmsapi.models.entities;
 
 
 import java.time.LocalDateTime;
