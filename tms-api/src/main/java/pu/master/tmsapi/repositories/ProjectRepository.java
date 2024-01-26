@@ -8,6 +8,6 @@ import pu.master.tmsapi.models.entities.Project;
 
 
 @Repository
-public interface MilestoneRepository extends JpaRepository<Project, Long>
+public interface ProjectRepository extends JpaRepository<Project, Long>
 {
 }
