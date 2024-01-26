@@ -10,6 +10,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -17,8 +19,8 @@ import pu.master.tmsapi.models.enums.MilestonePriority;
 
 
 @Entity
-@Table(name = "milestones")
-public class Milestone extends BaseEntity
+@Table(name = "projects")
+public class Project extends BaseEntity
 {
 
     @Column(name = "title")
@@ -37,15 +39,20 @@ public class Milestone extends BaseEntity
     @Column(name = "priority")
     private MilestonePriority priorityLevel;
 
-    @OneToMany(mappedBy = "milestone", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private List<Task> tasks;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+                    name = "user_projects",
+                    joinColumns = @JoinColumn(name = "project_id"),
+                    inverseJoinColumns = @JoinColumn(name = "user_id")
+
+    )
     private List<User> users;
 
 
-    public Milestone()
+    public Project()
     {
     }
 
@@ -56,7 +63,7 @@ public class Milestone extends BaseEntity
     }
 
 
-    public Milestone setTitle(final String title)
+    public Project setTitle(final String title)
     {
         this.title = title;
         return this;
@@ -69,7 +76,7 @@ public class Milestone extends BaseEntity
     }
 
 
-    public Milestone setDescription(final String description)
+    public Project setDescription(final String description)
     {
         this.description = description;
         return this;
@@ -82,7 +89,7 @@ public class Milestone extends BaseEntity
     }
 
 
-    public Milestone setDateCreated(final LocalDate dateCreated)
+    public Project setDateCreated(final LocalDate dateCreated)
     {
         this.dateCreated = dateCreated;
         return this;
@@ -95,7 +102,7 @@ public class Milestone extends BaseEntity
     }
 
 
-    public Milestone setDueDate(final LocalDate timeDue)
+    public Project setDueDate(final LocalDate timeDue)
     {
         this.dueDate = timeDue;
         return this;
@@ -108,7 +115,7 @@ public class Milestone extends BaseEntity
     }
 
 
-    public Milestone setPriorityLevel(final MilestonePriority priority)
+    public Project setPriorityLevel(final MilestonePriority priority)
     {
         this.priorityLevel = priority;
         return this;
@@ -121,7 +128,7 @@ public class Milestone extends BaseEntity
     }
 
 
-    public Milestone setTasks(final List<Task> tasks)
+    public Project setTasks(final List<Task> tasks)
     {
         this.tasks = tasks;
         return this;
@@ -134,14 +141,14 @@ public class Milestone extends BaseEntity
     }
 
 
-    public Milestone setUsers(final List<User> users)
+    public Project setUsers(final List<User> users)
     {
         this.users = users;
         return this;
     }
 
 
-    public Milestone addUser(final User user)
+    public Project addUser(final User user)
     {
         this.users.add(user);
         return this;
