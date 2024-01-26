@@ -52,4 +52,10 @@ public class Role extends BaseEntity
         return rights;
     }
 
+    public Role addRight(final Right right)
+    {
+        this.rights.add(right);
+        return this;
+    }
+
 }

@@ -35,9 +35,9 @@ public class Task extends BaseEntity
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private TaskStatus status;
-    @ManyToOne(targetEntity = Milestone.class)
+    @ManyToOne(targetEntity = Project.class)
     @JoinColumn(name = "milestone_id")
-    private Milestone milestone;
+    private Project project;
 
     @OneToMany(targetEntity = Comment.class, mappedBy = "task", fetch = FetchType.LAZY)
     private List<Comment> comments;
@@ -100,15 +100,15 @@ public class Task extends BaseEntity
     }
 
 
-    public Milestone getMilestone()
+    public Project getMilestone()
     {
-        return milestone;
+        return project;
     }
 
 
-    public Task setMilestone(final Milestone milestone)
+    public Task setMilestone(final Project project)
     {
-        this.milestone = milestone;
+        this.project = project;
         return this;
     }
 
