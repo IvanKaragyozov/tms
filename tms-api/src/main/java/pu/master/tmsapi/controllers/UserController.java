@@ -53,7 +53,7 @@ public class UserController
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<UserDto>> getAllUser()
+    public ResponseEntity<List<UserDto>> getAllUsers()
     {
         final List<UserDto> allUsers = this.userService.getAllUsers();
         LOGGER.info("Requesting all users from the database");
