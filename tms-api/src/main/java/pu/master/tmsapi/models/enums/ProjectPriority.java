@@ -1,7 +1,7 @@
 package pu.master.tmsapi.models.enums;
 
 
-public enum MilestonePriority
+public enum ProjectPriority
 {
 
     LOW, MEDIUM, HIGH
