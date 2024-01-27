@@ -15,7 +15,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import pu.master.tmsapi.models.enums.MilestonePriority;
+import pu.master.tmsapi.models.enums.ProjectPriority;
 
 
 @Entity
@@ -37,7 +37,7 @@ public class Project extends BaseEntity
 
     @Enumerated(EnumType.STRING)
     @Column(name = "priority")
-    private MilestonePriority priorityLevel;
+    private ProjectPriority priorityLevel;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private List<Task> tasks;
@@ -109,13 +109,13 @@ public class Project extends BaseEntity
     }
 
 
-    public MilestonePriority getPriorityLevel()
+    public ProjectPriority getPriorityLevel()
     {
         return priorityLevel;
     }
 
 
-    public Project setPriorityLevel(final MilestonePriority priority)
+    public Project setPriorityLevel(final ProjectPriority priority)
     {
         this.priorityLevel = priority;
         return this;

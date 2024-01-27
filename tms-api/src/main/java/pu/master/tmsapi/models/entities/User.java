@@ -48,9 +48,9 @@ public class User extends BaseEntity
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-                    name = "milestone_users",
+                    name = "user_projects",
                     joinColumns = @JoinColumn(name = "user_id"),
-                    inverseJoinColumns = @JoinColumn(name = "milestone_id")
+                    inverseJoinColumns = @JoinColumn(name = "project_id")
     )
     private List<Project> projects;
 
@@ -191,9 +191,28 @@ public class User extends BaseEntity
     }
 
 
+    public List<Project> getProjects()
+    {
+        return projects;
+    }
+
+
+    public User setProjects(final List<Project> projects)
+    {
+        this.projects = projects;
+        return this;
+    }
+
+
     public User setRoles(final Set<Role> roles)
     {
         this.roles = roles;
+        return this;
+    }
+
+    public User addProject(final Project project)
+    {
+        this.projects.add(project);
         return this;
     }
 

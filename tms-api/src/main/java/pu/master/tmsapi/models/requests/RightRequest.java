@@ -1,2 +1,9 @@
-package pu.master.tmsapi.models.requests;public class RightRequest {
+package pu.master.tmsapi.models.requests;
+
+
+// TODO: Add validation
+public class RightRequest
+{
+
+    private String name;
 }

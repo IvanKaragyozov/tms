@@ -35,8 +35,9 @@ public class Task extends BaseEntity
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private TaskStatus status;
+
     @ManyToOne(targetEntity = Project.class)
-    @JoinColumn(name = "milestone_id")
+    @JoinColumn(name = "project_id")
     private Project project;
 
     @OneToMany(targetEntity = Comment.class, mappedBy = "task", fetch = FetchType.LAZY)
