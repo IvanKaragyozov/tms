@@ -1,4 +1,4 @@
-package pu.master.tmsapi.tmsapi;
+package pu.master.tmsapi;
 
 
 import org.springframework.boot.SpringApplication;

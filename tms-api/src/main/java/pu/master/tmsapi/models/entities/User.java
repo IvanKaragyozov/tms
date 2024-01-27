@@ -1,8 +1,9 @@
-package pu.master.tmsapi.tmsapi.models.entities;
+package pu.master.tmsapi.models.entities;
 
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,11 +48,19 @@ public class User extends BaseEntity
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
+                    name = "user_projects",
+                    joinColumns = @JoinColumn(name = "user_id"),
+                    inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private List<Project> projects;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
                     name = "user_roles",
                     joinColumns = @JoinColumn(name = "user_id"),
                     inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Role> roles;
+    private Set<Role> roles;
 
 
     public User()
@@ -176,15 +185,41 @@ public class User extends BaseEntity
     }
 
 
-    public List<Role> getRoles()
+    public Set<Role> getRoles()
     {
         return roles;
     }
 
 
-    public User setRoles(final List<Role> roles)
+    public List<Project> getProjects()
+    {
+        return projects;
+    }
+
+
+    public User setProjects(final List<Project> projects)
+    {
+        this.projects = projects;
+        return this;
+    }
+
+
+    public User setRoles(final Set<Role> roles)
     {
         this.roles = roles;
         return this;
     }
+
+    public User addProject(final Project project)
+    {
+        this.projects.add(project);
+        return this;
+    }
+
+    public User addRole(final Role role)
+    {
+        this.roles.add(role);
+        return this;
+    }
+
 }

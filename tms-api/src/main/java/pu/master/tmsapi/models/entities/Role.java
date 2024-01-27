@@ -1,7 +1,7 @@
-package pu.master.tmsapi.tmsapi.models.entities;
+package pu.master.tmsapi.models.entities;
 
 
-import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,7 +26,7 @@ public class Role extends BaseEntity
                     joinColumns = @JoinColumn(name = "role_id"),
                     inverseJoinColumns = @JoinColumn(name = "right_id")
     )
-    private List<Right> rights;
+    private Set<Right> rights;
 
 
     public Role()
@@ -47,9 +47,16 @@ public class Role extends BaseEntity
     }
 
 
-    public List<Right> getRights()
+    public Set<Right> getRights()
     {
         return rights;
+    }
+
+
+    public Role addRight(final Right right)
+    {
+        this.rights.add(right);
+        return this;
     }
 
 }

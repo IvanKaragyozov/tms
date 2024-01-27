@@ -1,4 +1,4 @@
-package pu.master.tmsapi.tmsapi.models.entities;
+package pu.master.tmsapi.models.entities;
 
 
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +12,7 @@ public abstract class BaseEntity
 {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
 

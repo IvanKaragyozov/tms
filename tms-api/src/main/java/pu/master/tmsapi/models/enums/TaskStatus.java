@@ -1,4 +1,4 @@
-package pu.master.tmsapi.tmsapi.models.enums;
+package pu.master.tmsapi.models.enums;
 
 
 public enum TaskStatus

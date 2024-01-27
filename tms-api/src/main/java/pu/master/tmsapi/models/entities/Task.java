@@ -1,4 +1,4 @@
-package pu.master.tmsapi.tmsapi.models.entities;
+package pu.master.tmsapi.models.entities;
 
 
 import java.util.List;
@@ -13,8 +13,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import pu.master.tmsapi.tmsapi.models.enums.TaskPriority;
-import pu.master.tmsapi.tmsapi.models.enums.TaskStatus;
+import pu.master.tmsapi.models.enums.TaskPriority;
+import pu.master.tmsapi.models.enums.TaskStatus;
 
 
 @Entity
@@ -35,9 +35,10 @@ public class Task extends BaseEntity
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private TaskStatus status;
-    @ManyToOne(targetEntity = Milestone.class)
-    @JoinColumn(name = "milestone_id")
-    private Milestone milestone;
+
+    @ManyToOne(targetEntity = Project.class)
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     @OneToMany(targetEntity = Comment.class, mappedBy = "task", fetch = FetchType.LAZY)
     private List<Comment> comments;
@@ -100,15 +101,15 @@ public class Task extends BaseEntity
     }
 
 
-    public Milestone getMilestone()
+    public Project getMilestone()
     {
-        return milestone;
+        return project;
     }
 
 
-    public Task setMilestone(final Milestone milestone)
+    public Task setMilestone(final Project project)
     {
-        this.milestone = milestone;
+        this.project = project;
         return this;
     }
 
