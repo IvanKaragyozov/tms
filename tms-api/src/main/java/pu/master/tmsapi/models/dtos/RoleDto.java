@@ -11,4 +11,21 @@ public class RoleDto extends BaseDto
     private String name;
 
     private Set<RightDto> rights;
+
+
+    public RoleDto()
+    {
+    }
+
+
+    public String getName()
+    {
+        return name;
+    }
+
+
+    public Set<RightDto> getRights()
+    {
+        return rights;
+    }
 }

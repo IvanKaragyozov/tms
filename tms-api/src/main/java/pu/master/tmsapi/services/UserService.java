@@ -32,7 +32,7 @@ public class UserService
 
     public User createUser(final UserRequest userRequest)
     {
-        final User user = convertUserRequestToUser(userRequest);
+        final User user = mapUserRequestToUser(userRequest);
         return this.userRepository.save(user);
     }
 
@@ -42,12 +42,19 @@ public class UserService
         final List<User> allUsers = this.userRepository.findAll();
 
         return allUsers.stream()
-                        .map(user -> modelMapper.map(user, UserDto.class)).toList();
+                       .map(this::mapUserToUserDto)
+                       .toList();
     }
 
 
-    private User convertUserRequestToUser(final UserRequest userRequest)
+    private User mapUserRequestToUser(final UserRequest userRequest)
     {
         return this.modelMapper.map(userRequest, User.class);
+    }
+
+
+    private UserDto mapUserToUserDto(final User user)
+    {
+        return this.modelMapper.map(user, UserDto.class);
     }
 }
