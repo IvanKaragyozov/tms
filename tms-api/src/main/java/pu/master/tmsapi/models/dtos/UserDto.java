@@ -31,4 +31,94 @@ public class UserDto extends BaseDto
     private List<ProjectDto> projects;
 
     private Set<RoleDto> roles;
+
+
+    public UserDto()
+    {
+    }
+
+
+    public String getUsername()
+    {
+        return username;
+    }
+
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+
+    public String getFirstName()
+    {
+        return firstName;
+    }
+
+
+    public String getLastName()
+    {
+        return lastName;
+    }
+
+
+    public boolean isActive()
+    {
+        return isActive;
+    }
+
+
+    public String getPhoneNumber()
+    {
+        return phoneNumber;
+    }
+
+
+    public LocalDate getDateCreatedAt()
+    {
+        return dateCreatedAt;
+    }
+
+
+    public LocalDate getDateLastModifiedAt()
+    {
+        return dateLastModifiedAt;
+    }
+
+
+    public List<ProjectDto> getProjects()
+    {
+        return projects;
+    }
+
+
+    public Set<RoleDto> getRoles()
+    {
+        return roles;
+    }
+
+
+    @Override
+    public String toString()
+    {
+        return "UserDto{" +
+               "username='" + username + '\'' +
+               ", password='" + password + '\'' +
+               ", email='" + email + '\'' +
+               ", firstName='" + firstName + '\'' +
+               ", lastName='" + lastName + '\'' +
+               ", isActive=" + isActive +
+               ", phoneNumber='" + phoneNumber + '\'' +
+               ", dateCreatedAt=" + dateCreatedAt +
+               ", dateLastModifiedAt=" + dateLastModifiedAt +
+               ", projects=" + projects +
+               ", roles=" + roles +
+               '}';
+    }
 }
