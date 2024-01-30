@@ -24,6 +24,7 @@ public class CommentService
 
     private final ModelMapper modelMapper;
 
+
     @Autowired
     public CommentService(final CommentRepository commentRepository,
                           final UserService userService,
@@ -35,6 +36,7 @@ public class CommentService
         this.taskService = taskService;
         this.modelMapper = modelMapper;
     }
+
 
     public Comment createComment(final CommentRequest commentRequest)
     {

@@ -37,6 +37,7 @@ public class RightController
         this.rightService = rightService;
     }
 
+
     @PostMapping("/rights")
     public ResponseEntity<Void> createRight(@RequestBody @Valid final RightRequest rightRequest)
     {
@@ -45,11 +46,12 @@ public class RightController
         LOGGER.info("Created new right");
 
         final URI location = UriComponentsBuilder.fromUriString("/rights/{id}")
-                                            .buildAndExpand(right.getId())
-                                            .toUri();
+                                                 .buildAndExpand(right.getId())
+                                                 .toUri();
 
         return ResponseEntity.created(location).build();
     }
+
 
     @GetMapping("/rights")
     public ResponseEntity<List<RightDto>> getAllRights()

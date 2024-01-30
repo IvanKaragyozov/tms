@@ -31,7 +31,9 @@ public class UserService
 
 
     @Autowired
-    public UserService(final UserRepository userRepository, final RoleService roleService, final ModelMapper modelMapper,
+    public UserService(final UserRepository userRepository,
+                       final RoleService roleService,
+                       final ModelMapper modelMapper,
                        final BCryptPasswordEncoder bCryptPasswordEncoder)
     {
         this.userRepository = userRepository;
@@ -70,11 +72,13 @@ public class UserService
                        .toList();
     }
 
+
     public User getUserById(final long userId)
     {
         // TODO: Add proper validation for non existing User
         return this.userRepository.findById(userId).orElse(null);
     }
+
 
     private User mapUserRequestToUser(final UserRequest userRequest)
     {

@@ -46,6 +46,7 @@ public class RightService
                         .toList();
     }
 
+
     public Right getRightById(final long rightId)
     {
         //TODO: Add validation for non existing Right

@@ -61,6 +61,7 @@ public class RoleService
                        .toList();
     }
 
+
     public Role getRoleById(final long roleId)
     {
         // TODO: Add proper validation for non existing Role

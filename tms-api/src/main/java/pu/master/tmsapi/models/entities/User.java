@@ -70,6 +70,7 @@ public class User extends BaseEntity
     )
     private List<Task> tasks;
 
+
     public User()
     {
     }
@@ -237,11 +238,13 @@ public class User extends BaseEntity
         return this;
     }
 
+
     public User addRole(final Role role)
     {
         this.roles.add(role);
         return this;
     }
+
 
     public User setTask(final Task task)
     {

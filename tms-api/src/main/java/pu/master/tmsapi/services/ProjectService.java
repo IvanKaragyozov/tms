@@ -1,15 +1,17 @@
 package pu.master.tmsapi.services;
 
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pu.master.tmsapi.models.dtos.TaskDto;
+import pu.master.tmsapi.models.dtos.ProjectDto;
 import pu.master.tmsapi.models.entities.Project;
-import pu.master.tmsapi.models.entities.Task;
+import pu.master.tmsapi.models.entities.User;
 import pu.master.tmsapi.models.requests.ProjectRequest;
-import pu.master.tmsapi.models.requests.TaskRequest;
 import pu.master.tmsapi.repositories.ProjectRepository;
 
 
@@ -19,13 +21,31 @@ public class ProjectService
 
     private final ProjectRepository projectRepository;
 
+    private final UserService userService;
+
     private final ModelMapper modelMapper;
 
+
     @Autowired
-    public ProjectService(final ProjectRepository projectRepository, final ModelMapper modelMapper)
+    public ProjectService(final ProjectRepository projectRepository,
+                          final UserService userService,
+                          final ModelMapper modelMapper)
     {
         this.projectRepository = projectRepository;
+        this.userService = userService;
         this.modelMapper = modelMapper;
+    }
+
+
+    public Project createProject(final ProjectRequest projectRequest)
+    {
+        final Project project = mapProjectRequestToProject(projectRequest);
+        final Set<User> users = projectRequest.getUsers().stream()
+                                              .map(this.userService::getUserById)
+                                              .collect(Collectors.toSet());
+        project.setUsers(users);
+
+        return this.projectRepository.save(project);
     }
 
 
@@ -42,8 +62,8 @@ public class ProjectService
     }
 
 
-    private TaskDto mapProjectToProjectDto(final Task task)
+    private ProjectDto mapProjectToProjectDto(final Project project)
     {
-        return this.modelMapper.map(task, TaskDto.class);
+        return this.modelMapper.map(project, ProjectDto.class);
     }
 }
