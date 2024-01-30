@@ -12,9 +12,9 @@ public class CommentRequest
 
     private LocalDateTime timePosted;
 
-    private Integer author;
+    private Long author;
 
-    private Integer task;
+    private Long task;
 
 
     public CommentRequest()
@@ -34,13 +34,13 @@ public class CommentRequest
     }
 
 
-    public Integer getAuthor()
+    public Long getAuthor()
     {
         return author;
     }
 
 
-    public Integer getTask()
+    public Long getTask()
     {
         return task;
     }

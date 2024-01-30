@@ -10,7 +10,7 @@ public class RoleRequest
 
     private String name;
 
-    private Set<Integer> rights;
+    private Set<Long> rights;
 
 
     public RoleRequest()
@@ -18,7 +18,7 @@ public class RoleRequest
     }
 
 
-    public RoleRequest(final String name, final Set<Integer> rights)
+    public RoleRequest(final String name, final Set<Long> rights)
     {
         this.name = name;
         this.rights = rights;
@@ -31,7 +31,7 @@ public class RoleRequest
     }
 
 
-    public Set<Integer> getRights()
+    public Set<Long> getRights()
     {
         return rights;
     }
@@ -44,7 +44,7 @@ public class RoleRequest
     }
 
 
-    public RoleRequest setRights(final Set<Integer> rights)
+    public RoleRequest setRights(final Set<Long> rights)
     {
         this.rights = rights;
         return this;

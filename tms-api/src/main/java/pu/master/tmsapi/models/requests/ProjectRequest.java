@@ -21,7 +21,54 @@ public class ProjectRequest
 
     private ProjectPriority priorityLevel;
 
-    private List<TaskRequest> tasks;
+    private List<Long> tasks;
 
-    private List<UserRequest> users;
+    private List<Long> users;
+
+
+    public ProjectRequest()
+    {
+    }
+
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+
+    public LocalDate getDateCreated()
+    {
+        return dateCreated;
+    }
+
+
+    public LocalDate getDueDate()
+    {
+        return dueDate;
+    }
+
+
+    public ProjectPriority getPriorityLevel()
+    {
+        return priorityLevel;
+    }
+
+
+    public List<Long> getTasks()
+    {
+        return tasks;
+    }
+
+
+    public List<Long> getUsers()
+    {
+        return users;
+    }
 }
