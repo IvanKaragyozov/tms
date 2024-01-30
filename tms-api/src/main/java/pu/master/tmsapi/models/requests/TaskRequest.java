@@ -19,7 +19,56 @@ public class TaskRequest
 
     private TaskStatus status;
 
-    private ProjectRequest project;
+    private Long project;
 
-    private List<CommentRequest> comments;
+    private List<Long> comments;
+
+    private List<Long> users;
+
+
+    public TaskRequest()
+    {
+    }
+
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+
+    public TaskPriority getPriorityLevel()
+    {
+        return priorityLevel;
+    }
+
+
+    public TaskStatus getStatus()
+    {
+        return status;
+    }
+
+
+    public Long getProject()
+    {
+        return project;
+    }
+
+
+    public List<Long> getComments()
+    {
+        return comments;
+    }
+
+
+    public List<Long> getUsers()
+    {
+        return users;
+    }
 }

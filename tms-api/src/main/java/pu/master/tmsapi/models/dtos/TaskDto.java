@@ -22,4 +22,45 @@ public class TaskDto extends BaseDto
     private ProjectDto project;
 
     private List<CommentDto> comments;
+
+
+    public TaskDto()
+    {
+    }
+
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+
+    public TaskPriority getPriorityLevel()
+    {
+        return priorityLevel;
+    }
+
+
+    public TaskStatus getStatus()
+    {
+        return status;
+    }
+
+
+    public ProjectDto getProject()
+    {
+        return project;
+    }
+
+
+    public List<CommentDto> getComments()
+    {
+        return comments;
+    }
 }

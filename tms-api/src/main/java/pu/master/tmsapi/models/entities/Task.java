@@ -9,6 +9,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -42,6 +44,14 @@ public class Task extends BaseEntity
 
     @OneToMany(targetEntity = Comment.class, mappedBy = "task", fetch = FetchType.LAZY)
     private List<Comment> comments;
+
+    @ManyToMany
+    @JoinTable(
+                    name = "user_tasks",
+                    joinColumns = @JoinColumn(name = "task_id"),
+                    inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> users;
 
 
     public Task()
@@ -101,13 +111,13 @@ public class Task extends BaseEntity
     }
 
 
-    public Project getMilestone()
+    public Project getProject()
     {
         return project;
     }
 
 
-    public Task setMilestone(final Project project)
+    public Task setProject(final Project project)
     {
         this.project = project;
         return this;
@@ -123,6 +133,19 @@ public class Task extends BaseEntity
     public Task setComments(final List<Comment> comments)
     {
         this.comments = comments;
+        return this;
+    }
+
+
+    public List<User> getUsers()
+    {
+        return users;
+    }
+
+
+    public Task setUsers(final List<User> users)
+    {
+        this.users = users;
         return this;
     }
 }

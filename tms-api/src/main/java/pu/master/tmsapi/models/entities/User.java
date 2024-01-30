@@ -62,6 +62,14 @@ public class User extends BaseEntity
     )
     private Set<Role> roles;
 
+    @ManyToMany
+    @JoinTable(
+                    name = "user_tasks",
+                    joinColumns = @JoinColumn(name = "user_id"),
+                    inverseJoinColumns = @JoinColumn(name = "task_id")
+    )
+    private List<Task> tasks;
+
 
     public User()
     {
@@ -210,11 +218,26 @@ public class User extends BaseEntity
         return this;
     }
 
+
+    public List<Task> getTasks()
+    {
+        return tasks;
+    }
+
+
+    public User setTasks(final List<Task> tasks)
+    {
+        this.tasks = tasks;
+        return this;
+    }
+
+
     public User addProject(final Project project)
     {
         this.projects.add(project);
         return this;
     }
+
 
     public User addRole(final Role role)
     {
@@ -222,4 +245,10 @@ public class User extends BaseEntity
         return this;
     }
 
+
+    public User setTask(final Task task)
+    {
+        this.tasks.add(task);
+        return this;
+    }
 }

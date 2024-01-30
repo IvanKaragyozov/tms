@@ -32,6 +32,8 @@ public class UserDto extends BaseDto
 
     private Set<RoleDto> roles;
 
+    private List<TaskDto> tasks;
+
 
     public UserDto()
     {
@@ -104,21 +106,8 @@ public class UserDto extends BaseDto
     }
 
 
-    @Override
-    public String toString()
+    public List<TaskDto> getTasks()
     {
-        return "UserDto{" +
-               "username='" + username + '\'' +
-               ", password='" + password + '\'' +
-               ", email='" + email + '\'' +
-               ", firstName='" + firstName + '\'' +
-               ", lastName='" + lastName + '\'' +
-               ", isActive=" + isActive +
-               ", phoneNumber='" + phoneNumber + '\'' +
-               ", dateCreatedAt=" + dateCreatedAt +
-               ", dateLastModifiedAt=" + dateLastModifiedAt +
-               ", projects=" + projects +
-               ", roles=" + roles +
-               '}';
+        return tasks;
     }
 }

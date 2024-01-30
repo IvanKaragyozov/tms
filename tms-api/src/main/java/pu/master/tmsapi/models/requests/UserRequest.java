@@ -28,9 +28,9 @@ public class UserRequest
 
     private LocalDate dateLastModifiedAt;
 
-    private List<ProjectRequest> projects;
+    private List<Long> projects;
 
-    private Set<RoleRequest> roles;
+    private Set<Long> roles;
 
 
     public String getUsername()
@@ -150,26 +150,26 @@ public class UserRequest
     }
 
 
-    public List<ProjectRequest> getProjects()
+    public List<Long> getProjects()
     {
         return projects;
     }
 
 
-    public UserRequest setProjects(final List<ProjectRequest> projects)
+    public UserRequest setProjects(final List<Long> projects)
     {
         this.projects = projects;
         return this;
     }
 
 
-    public Set<RoleRequest> getRoles()
+    public Set<Long> getRoles()
     {
         return roles;
     }
 
 
-    public UserRequest setRoles(final Set<RoleRequest> roles)
+    public UserRequest setRoles(final Set<Long> roles)
     {
         this.roles = roles;
         return this;

@@ -52,6 +52,7 @@ public class RoleController
         return ResponseEntity.created(location).build();
     }
 
+
     @GetMapping("/roles")
     public ResponseEntity<List<RoleDto>> getAllRoles()
     {

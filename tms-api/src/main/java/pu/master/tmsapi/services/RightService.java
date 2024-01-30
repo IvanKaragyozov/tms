@@ -47,6 +47,13 @@ public class RightService
     }
 
 
+    public Right getRightById(final long rightId)
+    {
+        //TODO: Add validation for non existing Right
+        return this.rightRepository.findById(rightId).orElse(null);
+    }
+
+
     private Right mapRightRequestToRight(final RightRequest rightRequest)
     {
         return this.modelMapper.map(rightRequest, Right.class);

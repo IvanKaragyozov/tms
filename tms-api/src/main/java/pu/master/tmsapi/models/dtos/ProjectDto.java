@@ -24,4 +24,51 @@ public class ProjectDto extends BaseDto
     private List<TaskDto> tasks;
 
     private List<UserDto> users;
+
+
+    public ProjectDto()
+    {
+    }
+
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+
+    public LocalDate getDateCreated()
+    {
+        return dateCreated;
+    }
+
+
+    public LocalDate getDueDate()
+    {
+        return dueDate;
+    }
+
+
+    public ProjectPriority getPriorityLevel()
+    {
+        return priorityLevel;
+    }
+
+
+    public List<TaskDto> getTasks()
+    {
+        return tasks;
+    }
+
+
+    public List<UserDto> getUsers()
+    {
+        return users;
+    }
 }
