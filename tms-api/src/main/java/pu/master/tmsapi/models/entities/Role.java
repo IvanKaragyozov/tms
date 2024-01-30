@@ -53,6 +53,13 @@ public class Role extends BaseEntity
     }
 
 
+    public Role setRights(final Set<Right> rights)
+    {
+        this.rights = rights;
+        return this;
+    }
+
+
     public Role addRight(final Right right)
     {
         this.rights.add(right);
