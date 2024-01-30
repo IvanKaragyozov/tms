@@ -72,7 +72,7 @@ public class UserService
 
     public User getUserById(final long userId)
     {
-        // TODO: Add proper validation for non existing Project
+        // TODO: Add proper validation for non existing User
         return this.userRepository.findById(userId).orElse(null);
     }
 

@@ -137,4 +137,15 @@ public class Task extends BaseEntity
     }
 
 
+    public List<User> getUsers()
+    {
+        return users;
+    }
+
+
+    public Task setUsers(final List<User> users)
+    {
+        this.users = users;
+        return this;
+    }
 }
