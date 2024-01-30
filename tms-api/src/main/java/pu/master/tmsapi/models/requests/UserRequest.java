@@ -28,7 +28,7 @@ public class UserRequest
 
     private LocalDate dateLastModifiedAt;
 
-    private List<ProjectRequest> projects;
+    private List<Integer> projects;
 
     private Set<Integer> roles;
 
@@ -150,13 +150,13 @@ public class UserRequest
     }
 
 
-    public List<ProjectRequest> getProjects()
+    public List<Integer> getProjects()
     {
         return projects;
     }
 
 
-    public UserRequest setProjects(final List<ProjectRequest> projects)
+    public UserRequest setProjects(final List<Integer> projects)
     {
         this.projects = projects;
         return this;
