@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pu.master.tmsapi.models.dtos.TaskDto;
-import pu.master.tmsapi.models.entities.Project;
 import pu.master.tmsapi.models.entities.Task;
 import pu.master.tmsapi.models.entities.User;
 import pu.master.tmsapi.models.requests.TaskRequest;
@@ -21,7 +20,6 @@ public class TaskService
 
     private final TaskRepository taskRepository;
 
-    private final ProjectService projectService;
     private final UserService userService;
 
     private final ModelMapper modelMapper;
@@ -29,35 +27,34 @@ public class TaskService
 
     @Autowired
     public TaskService(final TaskRepository taskRepository,
-                       final ProjectService projectService,
                        final UserService userService,
                        final ModelMapper modelMapper)
     {
         this.taskRepository = taskRepository;
-        this.projectService = projectService;
         this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
+
     public Task createTask(final TaskRequest taskRequest)
     {
         final Task task = mapTaskRequestToTask(taskRequest);
-        final Project project = this.projectService.getProjectById(task.getId());
         final List<User> users = taskRequest.getUsers().stream()
                                             .map(this.userService::getUserById)
                                             .toList();
 
-        task.setProject(project);
         task.setUsers(users);
 
-        return task;
+        return this.taskRepository.save(task);
     }
+
 
     public Task getTaskById(final long taskId)
     {
         // TODO: Add proper validation for non existing Task
         return this.taskRepository.findById(taskId).orElse(null);
     }
+
 
     private Task mapTaskRequestToTask(final TaskRequest taskRequest)
     {
