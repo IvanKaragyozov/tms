@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pu.master.tmsapi.models.dtos.UserDto;
+import pu.master.tmsapi.models.entities.Project;
 import pu.master.tmsapi.models.entities.Role;
 import pu.master.tmsapi.models.entities.User;
 import pu.master.tmsapi.models.requests.UserRequest;
@@ -59,6 +60,11 @@ public class UserService
                        .toList();
     }
 
+    public User getUserById(final long userId)
+    {
+        // TODO: Add proper validation for non existing Project
+        return this.userRepository.findById(userId).orElse(null);
+    }
 
     private User mapUserRequestToUser(final UserRequest userRequest)
     {
