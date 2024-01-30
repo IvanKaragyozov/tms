@@ -12,7 +12,36 @@ public class CommentRequest
 
     private LocalDateTime timePosted;
 
-    private UserRequest author;
+    private Integer author;
 
-    private TaskRequest task;
+    private Integer task;
+
+
+    public CommentRequest()
+    {
+    }
+
+
+    public String getText()
+    {
+        return text;
+    }
+
+
+    public LocalDateTime getTimePosted()
+    {
+        return timePosted;
+    }
+
+
+    public Integer getAuthor()
+    {
+        return author;
+    }
+
+
+    public Integer getTask()
+    {
+        return task;
+    }
 }

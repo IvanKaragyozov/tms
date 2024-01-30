@@ -30,7 +30,7 @@ public class UserRequest
 
     private List<ProjectRequest> projects;
 
-    private Set<RoleRequest> roles;
+    private Set<Integer> roles;
 
 
     public String getUsername()
@@ -163,13 +163,13 @@ public class UserRequest
     }
 
 
-    public Set<RoleRequest> getRoles()
+    public Set<Integer> getRoles()
     {
         return roles;
     }
 
 
-    public UserRequest setRoles(final Set<RoleRequest> roles)
+    public UserRequest setRoles(final Set<Integer> roles)
     {
         this.roles = roles;
         return this;

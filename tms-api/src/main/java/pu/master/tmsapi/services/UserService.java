@@ -2,12 +2,15 @@ package pu.master.tmsapi.services;
 
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pu.master.tmsapi.models.dtos.UserDto;
+import pu.master.tmsapi.models.entities.Role;
 import pu.master.tmsapi.models.entities.User;
 import pu.master.tmsapi.models.requests.UserRequest;
 import pu.master.tmsapi.repositories.UserRepository;
@@ -19,13 +22,16 @@ public class UserService
 
     private final UserRepository userRepository;
 
+    private final RoleService roleService;
+
     private final ModelMapper modelMapper;
 
 
     @Autowired
-    public UserService(final UserRepository userRepository, final ModelMapper modelMapper)
+    public UserService(final UserRepository userRepository, final RoleService roleService, final ModelMapper modelMapper)
     {
         this.userRepository = userRepository;
+        this.roleService = roleService;
         this.modelMapper = modelMapper;
     }
 
@@ -33,6 +39,13 @@ public class UserService
     public User createUser(final UserRequest userRequest)
     {
         final User user = mapUserRequestToUser(userRequest);
+        final Set<Role> roles = userRequest.getRoles()
+                                           .stream()
+                                           .map(this.roleService::getRoleById)
+                                           .collect(Collectors.toSet());
+
+        user.setRoles(roles);
+
         return this.userRepository.save(user);
     }
 

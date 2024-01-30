@@ -40,13 +40,13 @@ public class RoleService
     public Role createRole(final RoleRequest roleRequest)
     {
         final Role role = mapRoleRequestToRole(roleRequest);
-        final Set<Right> existingRights = roleRequest
+        final Set<Right> rights = roleRequest
                         .getRights()
                         .stream()
                         .map(this.rightService::getRightById)
                         .collect(Collectors.toSet());
 
-        role.setRights(existingRights);
+        role.setRights(rights);
 
         return this.roleRepository.save(role);
     }
@@ -59,6 +59,12 @@ public class RoleService
         return allRoles.stream()
                        .map(this::mapRoleToRoleDto)
                        .toList();
+    }
+
+    public Role getRoleById(final long roleId)
+    {
+        // TODO: Add proper validation for non existing Role
+        return this.roleRepository.findById(roleId).orElse(null);
     }
 
 
