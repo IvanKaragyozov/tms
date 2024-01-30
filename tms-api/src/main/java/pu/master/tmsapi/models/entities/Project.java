@@ -3,6 +3,7 @@ package pu.master.tmsapi.models.entities;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,7 +50,7 @@ public class Project extends BaseEntity
                     inverseJoinColumns = @JoinColumn(name = "user_id")
 
     )
-    private List<User> users;
+    private Set<User> users;
 
 
     public Project()
@@ -135,13 +136,13 @@ public class Project extends BaseEntity
     }
 
 
-    public List<User> getUsers()
+    public Set<User> getUsers()
     {
         return users;
     }
 
 
-    public Project setUsers(final List<User> users)
+    public Project setUsers(final Set<User> users)
     {
         this.users = users;
         return this;
