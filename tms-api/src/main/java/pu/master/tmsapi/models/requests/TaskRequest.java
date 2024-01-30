@@ -21,5 +21,54 @@ public class TaskRequest
 
     private ProjectRequest project;
 
-    private List<CommentRequest> comments;
+    private List<Integer> comments;
+
+    private Integer user;
+
+
+    public TaskRequest()
+    {
+    }
+
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+
+    public TaskPriority getPriorityLevel()
+    {
+        return priorityLevel;
+    }
+
+
+    public TaskStatus getStatus()
+    {
+        return status;
+    }
+
+
+    public ProjectRequest getProject()
+    {
+        return project;
+    }
+
+
+    public List<Integer> getComments()
+    {
+        return comments;
+    }
+
+
+    public Integer getUser()
+    {
+        return user;
+    }
 }
