@@ -1,6 +1,8 @@
 package pu.master.tmsapi.services;
 
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,6 +45,8 @@ public class ProjectService
         final Set<User> users = projectRequest.getUsers().stream()
                                               .map(this.userService::getUserById)
                                               .collect(Collectors.toSet());
+
+        project.setDateCreated(LocalDate.now());
         project.setUsers(users);
 
         return this.projectRepository.save(project);
@@ -53,6 +57,18 @@ public class ProjectService
     {
         // TODO: Add proper validation for non existing Project
         return this.projectRepository.findById(projectId).orElse(null);
+    }
+
+
+    public List<ProjectDto> getProjectsByUserId(final long userId)
+    {
+
+        final User user = this.userService.getUserById(userId);
+
+        return this.projectRepository.findProjectsByUsersId(user.getId())
+                                     .stream()
+                                     .map(this::mapProjectToProjectDto)
+                                     .toList();
     }
 
 
