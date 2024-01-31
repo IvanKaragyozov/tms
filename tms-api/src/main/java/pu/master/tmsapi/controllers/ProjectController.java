@@ -60,7 +60,7 @@ public class ProjectController
     {
         final List<ProjectDto> projectDtos = this.projectService.getProjectsByUserId(id);
 
-        LOGGER.info(String.format("Request sent for all project by user with id %d", id));
+        LOGGER.info(String.format("Request sent for all projects by user with id %d", id));
 
         return ResponseEntity.ok(projectDtos);
     }
