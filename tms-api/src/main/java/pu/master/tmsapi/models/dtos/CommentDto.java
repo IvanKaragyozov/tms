@@ -12,7 +12,21 @@ public class CommentDto extends BaseDto
 
     private LocalDateTime timePosted;
 
-    private UserDto author;
 
-    private TaskDto task;
+    public CommentDto()
+    {
+    }
+
+
+    public String getText()
+    {
+        return text;
+    }
+
+
+    public LocalDateTime getTimePosted()
+    {
+        return timePosted;
+    }
+
 }

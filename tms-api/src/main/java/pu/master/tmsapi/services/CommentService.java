@@ -1,6 +1,9 @@
 package pu.master.tmsapi.services;
 
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,8 +49,19 @@ public class CommentService
 
         comment.setAuthor(author);
         comment.setTask(task);
+        comment.setTimePosted(LocalDateTime.now());
 
         return this.commentRepository.save(comment);
+    }
+
+
+    public List<CommentDto> getCommentsByTaskId(final long taskId)
+    {
+        final Task task = this.taskService.getTaskById(taskId);
+
+        return this.commentRepository.findCommentsByTaskId(task.getId()).stream()
+                                     .map(this::mapCommentToCommentDto)
+                                     .toList();
     }
 
 

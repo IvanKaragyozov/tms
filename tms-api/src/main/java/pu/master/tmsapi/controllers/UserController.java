@@ -62,14 +62,4 @@ public class UserController
         return ResponseEntity.ok(allUsers);
     }
 
-
-    /*@PutMapping("/users/{id}")
-    public ResponseEntity<UserDto> updateUser(final @RequestBody @Valid UserRequest userRequest,
-                                              final @PathVariable int id,
-                                              final @RequestParam(required = false) boolean returnOld)
-    {
-
-
-    }*/
-
 }

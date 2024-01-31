@@ -23,8 +23,6 @@ public class ProjectDto extends BaseDto
 
     private List<TaskDto> tasks;
 
-    private List<UserDto> users;
-
 
     public ProjectDto()
     {
@@ -66,9 +64,4 @@ public class ProjectDto extends BaseDto
         return tasks;
     }
 
-
-    public List<UserDto> getUsers()
-    {
-        return users;
-    }
 }

@@ -32,8 +32,6 @@ public class UserDto extends BaseDto
 
     private Set<RoleDto> roles;
 
-    private List<TaskDto> tasks;
-
 
     public UserDto()
     {
@@ -105,9 +103,4 @@ public class UserDto extends BaseDto
         return roles;
     }
 
-
-    public List<TaskDto> getTasks()
-    {
-        return tasks;
-    }
 }
