@@ -12,10 +12,6 @@ public class CommentDto extends BaseDto
 
     private LocalDateTime timePosted;
 
-    private UserDto author;
-
-    private TaskDto task;
-
 
     public CommentDto()
     {
@@ -33,15 +29,4 @@ public class CommentDto extends BaseDto
         return timePosted;
     }
 
-
-    public UserDto getAuthor()
-    {
-        return author;
-    }
-
-
-    public TaskDto getTask()
-    {
-        return task;
-    }
 }

@@ -1,6 +1,7 @@
 package pu.master.tmsapi.services;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -48,6 +49,7 @@ public class CommentService
 
         comment.setAuthor(author);
         comment.setTask(task);
+        comment.setTimePosted(LocalDateTime.now());
 
         return this.commentRepository.save(comment);
     }
