@@ -1,6 +1,8 @@
 package pu.master.tmsapi.services;
 
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +50,16 @@ public class CommentService
         comment.setTask(task);
 
         return this.commentRepository.save(comment);
+    }
+
+
+    public List<CommentDto> getCommentsByTaskId(final long taskId)
+    {
+        final Task task = this.taskService.getTaskById(taskId);
+
+        return this.commentRepository.findCommentsByTaskId(task.getId()).stream()
+                                     .map(this::mapCommentToCommentDto)
+                                     .toList();
     }
 
 
