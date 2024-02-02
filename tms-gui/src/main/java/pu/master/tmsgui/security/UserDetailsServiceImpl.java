@@ -13,19 +13,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pu.master.tmsgui.data.User;
-import pu.master.tmsgui.data.UserRepository;
+import pu.master.tmsgui.data.VadUserRepository;
 
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService
 {
 
-    private final UserRepository userRepository;
+    private final VadUserRepository vadUserRepository;
 
 
-    public UserDetailsServiceImpl(UserRepository userRepository)
+    public UserDetailsServiceImpl(VadUserRepository vadUserRepository)
     {
-        this.userRepository = userRepository;
+        this.vadUserRepository = vadUserRepository;
     }
 
 
@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
     @Transactional
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException
     {
-        final User user = userRepository.findByUsername(username);
+        final User user = vadUserRepository.findByUsername(username);
         if (user == null)
         {
             throw new UsernameNotFoundException("No user present with username: " + username);
