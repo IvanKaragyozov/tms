@@ -9,17 +9,17 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import pu.master.tmsgui.data.User;
-import pu.master.tmsgui.data.UserRepository;
+import pu.master.tmsgui.data.VadUserRepository;
 
 
 @Service
-public class UserService
+public class VadUserService
 {
 
-    private final UserRepository repository;
+    private final VadUserRepository repository;
 
 
-    public UserService(UserRepository repository)
+    public VadUserService(VadUserRepository repository)
     {
         this.repository = repository;
     }
