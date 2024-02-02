@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vaadin.flow.spring.security.AuthenticationContext;
 
-import pu.master.tmsgui.data.User;
+import pu.master.tmsgui.data.VadUser;
 import pu.master.tmsgui.data.VadUserRepository;
 
 
@@ -29,7 +29,7 @@ public class AuthenticatedUser
 
 
     @Transactional
-    public Optional<User> get()
+    public Optional<VadUser> get()
     {
         return authenticationContext.getAuthenticatedUser(UserDetails.class)
                                     .map(userDetails -> vadUserRepository.findByUsername(userDetails.getUsername()));

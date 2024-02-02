@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import pu.master.tmsgui.data.User;
+import pu.master.tmsgui.data.VadUser;
 import pu.master.tmsgui.data.VadUserRepository;
 
 
@@ -25,13 +25,13 @@ public class VadUserService
     }
 
 
-    public Optional<User> get(Long id)
+    public Optional<VadUser> get(Long id)
     {
         return repository.findById(id);
     }
 
 
-    public User update(User entity)
+    public VadUser update(VadUser entity)
     {
         return repository.save(entity);
     }
@@ -43,13 +43,13 @@ public class VadUserService
     }
 
 
-    public Page<User> list(Pageable pageable)
+    public Page<VadUser> list(Pageable pageable)
     {
         return repository.findAll(pageable);
     }
 
 
-    public Page<User> list(Pageable pageable, Specification<User> filter)
+    public Page<VadUser> list(Pageable pageable, Specification<VadUser> filter)
     {
         return repository.findAll(filter, pageable);
     }

@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "application_user")
-public class User extends AbstractEntity
+public class VadUser extends AbstractEntity
 {
 
     private String username;
@@ -26,7 +26,7 @@ public class User extends AbstractEntity
     private String hashedPassword;
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    private Set<VadRole> vadRoles;
     @Lob
     @Column(length = 1000000)
     private byte[] profilePicture;
@@ -68,15 +68,15 @@ public class User extends AbstractEntity
     }
 
 
-    public Set<Role> getRoles()
+    public Set<VadRole> getRoles()
     {
-        return roles;
+        return vadRoles;
     }
 
 
-    public void setRoles(Set<Role> roles)
+    public void setRoles(Set<VadRole> vadRoles)
     {
-        this.roles = roles;
+        this.vadRoles = vadRoles;
     }
 
 
