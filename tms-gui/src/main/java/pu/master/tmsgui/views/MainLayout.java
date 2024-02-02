@@ -39,7 +39,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import com.vaadin.flow.theme.lumo.LumoUtility.Whitespace;
 import com.vaadin.flow.theme.lumo.LumoUtility.Width;
 
-import pu.master.tmsgui.data.User;
+import pu.master.tmsgui.data.VadUser;
 import pu.master.tmsgui.security.AuthenticatedUser;
 import pu.master.tmsgui.views.about.AboutView;
 import pu.master.tmsgui.views.helloworld.HelloWorldView;
@@ -120,14 +120,14 @@ public class MainLayout extends AppLayout
         appName.addClassNames(Margin.Vertical.MEDIUM, Margin.End.AUTO, FontSize.LARGE);
         layout.add(appName);
 
-        final Optional<User> potentialUser = authenticatedUser.get();
+        final Optional<VadUser> potentialUser = authenticatedUser.get();
         if (potentialUser.isPresent())
         {
-            final User user = potentialUser.get();
+            final VadUser vadUser = potentialUser.get();
 
-            final Avatar avatar = new Avatar(user.getName());
+            final Avatar avatar = new Avatar(vadUser.getName());
             final StreamResource resource = new StreamResource("profile-pic",
-                                                               () -> new ByteArrayInputStream(user.getProfilePicture()));
+                                                               () -> new ByteArrayInputStream(vadUser.getProfilePicture()));
             avatar.setImageResource(resource);
             avatar.setThemeName("xsmall");
             avatar.getElement().setAttribute("tabindex", "-1");
@@ -138,7 +138,7 @@ public class MainLayout extends AppLayout
             MenuItem userName = userMenu.addItem("");
             final Div div = new Div();
             div.add(avatar);
-            div.add(user.getName());
+            div.add(vadUser.getName());
             div.add(new Icon("lumo", "dropdown"));
             div.getElement().getStyle().set("display", "flex");
             div.getElement().getStyle().set("align-items", "center");

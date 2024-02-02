@@ -1,7 +1,7 @@
 package pu.master.tmsgui.data;
 
 
-public enum Role
+public enum VadRole
 {
     USER,
     ADMIN

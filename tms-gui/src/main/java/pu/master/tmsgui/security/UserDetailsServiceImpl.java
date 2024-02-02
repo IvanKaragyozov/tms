@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import pu.master.tmsgui.data.User;
+import pu.master.tmsgui.data.VadUser;
 import pu.master.tmsgui.data.VadUserRepository;
 
 
@@ -33,23 +33,23 @@ public class UserDetailsServiceImpl implements UserDetailsService
     @Transactional
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException
     {
-        final User user = vadUserRepository.findByUsername(username);
-        if (user == null)
+        final VadUser vadUser = vadUserRepository.findByUsername(username);
+        if (vadUser == null)
         {
             throw new UsernameNotFoundException("No user present with username: " + username);
         }
         else
         {
-            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getHashedPassword(),
-                                                                          getAuthorities(user));
+            return new org.springframework.security.core.userdetails.User(vadUser.getUsername(), vadUser.getHashedPassword(),
+                                                                          getAuthorities(vadUser));
         }
     }
 
 
-    private static List<GrantedAuthority> getAuthorities(final User user)
+    private static List<GrantedAuthority> getAuthorities(final VadUser vadUser)
     {
-        return user.getRoles().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role))
-                   .collect(Collectors.toList());
+        return vadUser.getRoles().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                      .collect(Collectors.toList());
 
     }
 
