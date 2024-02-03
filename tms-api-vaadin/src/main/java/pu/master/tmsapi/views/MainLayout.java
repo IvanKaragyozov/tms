@@ -12,9 +12,10 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 
 import pu.master.tmsapi.views.about.AboutView;
+import pu.master.tmsapi.views.comments.CommentView;
 import pu.master.tmsapi.views.projects.ProjectView;
 import pu.master.tmsapi.views.register.RegisterView;
-import pu.master.tmsapi.views.tasks.TasksView;
+import pu.master.tmsapi.views.tasks.TaskView;
 
 
 @CssImport("./styles/main-layout.css")
@@ -33,7 +34,7 @@ public class MainLayout extends VerticalLayout
 
     private Component createHeader()
     {
-        HorizontalLayout header = new HorizontalLayout();
+        final HorizontalLayout header = new HorizontalLayout();
         header.setDefaultVerticalComponentAlignment(Alignment.CENTER);
         header.add(new H1("TMS"));
         return header;
@@ -46,15 +47,17 @@ public class MainLayout extends VerticalLayout
         navigation.setDefaultVerticalComponentAlignment(Alignment.CENTER);
         navigation.addClassName("main-navigation");
 
-        RouterLink aboutLink = new RouterLink("About", AboutView.class);
-        RouterLink tasksLink = new RouterLink("Tasks", TasksView.class);
-        RouterLink registerLink = new RouterLink("Register", RegisterView.class);
-        RouterLink projectsLink = new RouterLink("Projects", ProjectView.class);
+        final RouterLink aboutLink = new RouterLink("About", AboutView.class);
+        final RouterLink tasksLink = new RouterLink("Tasks", TaskView.class);
+        final RouterLink projectsLink = new RouterLink("Projects", ProjectView.class);
+        final RouterLink commentsLink = new RouterLink("Comments", CommentView.class);
+        final RouterLink registerLink = new RouterLink("Register", RegisterView.class);
 
-        Stream.of(aboutLink, tasksLink, registerLink, projectsLink).forEach(link -> link.addClassName("nav-link"));
+        Stream.of(aboutLink, tasksLink, projectsLink, commentsLink, registerLink).forEach(link -> link.addClassName("nav-link"));
 
-        navigation.add(aboutLink, tasksLink, registerLink);
+        navigation.add(aboutLink, tasksLink, projectsLink, commentsLink, registerLink);
 
         return navigation;
     }
+
 }

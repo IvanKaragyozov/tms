@@ -28,9 +28,23 @@ public class CommentRequest
     }
 
 
+    public CommentRequest setText(final String text)
+    {
+        this.text = text;
+        return this;
+    }
+
+
     public LocalDateTime getTimePosted()
     {
         return timePosted;
+    }
+
+
+    public CommentRequest setTimePosted(final LocalDateTime timePosted)
+    {
+        this.timePosted = timePosted;
+        return this;
     }
 
 
@@ -40,8 +54,22 @@ public class CommentRequest
     }
 
 
+    public CommentRequest setAuthor(final Long author)
+    {
+        this.author = author;
+        return this;
+    }
+
+
     public Long getTask()
     {
         return task;
+    }
+
+
+    public CommentRequest setTask(final Long task)
+    {
+        this.task = task;
+        return this;
     }
 }

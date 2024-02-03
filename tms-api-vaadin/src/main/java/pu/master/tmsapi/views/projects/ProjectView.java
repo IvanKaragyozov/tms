@@ -188,7 +188,7 @@ public class ProjectView extends Composite<MainLayout>
             newProject.addTask(selectedTask);
         }
 
-        final ProjectRequest projectRequest = this.projectService.mapProjectDtoToRequest(newProject);
+        final ProjectRequest projectRequest = this.projectService.mapProjectDtoToProjecctRequest(newProject);
         this.projectService.createProject(projectRequest);
         updateGrid();
     }

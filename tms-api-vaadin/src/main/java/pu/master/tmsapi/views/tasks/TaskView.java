@@ -26,7 +26,7 @@ import pu.master.tmsapi.views.MainLayout;
 
 @PageTitle("Tasks")
 @Route(value = "/tasks-view")
-public class TasksView extends Composite<MainLayout>
+public class TaskView extends Composite<MainLayout>
 {
 
     private final TaskService taskService;
@@ -45,7 +45,7 @@ public class TasksView extends Composite<MainLayout>
     private final Binder<TaskDto> taskBinder;
 
 
-    public TasksView(final TaskService taskService)
+    public TaskView(final TaskService taskService)
     {
         this.taskService = taskService;
 
@@ -72,8 +72,8 @@ public class TasksView extends Composite<MainLayout>
         getContent().setSizeFull();
         getContent().setPadding(true);
 
-        HorizontalLayout formLayout = createFormLayout();
-        VerticalLayout actionsLayout = createActionsLayout();
+        final HorizontalLayout formLayout = createFormLayout();
+        final VerticalLayout actionsLayout = createActionsLayout();
 
         getContent().add(formLayout, actionsLayout, taskGrid);
     }
@@ -81,11 +81,11 @@ public class TasksView extends Composite<MainLayout>
 
     private HorizontalLayout createFormLayout()
     {
-        HorizontalLayout formLayout = new HorizontalLayout();
+        final HorizontalLayout formLayout = new HorizontalLayout();
         formLayout.setWidth("100%");
         formLayout.setSpacing(true);
 
-        FormLayout taskForm = new FormLayout();
+        final FormLayout taskForm = new FormLayout();
         taskForm.setWidth("100%");
         taskForm.add(this.titleField, this.descriptionField, this.priorityComboBox, this.statusComboBox);
 
@@ -96,7 +96,7 @@ public class TasksView extends Composite<MainLayout>
 
     private VerticalLayout createTaskDetailsLayout()
     {
-        VerticalLayout taskDetailsLayout = new VerticalLayout();
+        final VerticalLayout taskDetailsLayout = new VerticalLayout();
         taskDetailsLayout.setWidth("300px");
         taskDetailsLayout.setSpacing(true);
 
@@ -162,14 +162,14 @@ public class TasksView extends Composite<MainLayout>
 
     private void clearForm()
     {
-        taskBinder.setBean(new TaskDto());
+        this.taskBinder.setBean(new TaskDto());
     }
 
 
     private void addTask()
     {
         final TaskDto newTask = taskBinder.getBean();
-        final TaskRequest task = this.taskService.mapTaskDtoToRequest(newTask);
+        final TaskRequest task = this.taskService.mapTaskDtoToTaskRequest(newTask);
         this.taskService.createTask(task);
         updateGrid();
     }
