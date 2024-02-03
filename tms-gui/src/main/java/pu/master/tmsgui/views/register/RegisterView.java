@@ -25,6 +25,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import pu.master.tmsgui.models.requests.UserRequest;
 import pu.master.tmsgui.services.UserService;
 import pu.master.tmsgui.views.MainLayout;
+import pu.master.tmsgui.views.about.AboutView;
 
 
 @PageTitle("Register")
@@ -73,7 +74,7 @@ public class RegisterView extends Composite<VerticalLayout>
             this.userService.createUser(userRequest);
 
             // Optionally, you can navigate to another view or perform other actions
-            getUI().ifPresent(ui -> ui.navigate(MainLayout.class));
+            getUI().ifPresent(ui -> ui.navigate(AboutView.class));
         });
         final Button buttonSecondary = new Button();
         getContent().setWidth("100%");
