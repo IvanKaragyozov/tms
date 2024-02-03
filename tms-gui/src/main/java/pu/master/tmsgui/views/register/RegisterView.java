@@ -10,6 +10,7 @@ import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -37,82 +38,157 @@ public class RegisterView extends Composite<VerticalLayout>
 
     private final UserService userService;
 
+    private TextField firstName;
+    private TextField lastName;
+    private TextField phoneNumber;
+    private EmailField emailField;
+    private TextField username;
+    private PasswordField password;
+
+
     @Autowired
     public RegisterView(final UserService userService)
     {
         this.userService = userService;
-        VerticalLayout layoutColumn2 = new VerticalLayout();
-        H3 h3 = new H3();
-        FormLayout formLayout2Col = new FormLayout();
-        TextField textField = new TextField();
-        TextField textField2 = new TextField();
-        TextField textField3 = new TextField();
-        EmailField emailField = new EmailField();
-        TextField textField4 = new TextField();
-        PasswordField passwordField = new PasswordField();
-        HorizontalLayout layoutRow = new HorizontalLayout();
-        Button buttonPrimary = new Button();
-        buttonPrimary.addClickListener(event -> {
-            // Retrieve data from the form fields
-            final String firstName = textField.getValue();
-            final String lastName = textField2.getValue();
-            final String phoneNumber = textField3.getValue();
-            final String email = emailField.getValue();
-            final String username = textField4.getValue();
-            final String password = passwordField.getValue();
+        initLayout();
+    }
 
-            // Create a UserRequest object with the retrieved data
-            final UserRequest userRequest = new UserRequest();
-            userRequest.setFirstName(firstName);
-            userRequest.setLastName(lastName);
-            userRequest.setPhoneNumber(phoneNumber);
-            userRequest.setEmail(email);
-            userRequest.setUsername(username);
-            userRequest.setPassword(password);
 
-            // Call the UserService to create the user
-            this.userService.createUser(userRequest);
-
-            // Optionally, you can navigate to another view or perform other actions
-            getUI().ifPresent(ui -> ui.navigate(AboutView.class));
-        });
-        final Button buttonSecondary = new Button();
+    private void initLayout()
+    {
+        final VerticalLayout layout = createMainLayout();
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().setJustifyContentMode(JustifyContentMode.START);
         getContent().setAlignItems(Alignment.CENTER);
-        layoutColumn2.setWidth("100%");
-        layoutColumn2.setMaxWidth("800px");
-        layoutColumn2.setHeight("min-content");
-        h3.setText("Personal Information");
-        h3.setWidth("100%");
-        formLayout2Col.setWidth("100%");
-        textField.setLabel("First Name");
-        textField2.setLabel("Last Name");
-        textField3.setLabel("Phone Number");
-        emailField.setLabel("Email");
-        textField4.setLabel("Username");
-        passwordField.setLabel("Password");
-        passwordField.setWidth("min-content");
+        getContent().add(layout);
+    }
+
+
+    private VerticalLayout createMainLayout()
+    {
+        final VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.setWidth("100%");
+        verticalLayout.setMaxWidth("800px");
+        verticalLayout.setHeight("min-content");
+
+        final H3 header = new H3("Personal Information");
+        header.setWidth("100%");
+
+        final FormLayout formLayout2Col = createFormLayout();
+
+        final HorizontalLayout layoutRow = createButtonLayout();
+
+        verticalLayout.add(header, formLayout2Col, layoutRow);
+        return verticalLayout;
+    }
+
+
+    private FormLayout createFormLayout()
+    {
+        final FormLayout formLayout = new FormLayout();
+
+        this.firstName = createTextField("First Name");
+        this.lastName = createTextField("Last Name");
+        this.phoneNumber = createTextField("Phone Number");
+        this.emailField = createEmailField("Email");
+        this.username = createTextField("Username");
+        this.password = createPasswordField("Password");
+
+        formLayout.add(firstName, lastName, phoneNumber, emailField, username, password);
+        formLayout.setWidth("100%");
+
+        return formLayout;
+    }
+
+
+    private HorizontalLayout createButtonLayout()
+    {
+        final HorizontalLayout layoutRow = new HorizontalLayout();
         layoutRow.addClassName(Gap.MEDIUM);
         layoutRow.setWidth("100%");
         layoutRow.getStyle().set("flex-grow", "1");
-        buttonPrimary.setText("Save");
-        buttonPrimary.setWidth("min-content");
-        buttonPrimary.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonSecondary.setText("Cancel");
-        buttonSecondary.setWidth("min-content");
-        getContent().add(layoutColumn2);
-        layoutColumn2.add(h3);
-        layoutColumn2.add(formLayout2Col);
-        formLayout2Col.add(textField);
-        formLayout2Col.add(textField2);
-        formLayout2Col.add(textField3);
-        formLayout2Col.add(emailField);
-        formLayout2Col.add(textField4);
-        formLayout2Col.add(passwordField);
-        layoutColumn2.add(layoutRow);
-        layoutRow.add(buttonPrimary);
-        layoutRow.add(buttonSecondary);
+
+        final Button buttonPrimary = createPrimaryButton();
+        final Button buttonSecondary = createSecondaryButton();
+
+        layoutRow.add(buttonPrimary, buttonSecondary);
+        return layoutRow;
+    }
+
+
+    private TextField createTextField(final String label)
+    {
+        final TextField textField = new TextField();
+        textField.setLabel(label);
+        return textField;
+    }
+
+
+    private EmailField createEmailField(final String label)
+    {
+        final EmailField emailField = new EmailField();
+        emailField.setLabel(label);
+        return emailField;
+    }
+
+
+    private PasswordField createPasswordField(final String label)
+    {
+        final PasswordField passwordField = new PasswordField();
+        passwordField.setLabel(label);
+        passwordField.setWidth("min-content");
+        return passwordField;
+    }
+
+
+    private Button createPrimaryButton()
+    {
+        final Button save = new Button("Save");
+        save.setWidth("min-content");
+        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        save.addClickListener(event -> handleUserRegistration());
+        return save;
+    }
+
+
+    private Button createSecondaryButton()
+    {
+        final Button cancel = new Button("Cancel");
+        cancel.setWidth("min-content");
+        return cancel;
+    }
+
+
+    private void handleUserRegistration()
+    {
+
+        final String firstName = this.firstName.getValue();
+        final String lastName = this.lastName.getValue();
+        final String phoneNumber = this.phoneNumber.getValue();
+        final String email = this.emailField.getValue();
+        final String username = this.username.getValue();
+        final String password = this.password.getValue();
+
+        if (firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty()
+            || email.isEmpty() || username.isEmpty() || password.isEmpty())
+        {
+            Notification.show("Please fill in all fields", 3000, Notification.Position.MIDDLE);
+            return;
+        }
+
+        final UserRequest userRequest = new UserRequest();
+        userRequest.setFirstName(firstName);
+        userRequest.setLastName(lastName);
+        userRequest.setPhoneNumber(phoneNumber);
+        userRequest.setEmail(email);
+        userRequest.setUsername(username);
+        userRequest.setPassword(password);
+
+        // TODO add Notification for unsuccessful registration
+        this.userService.createUser(userRequest);
+        Notification.show("User successfully registered!", 3000, Notification.Position.TOP_CENTER);
+        // TODO: Create HomeView and navigate to it
+        getUI().ifPresent(ui -> ui.navigate(AboutView.class));
     }
 }
