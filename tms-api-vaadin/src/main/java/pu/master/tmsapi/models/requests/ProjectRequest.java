@@ -38,9 +38,23 @@ public class ProjectRequest
     }
 
 
+    public ProjectRequest setTitle(final String title)
+    {
+        this.title = title;
+        return this;
+    }
+
+
     public String getDescription()
     {
         return description;
+    }
+
+
+    public ProjectRequest setDescription(final String description)
+    {
+        this.description = description;
+        return this;
     }
 
 
@@ -50,9 +64,23 @@ public class ProjectRequest
     }
 
 
+    public ProjectRequest setDateCreated(final LocalDate dateCreated)
+    {
+        this.dateCreated = dateCreated;
+        return this;
+    }
+
+
     public LocalDate getDueDate()
     {
         return dueDate;
+    }
+
+
+    public ProjectRequest setDueDate(final LocalDate dueDate)
+    {
+        this.dueDate = dueDate;
+        return this;
     }
 
 
@@ -62,14 +90,35 @@ public class ProjectRequest
     }
 
 
+    public ProjectRequest setPriorityLevel(final ProjectPriority priorityLevel)
+    {
+        this.priorityLevel = priorityLevel;
+        return this;
+    }
+
+
     public List<Long> getTasks()
     {
         return tasks;
     }
 
 
+    public ProjectRequest setTasks(final List<Long> tasks)
+    {
+        this.tasks = tasks;
+        return this;
+    }
+
+
     public Set<Long> getUsers()
     {
         return users;
+    }
+
+
+    public ProjectRequest setUsers(final Set<Long> users)
+    {
+        this.users = users;
+        return this;
     }
 }

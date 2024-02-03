@@ -40,11 +40,12 @@ public class TaskService
     public Task createTask(final TaskRequest taskRequest)
     {
         final Task task = mapTaskRequestToTask(taskRequest);
-        final List<User> users = taskRequest.getUsers().stream()
+
+        // TODO: Uncomment when setting tasks to user
+        /*final List<User> users = taskRequest.getUsers().stream()
                                             .map(this.userService::getUserById)
                                             .toList();
-
-        task.setUsers(users);
+        task.setUsers(users);*/
 
         return this.taskRepository.save(task);
     }
@@ -54,6 +55,7 @@ public class TaskService
     {
         return this.taskRepository.findAll();
     }
+
 
     public List<TaskDto> getAllTaskDtos()
     {
@@ -89,6 +91,7 @@ public class TaskService
         return this.taskRepository.save(task);
     }
 
+
     public Task deleteTaskById(final long taskId)
     {
         final Task taskById = getTaskById(taskId);
@@ -96,6 +99,7 @@ public class TaskService
 
         return taskById;
     }
+
 
     public Task mapTaskRequestToTask(final TaskRequest taskRequest)
     {
@@ -108,13 +112,14 @@ public class TaskService
         return this.modelMapper.map(task, TaskDto.class);
     }
 
+
     public Task mapTaskDtoToTask(final TaskDto taskDto)
     {
         return this.modelMapper.map(taskDto, Task.class);
     }
 
 
-    public TaskRequest mapTaskDtoToTaskRequest(final TaskDto taskDto)
+    public TaskRequest mapTaskDtoToRequest(final TaskDto taskDto)
     {
         return this.modelMapper.map(taskDto, TaskRequest.class);
     }

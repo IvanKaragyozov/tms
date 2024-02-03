@@ -11,27 +11,37 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 
+import pu.master.tmsapi.views.about.AboutView;
+import pu.master.tmsapi.views.projects.ProjectView;
+import pu.master.tmsapi.views.register.RegisterView;
+import pu.master.tmsapi.views.tasks.TasksView;
+
 
 @CssImport("./styles/main-layout.css")
 @Route(value = "")
 public class MainLayout extends VerticalLayout
 {
 
-    public MainLayout() {
+    public MainLayout()
+    {
         setSpacing(false);
         setMargin(false);
         add(createHeader());
         add(createNavigation());
     }
 
-    private Component createHeader() {
+
+    private Component createHeader()
+    {
         HorizontalLayout header = new HorizontalLayout();
         header.setDefaultVerticalComponentAlignment(Alignment.CENTER);
         header.add(new H1("TMS"));
         return header;
     }
 
-    private Component createNavigation() {
+
+    private Component createNavigation()
+    {
         final HorizontalLayout navigation = new HorizontalLayout();
         navigation.setDefaultVerticalComponentAlignment(Alignment.CENTER);
         navigation.addClassName("main-navigation");
@@ -39,8 +49,9 @@ public class MainLayout extends VerticalLayout
         RouterLink aboutLink = new RouterLink("About", AboutView.class);
         RouterLink tasksLink = new RouterLink("Tasks", TasksView.class);
         RouterLink registerLink = new RouterLink("Register", RegisterView.class);
+        RouterLink projectsLink = new RouterLink("Projects", ProjectView.class);
 
-        Stream.of(aboutLink, tasksLink, registerLink).forEach(link -> link.addClassName("nav-link"));
+        Stream.of(aboutLink, tasksLink, registerLink, projectsLink).forEach(link -> link.addClassName("nav-link"));
 
         navigation.add(aboutLink, tasksLink, registerLink);
 

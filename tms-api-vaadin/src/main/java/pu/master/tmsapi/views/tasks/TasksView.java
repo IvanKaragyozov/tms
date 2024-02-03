@@ -1,4 +1,4 @@
-package pu.master.tmsapi.views;
+package pu.master.tmsapi.views.tasks;
 
 
 import java.util.List;
@@ -6,10 +6,8 @@ import java.util.List;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -23,10 +21,11 @@ import pu.master.tmsapi.models.enums.TaskPriority;
 import pu.master.tmsapi.models.enums.TaskStatus;
 import pu.master.tmsapi.models.requests.TaskRequest;
 import pu.master.tmsapi.services.TaskService;
+import pu.master.tmsapi.views.MainLayout;
 
 
 @PageTitle("Tasks")
-@Route(value = "/tasks")
+@Route(value = "/tasks-view")
 public class TasksView extends Composite<MainLayout>
 {
 
@@ -147,7 +146,7 @@ public class TasksView extends Composite<MainLayout>
     {
         final List<TaskDto> allTasks = this.taskService.getAllTaskDtos();
 
-        taskGrid.setItems(allTasks);
+        this.taskGrid.setItems(allTasks);
         clearForm();
     }
 
@@ -156,7 +155,7 @@ public class TasksView extends Composite<MainLayout>
     {
         if (taskDto != null)
         {
-            taskBinder.setBean(taskDto);
+            this.taskBinder.setBean(taskDto);
         }
     }
 
@@ -170,8 +169,8 @@ public class TasksView extends Composite<MainLayout>
     private void addTask()
     {
         final TaskDto newTask = taskBinder.getBean();
-        final TaskRequest task = this.taskService.mapTaskDtoToTaskRequest(newTask);
-        taskService.createTask(task);
+        final TaskRequest task = this.taskService.mapTaskDtoToRequest(newTask);
+        this.taskService.createTask(task);
         updateGrid();
     }
 

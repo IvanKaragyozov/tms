@@ -15,6 +15,8 @@ public class BeanConfiguration
     public ModelMapper modelMapper()
     {
         final ModelMapper modelMapper = new ModelMapper();
+
+        // Configuration to enable mapping through PRIVATE fields
         modelMapper.getConfiguration()
                    .setFieldMatchingEnabled(true)
                    .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);

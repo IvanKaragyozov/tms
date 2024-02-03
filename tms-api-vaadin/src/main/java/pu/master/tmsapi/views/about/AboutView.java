@@ -1,4 +1,4 @@
-package pu.master.tmsapi.views;
+package pu.master.tmsapi.views.about;
 
 
 import com.vaadin.flow.component.html.H2;

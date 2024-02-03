@@ -3,7 +3,6 @@ package pu.master.tmsapi.services;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pu.master.tmsapi.models.dtos.ProjectDto;
+import pu.master.tmsapi.models.dtos.TaskDto;
 import pu.master.tmsapi.models.entities.Project;
 import pu.master.tmsapi.models.entities.User;
 import pu.master.tmsapi.models.requests.ProjectRequest;
@@ -42,12 +42,13 @@ public class ProjectService
     public Project createProject(final ProjectRequest projectRequest)
     {
         final Project project = mapProjectRequestToProject(projectRequest);
-        final Set<User> users = projectRequest.getUsers().stream()
+
+        // TODO: Uncomment when setting projects to user
+        /*final Set<User> users = projectRequest.getUsers().stream()
                                               .map(this.userService::getUserById)
-                                              .collect(Collectors.toSet());
+                                              .collect(Collectors.toSet());*/
 
         project.setDateCreated(LocalDate.now());
-        project.setUsers(users);
 
         return this.projectRepository.save(project);
     }
@@ -72,14 +73,71 @@ public class ProjectService
     }
 
 
-    private Project mapProjectRequestToProject(final ProjectRequest projectRequest)
+    public List<ProjectDto> getAllProjectDtos()
+    {
+        final List<Project> allProjects = this.projectRepository.findAll();
+
+        final List<ProjectDto> projectDtos = allProjects.stream()
+                                                        .map(this::mapProjectToProjectDto)
+                                                        .toList();
+
+        return projectDtos;
+    }
+
+
+    public Project updateProject(final ProjectDto projectDto)
+    {
+        final Project project = mapProjectDtoToProject(projectDto);
+        return this.projectRepository.save(project);
+    }
+
+
+    public Project deleteProjectById(final long projectId)
+    {
+        final Project projectById = getProjectById(projectId);
+        this.projectRepository.delete(projectById);
+
+        return projectById;
+    }
+
+
+    public Project mapProjectRequestToProject(final ProjectRequest projectRequest)
     {
         return this.modelMapper.map(projectRequest, Project.class);
     }
 
 
-    private ProjectDto mapProjectToProjectDto(final Project project)
+    public ProjectDto mapProjectToProjectDto(final Project project)
     {
         return this.modelMapper.map(project, ProjectDto.class);
     }
+
+
+    public Project mapProjectDtoToProject(final ProjectDto projectDto)
+    {
+        return this.modelMapper.map(projectDto, Project.class);
+    }
+
+
+    public ProjectRequest mapProjectDtoToRequest(final ProjectDto projectDto)
+    {
+        ProjectRequest projectRequest = new ProjectRequest();
+
+        projectRequest.setTitle(projectDto.getTitle());
+        projectRequest.setDescription(projectDto.getDescription());
+        projectRequest.setDateCreated(projectDto.getDateCreated());
+        projectRequest.setDueDate(projectDto.getDueDate());
+        projectRequest.setPriorityLevel(projectDto.getPriorityLevel());
+
+        if (projectDto.getTasks() != null)
+        {
+            List<Long> taskIds = projectDto.getTasks().stream()
+                                           .map(TaskDto::getId)
+                                           .collect(Collectors.toList());
+            projectRequest.setTasks(taskIds);
+        }
+
+        return projectRequest;
+    }
+
 }
