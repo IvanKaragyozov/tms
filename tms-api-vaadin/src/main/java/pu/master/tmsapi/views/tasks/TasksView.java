@@ -27,8 +27,7 @@ import pu.master.tmsapi.services.TaskService;
 
 @PageTitle("Tasks")
 @Route(value = "/tasks")
-@Uses(Icon.class)
-public class TasksView extends Composite<VerticalLayout>
+public class TasksView extends Composite<MainLayout>
 {
 
     private final TaskService taskService;
@@ -47,7 +46,7 @@ public class TasksView extends Composite<VerticalLayout>
     private final Binder<TaskDto> taskBinder;
 
 
-    public TasksView(TaskService taskService)
+    public TasksView(final TaskService taskService)
     {
         this.taskService = taskService;
 
@@ -89,7 +88,7 @@ public class TasksView extends Composite<VerticalLayout>
 
         FormLayout taskForm = new FormLayout();
         taskForm.setWidth("100%");
-        taskForm.add(titleField, descriptionField, priorityComboBox, statusComboBox);
+        taskForm.add(this.titleField, this.descriptionField, this.priorityComboBox, this.statusComboBox);
 
         formLayout.add(taskForm, createTaskDetailsLayout());
         return formLayout;
@@ -102,19 +101,19 @@ public class TasksView extends Composite<VerticalLayout>
         taskDetailsLayout.setWidth("300px");
         taskDetailsLayout.setSpacing(true);
 
-        taskDetailsLayout.add(addButton, updateButton, deleteButton);
+        taskDetailsLayout.add(this.addButton, this.updateButton, this.deleteButton);
         return taskDetailsLayout;
     }
 
 
     private VerticalLayout createActionsLayout()
     {
-        VerticalLayout actionsLayout = new VerticalLayout();
+        final VerticalLayout actionsLayout = new VerticalLayout();
         actionsLayout.setWidth("100%");
         actionsLayout.setSpacing(true);
 
-        priorityComboBox.setItems(TaskPriority.values());
-        statusComboBox.setItems(TaskStatus.values());
+        this.priorityComboBox.setItems(TaskPriority.values());
+        this.statusComboBox.setItems(TaskStatus.values());
 
         return actionsLayout;
     }
@@ -122,7 +121,7 @@ public class TasksView extends Composite<VerticalLayout>
 
     private Grid<TaskDto> createTaskGrid()
     {
-        Grid<TaskDto> grid = new Grid<>();
+        final Grid<TaskDto> grid = new Grid<>();
         grid.setSizeFull();
         grid.addColumn(TaskDto::getTitle).setHeader("Title");
         grid.addColumn(TaskDto::getDescription).setHeader("Description");
@@ -137,10 +136,10 @@ public class TasksView extends Composite<VerticalLayout>
 
     private void bindFields()
     {
-        taskBinder.bind(titleField, TaskDto::getTitle, TaskDto::setTitle);
-        taskBinder.bind(descriptionField, TaskDto::getDescription, TaskDto::setDescription);
-        taskBinder.bind(priorityComboBox, TaskDto::getPriorityLevel, TaskDto::setPriorityLevel);
-        taskBinder.bind(statusComboBox, TaskDto::getStatus, TaskDto::setStatus);
+        this.taskBinder.bind(this.titleField, TaskDto::getTitle, TaskDto::setTitle);
+        this.taskBinder.bind(this.descriptionField, TaskDto::getDescription, TaskDto::setDescription);
+        this.taskBinder.bind(this.priorityComboBox, TaskDto::getPriorityLevel, TaskDto::setPriorityLevel);
+        this.taskBinder.bind(this.statusComboBox, TaskDto::getStatus, TaskDto::setStatus);
     }
 
 
@@ -179,11 +178,10 @@ public class TasksView extends Composite<VerticalLayout>
 
     private void updateTask()
     {
-        final TaskDto selectedTask = taskGrid.asSingleSelect().getValue();
+        final TaskDto selectedTask = this.taskGrid.asSingleSelect().getValue();
         if (selectedTask != null)
         {
-            TaskDto updatedTask = taskBinder.getBean();
-            // Update the selected task with the data from the form
+            final TaskDto updatedTask = taskBinder.getBean();
             selectedTask.setTitle(updatedTask.getTitle());
             selectedTask.setDescription(updatedTask.getDescription());
             selectedTask.setPriorityLevel(updatedTask.getPriorityLevel());
