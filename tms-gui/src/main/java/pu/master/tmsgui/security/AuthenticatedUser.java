@@ -21,7 +21,8 @@ public class AuthenticatedUser
     private final AuthenticationContext authenticationContext;
 
 
-    public AuthenticatedUser(AuthenticationContext authenticationContext, VadUserRepository vadUserRepository)
+    public AuthenticatedUser(final AuthenticationContext authenticationContext,
+                             final VadUserRepository vadUserRepository)
     {
         this.vadUserRepository = vadUserRepository;
         this.authenticationContext = authenticationContext;
@@ -38,7 +39,7 @@ public class AuthenticatedUser
 
     public void logout()
     {
-        authenticationContext.logout();
+        this.authenticationContext.logout();
     }
 
 }
