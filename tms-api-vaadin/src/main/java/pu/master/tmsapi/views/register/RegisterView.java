@@ -1,4 +1,4 @@
-package pu.master.tmsapi.views;
+package pu.master.tmsapi.views.register;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 
 import pu.master.tmsapi.models.requests.UserRequest;
 import pu.master.tmsapi.services.UserService;
+import pu.master.tmsapi.views.about.AboutView;
 
 
 @PageTitle("Register")

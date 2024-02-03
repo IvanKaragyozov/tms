@@ -3,8 +3,6 @@ package pu.master.tmsapi.services;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +72,7 @@ public class UserService
         return this.userRepository.findById(userId).orElse(null);
     }
 
+
     private User setDefaultUserRole(final User user)
     {
         final long userRoleId = 1;
@@ -81,6 +80,7 @@ public class UserService
 
         return user.addRole(defaultRole);
     }
+
 
     private User mapUserRequestToUser(final UserRequest userRequest)
     {

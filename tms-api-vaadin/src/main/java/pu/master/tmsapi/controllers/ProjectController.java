@@ -55,6 +55,7 @@ public class ProjectController
         return ResponseEntity.created(location).build();
     }
 
+
     @GetMapping("/users/{id}/projects")
     public ResponseEntity<List<ProjectDto>> getProjectsByUserId(@PathVariable final long id)
     {
