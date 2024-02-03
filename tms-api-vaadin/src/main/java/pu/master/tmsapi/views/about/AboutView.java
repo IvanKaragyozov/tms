@@ -39,7 +39,7 @@ public class AboutView extends VerticalLayout
     private H2 createAboutHeader()
     {
         final H2 header = new H2();
-        header.setText("Task Management System ER Diagram");
+        header.setText("Task Management System");
         header.addClassNames(Margin.Top.XLARGE, Margin.Bottom.MEDIUM);
 
         return header;
@@ -49,10 +49,10 @@ public class AboutView extends VerticalLayout
     private Image createAboutImage()
     {
         final Image img = new Image();
-        img.setSrc("images/erd-v2.png");
-        img.setAlt("placeholder ERD");
-        img.setWidth("856px");
-        img.setHeight("598px");
+        img.setSrc("images/tms-logo.jpg");
+        img.setAlt("tms logo placeholder");
+        img.setWidth("1920px");
+        img.setHeight("1920px");
 
         return img;
     }
