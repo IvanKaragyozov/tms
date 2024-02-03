@@ -67,13 +67,13 @@ public class MainLayout extends AppLayout
         public MenuItemInfo(String menuTitle, Component icon, Class<? extends Component> view)
         {
             this.view = view;
-            RouterLink link = new RouterLink();
+            final RouterLink link = new RouterLink();
             // Use Lumo classnames for various styling
             link.addClassNames(Display.FLEX, Gap.XSMALL, Height.MEDIUM, AlignItems.CENTER, Padding.Horizontal.SMALL,
                                TextColor.BODY);
             link.setRoute(view);
 
-            Span text = new Span(menuTitle);
+            final Span text = new Span(menuTitle);
             // Use Lumo classnames for various styling
             text.addClassNames(FontWeight.MEDIUM, FontSize.MEDIUM, Whitespace.NOWRAP);
 
@@ -195,7 +195,7 @@ public class MainLayout extends AppLayout
 
                                    new MenuItemInfo("Tasks",
                                                     LineAwesomeIcon.PENCIL_RULER_SOLID.create(),
-                                                    TasksView.class)
+                                                    TasksView.class), //
 
         };
     }

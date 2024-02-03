@@ -8,7 +8,7 @@ spring:
     init:
       mode: always
   mustache:
-    check-template-location: 'false'
+    check-template-location: false
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     defer-datasource-initialization: 'true'
@@ -20,7 +20,7 @@ spring:
 
 # Launch the default browser when starting the application in development mode
 vaadin:
-  launch-browser: 'true'
+  launch-browser: false
   whitelisted-packages: com.vaadin,org.vaadin,dev.hilla,pu.master.tmsgui
 
 server:

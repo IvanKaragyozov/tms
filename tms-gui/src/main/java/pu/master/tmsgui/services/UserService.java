@@ -3,8 +3,6 @@ package pu.master.tmsgui.services;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +44,15 @@ public class UserService
     public User createUser(final UserRequest userRequest)
     {
         final User user = mapUserRequestToUser(userRequest);
-        final Set<Role> roles = userRequest.getRoles()
+
+        /*final Set<Role> roles = userRequest.getRoles()
                                            .stream()
                                            .map(this.roleService::getRoleById)
-                                           .collect(Collectors.toSet());
+                                           .collect(Collectors.toSet());*/
 
         final String encryptedUserPassword = this.bCryptPasswordEncoder.encode(userRequest.getPassword());
 
-        user.setRoles(roles);
+        setDefaultUserRole(user);
         user.setPassword(encryptedUserPassword);
         user.setActive(true);
         user.setDateCreatedAt(LocalDate.now());
@@ -89,5 +88,20 @@ public class UserService
     private UserDto mapUserToUserDto(final User user)
     {
         return this.modelMapper.map(user, UserDto.class);
+    }
+
+
+    private boolean doesUserContainRoles(final User user)
+    {
+        return user.getRoles() == null;
+    }
+
+
+    private User setDefaultUserRole(final User user)
+    {
+        final long userRoleId = 1;
+        final Role defaultRole = this.roleService.getRoleById(userRoleId);
+
+        return user.addRole(defaultRole);
     }
 }

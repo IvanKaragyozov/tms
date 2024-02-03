@@ -2,6 +2,8 @@ package pu.master.tmsgui.models.entities;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -71,8 +73,14 @@ public class User extends BaseEntity
     private List<Task> tasks;
 
 
+    /**
+     * Initializing collections to prevent Null Pointer exceptions
+     */
     public User()
     {
+        this.projects = new ArrayList<>();
+        this.roles = new HashSet<>();
+        this.tasks = new ArrayList<>();
     }
 
 
@@ -241,6 +249,10 @@ public class User extends BaseEntity
 
     public User addRole(final Role role)
     {
+        if (this.roles == null)
+        {
+            this.roles = new HashSet<>();
+        }
         this.roles.add(role);
         return this;
     }
