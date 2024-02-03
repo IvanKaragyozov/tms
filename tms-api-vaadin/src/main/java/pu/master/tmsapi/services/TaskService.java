@@ -119,7 +119,7 @@ public class TaskService
     }
 
 
-    public TaskRequest mapTaskDtoToRequest(final TaskDto taskDto)
+    public TaskRequest mapTaskDtoToTaskRequest(final TaskDto taskDto)
     {
         return this.modelMapper.map(taskDto, TaskRequest.class);
     }

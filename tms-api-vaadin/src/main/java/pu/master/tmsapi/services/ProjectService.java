@@ -119,7 +119,7 @@ public class ProjectService
     }
 
 
-    public ProjectRequest mapProjectDtoToRequest(final ProjectDto projectDto)
+    public ProjectRequest mapProjectDtoToProjecctRequest(final ProjectDto projectDto)
     {
         ProjectRequest projectRequest = new ProjectRequest();
 

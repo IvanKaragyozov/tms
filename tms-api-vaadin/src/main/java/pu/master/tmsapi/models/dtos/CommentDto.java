@@ -12,6 +12,8 @@ public class CommentDto extends BaseDto
 
     private LocalDateTime timePosted;
 
+    private TaskDto taskDto;
+
 
     public CommentDto()
     {
@@ -24,9 +26,35 @@ public class CommentDto extends BaseDto
     }
 
 
+    public CommentDto setText(final String text)
+    {
+        this.text = text;
+        return this;
+    }
+
+
     public LocalDateTime getTimePosted()
     {
         return timePosted;
     }
 
+
+    public CommentDto setTimePosted(final LocalDateTime timePosted)
+    {
+        this.timePosted = timePosted;
+        return this;
+    }
+
+
+    public TaskDto getTaskDto()
+    {
+        return taskDto;
+    }
+
+
+    public CommentDto setTaskDto(final TaskDto taskDto)
+    {
+        this.taskDto = taskDto;
+        return this;
+    }
 }
