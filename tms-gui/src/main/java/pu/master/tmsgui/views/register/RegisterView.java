@@ -1,6 +1,8 @@
 package pu.master.tmsgui.views.register;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -20,6 +22,8 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 
+import pu.master.tmsgui.models.requests.UserRequest;
+import pu.master.tmsgui.services.UserService;
 import pu.master.tmsgui.views.MainLayout;
 
 
@@ -30,8 +34,12 @@ import pu.master.tmsgui.views.MainLayout;
 public class RegisterView extends Composite<VerticalLayout>
 {
 
-    public RegisterView()
+    private final UserService userService;
+
+    @Autowired
+    public RegisterView(final UserService userService)
     {
+        this.userService = userService;
         VerticalLayout layoutColumn2 = new VerticalLayout();
         H3 h3 = new H3();
         FormLayout formLayout2Col = new FormLayout();
@@ -43,7 +51,31 @@ public class RegisterView extends Composite<VerticalLayout>
         PasswordField passwordField = new PasswordField();
         HorizontalLayout layoutRow = new HorizontalLayout();
         Button buttonPrimary = new Button();
-        Button buttonSecondary = new Button();
+        buttonPrimary.addClickListener(event -> {
+            // Retrieve data from the form fields
+            final String firstName = textField.getValue();
+            final String lastName = textField2.getValue();
+            final String phoneNumber = textField3.getValue();
+            final String email = emailField.getValue();
+            final String username = textField4.getValue();
+            final String password = passwordField.getValue();
+
+            // Create a UserRequest object with the retrieved data
+            final UserRequest userRequest = new UserRequest();
+            userRequest.setFirstName(firstName);
+            userRequest.setLastName(lastName);
+            userRequest.setPhoneNumber(phoneNumber);
+            userRequest.setEmail(email);
+            userRequest.setUsername(username);
+            userRequest.setPassword(password);
+
+            // Call the UserService to create the user
+            this.userService.createUser(userRequest);
+
+            // Optionally, you can navigate to another view or perform other actions
+            getUI().ifPresent(ui -> ui.navigate(MainLayout.class));
+        });
+        final Button buttonSecondary = new Button();
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().setJustifyContentMode(JustifyContentMode.START);
