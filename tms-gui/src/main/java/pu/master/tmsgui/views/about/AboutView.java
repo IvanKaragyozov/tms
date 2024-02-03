@@ -23,14 +23,7 @@ public class AboutView extends VerticalLayout
     {
         setSpacing(false);
 
-        final Image img = new Image("images/empty-plant.png", "placeholder plant");
-        img.setWidth("200px");
-        add(img);
-
-        final H2 header = new H2("This place intentionally left empty");
-        header.addClassNames(Margin.Top.XLARGE, Margin.Bottom.MEDIUM);
-        add(header);
-        add(new Paragraph("It’s a place where you can grow your own UI 🤗"));
+        initContent();
 
         setSizeFull();
         setJustifyContentMode(JustifyContentMode.CENTER);
@@ -38,4 +31,42 @@ public class AboutView extends VerticalLayout
         getStyle().set("text-align", "center");
     }
 
+
+    private void initContent()
+    {
+        add(createAboutHeader());
+        add(createAboutImage());
+        add(createAboutParagraph());
+    }
+
+
+    private H2 createAboutHeader()
+    {
+        final H2 header = new H2();
+        header.setText("Task Management System ER Diagram");
+        header.addClassNames(Margin.Top.XLARGE, Margin.Bottom.MEDIUM);
+
+        return header;
+    }
+
+
+    private Image createAboutImage()
+    {
+        final Image img = new Image();
+        img.setSrc("images/erd-v2.png");
+        img.setAlt("placeholder ERD");
+        img.setWidth("856px");
+        img.setHeight("598px");
+
+        return img;
+    }
+
+
+    private Paragraph createAboutParagraph()
+    {
+        final Paragraph paragraph = new Paragraph();
+        paragraph.setText("Real about page coming soon! ( ๑‾̀◡‾́)σ\"");
+
+        return paragraph;
+    }
 }
