@@ -2,7 +2,6 @@ package pu.master.tmsapi.services;
 
 
 import java.util.List;
-import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -10,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pu.master.tmsapi.exceptions.CommentNotFoundException;
 import pu.master.tmsapi.exceptions.TaskNotFoundException;
 import pu.master.tmsapi.models.dtos.TaskDto;
 import pu.master.tmsapi.models.entities.Task;
@@ -96,12 +94,14 @@ public class TaskService
                                   .toList();
     }
 
+
     public List<TaskDto> getTasksByPriorityLevel(final TaskPriority taskPriority)
     {
         final List<Task> tasksByPriorityLevel = this.taskRepository.findTasksByPriorityLevel(taskPriority);
         final List<TaskDto> taskDtos = tasksByPriorityLevel.stream().map(this::mapTaskToTaskDto).toList();
         return taskDtos;
     }
+
 
     public List<TaskDto> getTasksByStatus(final TaskStatus taskStatus)
     {
