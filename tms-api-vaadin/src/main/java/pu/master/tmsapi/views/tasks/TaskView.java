@@ -41,6 +41,7 @@ public class TaskView extends Composite<MainLayout>
     private final Button addButton;
     private final Button updateButton;
     private final Button deleteButton;
+    private final Button searchButton;
 
     private final Binder<TaskDto> taskBinder;
 
@@ -58,6 +59,7 @@ public class TaskView extends Composite<MainLayout>
         this.addButton = new Button("Add", event -> addTask());
         this.updateButton = new Button("Update", event -> updateTask());
         this.deleteButton = new Button("Delete", event -> deleteTask());
+        this.searchButton = new Button("Search", event -> searchTasks());
 
         this.taskBinder = new Binder<>(TaskDto.class);
 
@@ -100,7 +102,7 @@ public class TaskView extends Composite<MainLayout>
         taskDetailsLayout.setWidth("300px");
         taskDetailsLayout.setSpacing(true);
 
-        taskDetailsLayout.add(this.addButton, this.updateButton, this.deleteButton);
+        taskDetailsLayout.add(this.addButton, this.updateButton, this.deleteButton, this.searchButton);
         return taskDetailsLayout;
     }
 
@@ -172,6 +174,39 @@ public class TaskView extends Composite<MainLayout>
         final TaskRequest task = this.taskService.mapTaskDtoToTaskRequest(newTask);
         this.taskService.createTask(task);
         updateGrid();
+    }
+
+
+    private void searchTasks()
+    {
+        final String title = this.titleField.getValue();
+        final TaskPriority priority = this.priorityComboBox.getValue();
+        final TaskStatus status = this.statusComboBox.getValue();
+
+        if (priority != null && status != null)
+        {
+            final List<TaskDto> filteredTasks = this.taskService.getTasksByPriorityAndStatus(priority, status);
+            this.taskGrid.setItems(filteredTasks);
+        }
+        else if (priority != null)
+        {
+            final List<TaskDto> filteredTasks = this.taskService.getTasksByPriorityLevel(priority);
+            this.taskGrid.setItems(filteredTasks);
+        }
+        else if (status != null)
+        {
+            final List<TaskDto> filteredTasks = this.taskService.getTasksByStatus(status);
+            this.taskGrid.setItems(filteredTasks);
+        }
+        else if (title != null)
+        {
+            final List<TaskDto> filteredTasks = this.taskService.getTasksByTitle(title);
+            this.taskGrid.setItems(filteredTasks);
+        }
+        else
+        {
+            updateGrid();
+        }
     }
 
 

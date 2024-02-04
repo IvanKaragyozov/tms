@@ -15,6 +15,8 @@ import pu.master.tmsapi.models.enums.TaskStatus;
 public interface TaskRepository extends JpaRepository<Task, Long>
 {
 
+    List<Task> findTasksByTitleContaining(String title);
+    List<Task> findTasksByPriorityLevelAndStatus(TaskPriority taskPriority, TaskStatus taskStatus);
     List<Task> findTasksByPriorityLevel(TaskPriority taskPriority);
     List<Task> findTasksByStatus(TaskStatus taskStatus);
     List<Task> findTasksByUsersId(long userId);

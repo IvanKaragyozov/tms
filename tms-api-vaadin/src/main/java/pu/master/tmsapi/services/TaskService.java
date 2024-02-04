@@ -94,6 +94,12 @@ public class TaskService
                                   .toList();
     }
 
+    public List<TaskDto> getTasksByTitle(final String title)
+    {
+        final List<Task> tasksByTitle = this.taskRepository.findTasksByTitleContaining(title);
+        final List<TaskDto> taskDtos = tasksByTitle.stream().map(this::mapTaskToTaskDto).toList();
+        return taskDtos;
+    }
 
     public List<TaskDto> getTasksByPriorityLevel(final TaskPriority taskPriority)
     {
@@ -107,6 +113,14 @@ public class TaskService
     {
         final List<Task> tasksByStatus = this.taskRepository.findTasksByStatus(taskStatus);
         final List<TaskDto> taskDtos = tasksByStatus.stream().map(this::mapTaskToTaskDto).toList();
+        return taskDtos;
+    }
+
+
+    public List<TaskDto> getTasksByPriorityAndStatus(final TaskPriority taskPriority, final TaskStatus taskStatus)
+    {
+        final List<Task> tasks = this.taskRepository.findTasksByPriorityLevelAndStatus(taskPriority, taskStatus);
+        final List<TaskDto> taskDtos = tasks.stream().map(this::mapTaskToTaskDto).toList();
         return taskDtos;
     }
 
