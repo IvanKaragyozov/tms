@@ -9,7 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vaadin.flow.component.notification.Notification;
+
+import pu.master.tmsapi.exceptions.EmptyFieldException;
 import pu.master.tmsapi.exceptions.TaskNotFoundException;
+import pu.master.tmsapi.models.dtos.CommentDto;
 import pu.master.tmsapi.models.dtos.TaskDto;
 import pu.master.tmsapi.models.entities.Task;
 import pu.master.tmsapi.models.entities.User;
@@ -47,25 +51,23 @@ public class TaskService
     {
         final Task task = mapTaskRequestToTask(taskRequest);
 
-        // TODO: Uncomment when setting tasks to user
-        /*final List<User> users = taskRequest.getUsers().stream()
-                                            .map(this.userService::getUserById)
-                                            .toList();
-        task.setUsers(users);*/
+        if (task.getTitle().isEmpty())
+        {
+            final String message = "Task title cannot be empty!";
+
+            Notification.show(message, 3000, Notification.Position.TOP_CENTER);
+            LOGGER.error(message);
+            throw new EmptyFieldException(message);
+        }
 
         return this.taskRepository.save(task);
     }
 
 
-    public List<Task> getAllTasks()
-    {
-        return this.taskRepository.findAll();
-    }
-
 
     public List<TaskDto> getAllTaskDtos()
     {
-        final List<Task> allTasks = this.taskRepository.findAll();
+        final List<Task> allTasks = this.taskRepository.findAllTasks();
         final List<TaskDto> taskDtos = allTasks.stream()
                                                .map(this::mapTaskToTaskDto)
                                                .toList();

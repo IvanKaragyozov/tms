@@ -185,23 +185,23 @@ public class TaskView extends Composite<MainLayout>
 
         if (priority != null && status != null)
         {
-            final List<TaskDto> filteredTasks = this.taskService.getTasksByPriorityAndStatus(priority, status);
-            this.taskGrid.setItems(filteredTasks);
+            final List<TaskDto> tasksByPriorityAndStatus = this.taskService.getTasksByPriorityAndStatus(priority, status);
+            this.taskGrid.setItems(tasksByPriorityAndStatus);
         }
         else if (priority != null)
         {
-            final List<TaskDto> filteredTasks = this.taskService.getTasksByPriorityLevel(priority);
-            this.taskGrid.setItems(filteredTasks);
+            final List<TaskDto> tasksByPriorityLevel = this.taskService.getTasksByPriorityLevel(priority);
+            this.taskGrid.setItems(tasksByPriorityLevel);
         }
         else if (status != null)
         {
-            final List<TaskDto> filteredTasks = this.taskService.getTasksByStatus(status);
-            this.taskGrid.setItems(filteredTasks);
+            final List<TaskDto> tasksByStatus = this.taskService.getTasksByStatus(status);
+            this.taskGrid.setItems(tasksByStatus);
         }
         else if (title != null)
         {
-            final List<TaskDto> filteredTasks = this.taskService.getTasksByTitle(title);
-            this.taskGrid.setItems(filteredTasks);
+            final List<TaskDto> tasksByTitle = this.taskService.getTasksByTitle(title);
+            this.taskGrid.setItems(tasksByTitle);
         }
         else
         {

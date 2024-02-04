@@ -14,6 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.vaadin.flow.component.notification.Notification;
+
+import pu.master.tmsapi.exceptions.InvalidDueDateException;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler
@@ -25,6 +29,17 @@ public class GlobalExceptionHandler
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 
+    @ExceptionHandler(InvalidDueDateException.class)
+    public ResponseEntity<Map<String, List<String>>> handleInvalidDueDateException(InvalidDueDateException exception)
+    {
+        LOGGER.error(CAUGHT_EXCEPTION, exception);
+
+        Map<String, List<String>> errorsMap = formatErrorsResponse(exception.getMessage());
+
+        Notification.show(exception.getMessage(), 3000, Notification.Position.TOP_CENTER);
+        return new ResponseEntity<>(errorsMap, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, List<String>>> handleException(Exception exception)
     {
@@ -32,6 +47,7 @@ public class GlobalExceptionHandler
 
         Map<String, List<String>> errorsMap = formatErrorsResponse(GLOBAL_EXCEPTION);
 
+        Notification.show(exception.getMessage(), 5000, Notification.Position.TOP_CENTER);
         return new ResponseEntity<>(errorsMap, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

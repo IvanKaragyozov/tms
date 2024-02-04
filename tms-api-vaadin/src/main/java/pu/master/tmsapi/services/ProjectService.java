@@ -11,10 +11,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vaadin.flow.component.notification.Notification;
+
+import pu.master.tmsapi.exceptions.InvalidDueDateException;
+import pu.master.tmsapi.exceptions.ProjectNotFoundException;
 import pu.master.tmsapi.models.dtos.ProjectDto;
 import pu.master.tmsapi.models.dtos.TaskDto;
 import pu.master.tmsapi.models.entities.Project;
 import pu.master.tmsapi.models.entities.User;
+import pu.master.tmsapi.models.enums.ProjectPriority;
 import pu.master.tmsapi.models.requests.ProjectRequest;
 import pu.master.tmsapi.repositories.ProjectRepository;
 
@@ -47,12 +52,17 @@ public class ProjectService
     {
         final Project project = mapProjectRequestToProject(projectRequest);
 
-        // TODO: Uncomment when setting projects to user
-        /*final Set<User> users = projectRequest.getUsers().stream()
-                                              .map(this.userService::getUserById)
-                                              .collect(Collectors.toSet());*/
-
         project.setDateCreated(LocalDate.now());
+
+        if (project.getDueDate().isBefore(project.getDateCreated()))
+        {
+            final String message = String.format("Due date '%s' cannot be before the project's date created '%s'!",
+                                                 project.getDueDate(),
+                                                 project.getDateCreated());
+            LOGGER.error(message);
+            Notification.show(message, 3000, Notification.Position.TOP_CENTER);
+            throw new InvalidDueDateException(message);
+        }
 
         return this.projectRepository.save(project);
     }
@@ -60,8 +70,12 @@ public class ProjectService
 
     public Project getProjectById(final long projectId)
     {
-        // TODO: Add proper validation for non existing Project
-        return this.projectRepository.findById(projectId).orElse(null);
+        LOGGER.info(String.format("Trying to retrieve project with id %d", projectId));
+        return this.projectRepository.findById(projectId).orElseThrow(() -> {
+
+            LOGGER.error(String.format("Tried to retrieve a project with id %d that does not exist!", projectId));
+            throw new ProjectNotFoundException(String.format("Project with id %d does not exist!", projectId));
+        });
     }
 
 
@@ -76,10 +90,34 @@ public class ProjectService
                                      .toList();
     }
 
+    public List<ProjectDto> getProjectsByTitle(final String title)
+    {
+        final List<Project> projectsByprojectsByTitle =
+                        this.projectRepository.findProjectsByTitle(title);
+
+        final List<ProjectDto> projectDtos = projectsByprojectsByTitle.stream()
+                                                                      .map(this::mapProjectToProjectDto)
+                                                                      .toList();
+
+        return projectDtos;
+    }
+
+    public List<ProjectDto> getProjectsByPriorityLevel(final ProjectPriority projectPriority)
+    {
+        final List<Project> projectsByPriorityLevel =
+                        this.projectRepository.findProjectsByPriorityLevel(projectPriority);
+
+        final List<ProjectDto> projectDtos = projectsByPriorityLevel.stream()
+                                                                    .map(this::mapProjectToProjectDto)
+                                                                    .toList();
+
+        return projectDtos;
+    }
+
 
     public List<ProjectDto> getAllProjectDtos()
     {
-        final List<Project> allProjects = this.projectRepository.findAll();
+        final List<Project> allProjects = this.projectRepository.findAllProjects();
 
         final List<ProjectDto> projectDtos = allProjects.stream()
                                                         .map(this::mapProjectToProjectDto)

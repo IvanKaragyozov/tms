@@ -45,6 +45,7 @@ public class ProjectView extends Composite<MainLayout>
     private final Button addButton;
     private final Button updateButton;
     private final Button deleteButton;
+    private final Button searchButton;
 
     private final Binder<ProjectDto> projectBinder;
 
@@ -67,6 +68,7 @@ public class ProjectView extends Composite<MainLayout>
         this.addButton = new Button("Add", event -> addProject());
         this.updateButton = new Button("Update", event -> updateProject());
         this.deleteButton = new Button("Delete", event -> deleteProject());
+        this.searchButton = new Button("Search", event -> searchProjects());
 
         this.projectBinder = new Binder<>(ProjectDto.class);
 
@@ -174,13 +176,13 @@ public class ProjectView extends Composite<MainLayout>
 
     private void clearForm()
     {
-        projectBinder.setBean(new ProjectDto());
+        this.projectBinder.setBean(new ProjectDto());
     }
 
 
     private void addProject()
     {
-        final ProjectDto newProject = projectBinder.getBean();
+        final ProjectDto newProject = this.projectBinder.getBean();
 
         final TaskDto selectedTask = this.taskComboBox.getValue();
         if (selectedTask != null)
@@ -191,6 +193,28 @@ public class ProjectView extends Composite<MainLayout>
         final ProjectRequest projectRequest = this.projectService.mapProjectDtoToProjecctRequest(newProject);
         this.projectService.createProject(projectRequest);
         updateGrid();
+    }
+
+
+    private void searchProjects()
+    {
+        final String title = this.titleField.getValue();
+        final ProjectPriority priority = this.priorityComboBox.getValue();
+
+        if (title != null)
+        {
+            final List<ProjectDto> projectsByTitle = this.projectService.getProjectsByTitle(title);
+            this.projectGrid.setItems(projectsByTitle);
+        }
+        else if (priority != null)
+        {
+            final List<ProjectDto> projectsByPriorityLevel = this.projectService.getProjectsByPriorityLevel(priority);
+            this.projectGrid.setItems(projectsByPriorityLevel);
+        }
+        else
+        {
+            updateGrid();
+        }
     }
 
 
