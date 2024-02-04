@@ -5,18 +5,12 @@ import java.util.List;
 import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pu.master.tmsapi.exceptions.CommentNotFoundException;
-import pu.master.tmsapi.exceptions.TaskNotFoundException;
 import pu.master.tmsapi.models.dtos.TaskDto;
 import pu.master.tmsapi.models.entities.Task;
 import pu.master.tmsapi.models.entities.User;
-import pu.master.tmsapi.models.enums.TaskPriority;
-import pu.master.tmsapi.models.enums.TaskStatus;
 import pu.master.tmsapi.models.requests.TaskRequest;
 import pu.master.tmsapi.repositories.TaskRepository;
 
@@ -24,8 +18,6 @@ import pu.master.tmsapi.repositories.TaskRepository;
 @Service
 public class TaskService
 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(TaskService.class.getName());
 
     private final TaskRepository taskRepository;
 
@@ -78,12 +70,8 @@ public class TaskService
 
     public Task getTaskById(final long taskId)
     {
-        LOGGER.info(String.format("Trying to retrieve task with id %d", taskId));
-        return this.taskRepository.findById(taskId).orElseThrow(() -> {
-
-            LOGGER.error(String.format("Tried to retrieve a task with id %d that does not exist!", taskId));
-            throw new TaskNotFoundException(String.format("Comment with id %d does not exist!", taskId));
-        });
+        // TODO: Add proper validation for non existing Task
+        return Objects.requireNonNull(this.taskRepository.findById(taskId).orElse(null));
     }
 
 
@@ -94,20 +82,6 @@ public class TaskService
         return this.taskRepository.findTasksByUsersId(user.getId())
                                   .stream().map(this::mapTaskToTaskDto)
                                   .toList();
-    }
-
-    public List<TaskDto> getTasksByPriorityLevel(final TaskPriority taskPriority)
-    {
-        final List<Task> tasksByPriorityLevel = this.taskRepository.findTasksByPriorityLevel(taskPriority);
-        final List<TaskDto> taskDtos = tasksByPriorityLevel.stream().map(this::mapTaskToTaskDto).toList();
-        return taskDtos;
-    }
-
-    public List<TaskDto> getTasksByStatus(final TaskStatus taskStatus)
-    {
-        final List<Task> tasksByStatus = this.taskRepository.findTasksByStatus(taskStatus);
-        final List<TaskDto> taskDtos = tasksByStatus.stream().map(this::mapTaskToTaskDto).toList();
-        return taskDtos;
     }
 
 
