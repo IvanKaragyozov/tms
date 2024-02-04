@@ -21,11 +21,11 @@ public class Comment extends BaseEntity
     @Column(name = "time_posted")
     private LocalDateTime timePosted;
 
-    @ManyToOne // TODO: Change fetch type to lazy
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User author;
 
-    @ManyToOne // TODO: Change fetch type to lazy
+    @ManyToOne
     @JoinColumn(name = "task_id")
     private Task task;
 

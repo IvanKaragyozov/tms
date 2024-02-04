@@ -40,7 +40,7 @@ public class Project extends BaseEntity
     @Column(name = "priority")
     private ProjectPriority priorityLevel;
 
-    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private List<Task> tasks;
 
     @ManyToMany(fetch = FetchType.LAZY)
