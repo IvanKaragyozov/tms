@@ -85,7 +85,7 @@ public class CommentView extends Composite<MainLayout>
         formLayout.setWidth("100%");
         formLayout.setSpacing(true);
 
-        FormLayout commentForm = new FormLayout();
+        final FormLayout commentForm = new FormLayout();
         commentForm.setWidth("100%");
         commentForm.add(this.textArea, this.taskComboBox);
 
@@ -96,11 +96,11 @@ public class CommentView extends Composite<MainLayout>
 
     private VerticalLayout createCommentDetailsLayout()
     {
-        VerticalLayout commentDetailsLayout = new VerticalLayout();
+        final VerticalLayout commentDetailsLayout = new VerticalLayout();
         commentDetailsLayout.setWidth("300px");
         commentDetailsLayout.setSpacing(true);
 
-        commentDetailsLayout.add(addButton, updateButton, deleteButton);
+        commentDetailsLayout.add(this.addButton, this.updateButton, this.deleteButton);
         return commentDetailsLayout;
     }
 
@@ -120,6 +120,8 @@ public class CommentView extends Composite<MainLayout>
         final Grid<CommentDto> grid = new Grid<>();
         grid.setSizeFull();
         grid.addColumn(CommentDto::getText).setHeader("Comment Text");
+        grid.addColumn(commentDto -> commentDto.getTaskDto() != null ? commentDto.getTaskDto().getTitle() : "")
+            .setHeader("Task");
 
         grid.asSingleSelect().addValueChangeListener(event -> populateForm(event.getValue()));
 
@@ -147,20 +149,20 @@ public class CommentView extends Composite<MainLayout>
     {
         if (commentDto != null)
         {
-            commentBinder.setBean(commentDto);
+            this.commentBinder.setBean(commentDto);
         }
     }
 
 
     private void clearForm()
     {
-        commentBinder.setBean(new CommentDto());
+        this.commentBinder.setBean(new CommentDto());
     }
 
 
     private void addComment()
     {
-        final CommentDto newComment = commentBinder.getBean();
+        final CommentDto newComment = this.commentBinder.getBean();
 
         final TaskDto selectedTask = this.taskComboBox.getValue();
         if (selectedTask != null)
@@ -179,7 +181,7 @@ public class CommentView extends Composite<MainLayout>
         final CommentDto selectedComment = this.commentGrid.asSingleSelect().getValue();
         if (selectedComment != null)
         {
-            final CommentDto updatedComment = commentBinder.getBean();
+            final CommentDto updatedComment = this.commentBinder.getBean();
             selectedComment.setText(updatedComment.getText());
             selectedComment.setTaskDto(updatedComment.getTaskDto());
 

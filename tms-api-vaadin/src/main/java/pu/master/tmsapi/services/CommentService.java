@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import pu.master.tmsapi.exceptions.CommentNotFoundException;
 import pu.master.tmsapi.models.dtos.CommentDto;
+import pu.master.tmsapi.models.dtos.TaskDto;
 import pu.master.tmsapi.models.entities.Comment;
 import pu.master.tmsapi.models.entities.Task;
 import pu.master.tmsapi.models.requests.CommentRequest;
@@ -122,7 +123,16 @@ public class CommentService
 
     public CommentDto mapCommentToCommentDto(final Comment comment)
     {
-        return this.modelMapper.map(comment, CommentDto.class);
+        final CommentDto commentDto = this.modelMapper.map(comment, CommentDto.class);
+
+        final Task task = comment.getTask();
+        if (task != null)
+        {
+            final TaskDto taskDto = this.taskService.mapTaskToTaskDto(task);
+            commentDto.setTaskDto(taskDto);
+        }
+
+        return commentDto;
     }
 
 

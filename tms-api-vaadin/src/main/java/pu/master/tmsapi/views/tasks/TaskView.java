@@ -20,6 +20,7 @@ import pu.master.tmsapi.models.dtos.TaskDto;
 import pu.master.tmsapi.models.enums.TaskPriority;
 import pu.master.tmsapi.models.enums.TaskStatus;
 import pu.master.tmsapi.models.requests.TaskRequest;
+import pu.master.tmsapi.services.CommentService;
 import pu.master.tmsapi.services.TaskService;
 import pu.master.tmsapi.views.MainLayout;
 
@@ -232,7 +233,7 @@ public class TaskView extends Composite<MainLayout>
         final TaskDto selectedTask = this.taskGrid.asSingleSelect().getValue();
         if (selectedTask != null)
         {
-            taskService.deleteTaskById(selectedTask.getId());
+            this.taskService.deleteTaskById(selectedTask.getId());
             updateGrid();
         }
     }

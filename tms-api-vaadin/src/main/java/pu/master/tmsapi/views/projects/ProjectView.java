@@ -90,11 +90,11 @@ public class ProjectView extends Composite<MainLayout>
 
     private HorizontalLayout createFormLayout()
     {
-        HorizontalLayout formLayout = new HorizontalLayout();
+        final HorizontalLayout formLayout = new HorizontalLayout();
         formLayout.setWidth("100%");
         formLayout.setSpacing(true);
 
-        FormLayout projectForm = new FormLayout();
+        final FormLayout projectForm = new FormLayout();
         projectForm.setWidth("100%");
         projectForm.add(this.titleField,
                         this.descriptionField,
@@ -109,7 +109,7 @@ public class ProjectView extends Composite<MainLayout>
 
     private VerticalLayout createProjectDetailsLayout()
     {
-        VerticalLayout projectDetailsLayout = new VerticalLayout();
+        final VerticalLayout projectDetailsLayout = new VerticalLayout();
         projectDetailsLayout.setWidth("300px");
         projectDetailsLayout.setSpacing(true);
 
@@ -120,11 +120,11 @@ public class ProjectView extends Composite<MainLayout>
 
     private VerticalLayout createActionsLayout()
     {
-        VerticalLayout actionsLayout = new VerticalLayout();
+        final VerticalLayout actionsLayout = new VerticalLayout();
         actionsLayout.setWidth("100%");
         actionsLayout.setSpacing(true);
 
-        priorityComboBox.setItems(ProjectPriority.values());
+        this.priorityComboBox.setItems(ProjectPriority.values());
 
         return actionsLayout;
     }
@@ -132,7 +132,7 @@ public class ProjectView extends Composite<MainLayout>
 
     private Grid<ProjectDto> createProjectGrid()
     {
-        Grid<ProjectDto> grid = new Grid<>();
+        final Grid<ProjectDto> grid = new Grid<>();
         grid.setSizeFull();
         grid.addColumn(ProjectDto::getTitle).setHeader("Title");
         grid.addColumn(ProjectDto::getDescription).setHeader("Description");
@@ -147,10 +147,10 @@ public class ProjectView extends Composite<MainLayout>
 
     private void bindFields()
     {
-        projectBinder.bind(titleField, ProjectDto::getTitle, ProjectDto::setTitle);
-        projectBinder.bind(descriptionField, ProjectDto::getDescription, ProjectDto::setDescription);
-        projectBinder.bind(dueDatePicker, ProjectDto::getDueDate, ProjectDto::setDueDate);
-        projectBinder.bind(priorityComboBox, ProjectDto::getPriorityLevel, ProjectDto::setPriorityLevel);
+        this.projectBinder.bind(this.titleField, ProjectDto::getTitle, ProjectDto::setTitle);
+        this.projectBinder.bind(this.descriptionField, ProjectDto::getDescription, ProjectDto::setDescription);
+        this.projectBinder.bind(this.dueDatePicker, ProjectDto::getDueDate, ProjectDto::setDueDate);
+        this.projectBinder.bind(this.priorityComboBox, ProjectDto::getPriorityLevel, ProjectDto::setPriorityLevel);
     }
 
 
