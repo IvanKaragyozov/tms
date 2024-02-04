@@ -10,7 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vaadin.flow.component.notification.Notification;
+
 import pu.master.tmsapi.exceptions.CommentNotFoundException;
+import pu.master.tmsapi.exceptions.EmptyTaskException;
 import pu.master.tmsapi.models.dtos.CommentDto;
 import pu.master.tmsapi.models.entities.Comment;
 import pu.master.tmsapi.models.entities.Task;
@@ -47,13 +50,20 @@ public class CommentService
 
     public Comment createComment(final CommentRequest commentRequest)
     {
+        if (commentRequest.getTask() == null)
+        {
+            final String message = "Task cannot be empty!";
+
+            Notification.show(message, 3000, Notification.Position.TOP_CENTER);
+            LOGGER.error(message);
+            throw new EmptyTaskException(message);
+        }
         final Comment comment = mapCommentRequestToComment(commentRequest);
-        //TODO: Set author to comment
-        //final User author = this.userService.getUserById(commentRequest.getAuthor());
         final Task task = this.taskService.getTaskById(commentRequest.getTask());
 
         comment.setTask(task);
         comment.setTimePosted(LocalDateTime.now());
+
 
         return this.commentRepository.save(comment);
     }
