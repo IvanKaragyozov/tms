@@ -3,6 +3,7 @@ package pu.master.tmsapi.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -71,13 +72,14 @@ public class CommentService
 
     public Comment getCommentById(final long commentId)
     {
-        LOGGER.info(String.format("Trying to retrieve task with id %d", commentId));
-        return this.commentRepository.findById(commentId).orElseThrow(() -> {
-
+        final Optional<Comment> optionalComment = this.commentRepository.findById(commentId);
+        if (optionalComment.isEmpty())
+        {
             LOGGER.error(String.format("Tried to retrieve a comment with id %d that does not exist!", commentId));
             throw new CommentNotFoundException(String.format("Comment with id %d does not exist!", commentId));
+        }
 
-        });
+        return optionalComment.get();
     }
 
 
@@ -126,15 +128,13 @@ public class CommentService
     }
 
 
-    public CommentRequest mapCommentDtoToCommentRequest(final CommentDto commentDto)
-    {
+    public CommentRequest mapCommentDtoToCommentRequest(final CommentDto commentDto) {
         final CommentRequest commentRequest = new CommentRequest();
 
         commentRequest.setText(commentDto.getText());
         commentRequest.setTimePosted(commentDto.getTimePosted());
 
-        if (commentDto.getTaskDto() != null)
-        {
+        if (commentDto.getTaskDto() != null) {
             commentRequest.setTask(commentDto.getTaskDto().getId());
         }
 
