@@ -59,7 +59,7 @@ public class CommentController
     {
         final List<CommentDto> commentDtos = this.commentService.getCommentsByTaskId(id);
 
-        LOGGER.info(String.format("Request sent for all tasks by user with id %d", id));
+        LOGGER.info(String.format("Request sent for all comments by task with id %d", id));
 
         return ResponseEntity.ok(commentDtos);
     }
