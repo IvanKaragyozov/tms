@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler
 {
 
-    private final static String CAUGHT_EXCEPTION = "An exception has been caught";
-    private static final String GLOBAL_EXCEPTION = "Something went wrong...";
+    private final static String CAUGHT_EXCEPTION_MESSAGE = "An exception has been caught";
+    private static final String GLOBAL_EXCEPTION_MESSAGE = "Something went wrong...";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
@@ -28,9 +28,9 @@ public class GlobalExceptionHandler
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, List<String>>> handleException(Exception exception)
     {
-        LOGGER.error(CAUGHT_EXCEPTION, exception);
+        LOGGER.error(CAUGHT_EXCEPTION_MESSAGE, exception);
 
-        Map<String, List<String>> errorsMap = formatErrorsResponse(GLOBAL_EXCEPTION);
+        final Map<String, List<String>> errorsMap = formatErrorsResponse(GLOBAL_EXCEPTION_MESSAGE);
 
         return new ResponseEntity<>(errorsMap, HttpStatus.INTERNAL_SERVER_ERROR);
     }

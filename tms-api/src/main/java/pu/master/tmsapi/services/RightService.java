@@ -4,6 +4,8 @@ package pu.master.tmsapi.services;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import pu.master.tmsapi.repositories.RightRepository;
 @Service
 public class RightService
 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RightService.class);
 
     private final RightRepository rightRepository;
 
