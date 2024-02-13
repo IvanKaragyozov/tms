@@ -11,8 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -60,6 +62,26 @@ public class UserController
         LOGGER.info("Requesting all users from the database");
 
         return ResponseEntity.ok(allUsers);
+    }
+
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable final long id)
+    {
+        LOGGER.info(String.format("Sending request to user with id [%d]", id));
+        final UserDto userDto = this.userService.getUserDtoById(id);
+
+        return ResponseEntity.ok(userDto);
+    }
+
+
+    @GetMapping(value = "/users", params = "username")
+    public ResponseEntity<UserDto> getUserByUsername(@RequestParam final String username)
+    {
+        LOGGER.info(String.format("Sending request to user with username [%s]", username));
+        final UserDto userDto = this.userService.getUserDtoByUsername(username);
+
+        return ResponseEntity.ok(userDto);
     }
 
 }

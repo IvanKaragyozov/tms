@@ -71,7 +71,7 @@ public class ProjectService
 
         return this.projectRepository.findProjectsByUsersId(user.getId())
                                      .stream()
-                                     .map(this::mapProjectToProjectDto)
+                                     .map(this::mapProjectToDto)
                                      .toList();
     }
 
@@ -82,7 +82,7 @@ public class ProjectService
     }
 
 
-    private ProjectDto mapProjectToProjectDto(final Project project)
+    private ProjectDto mapProjectToDto(final Project project)
     {
         return this.modelMapper.map(project, ProjectDto.class);
     }

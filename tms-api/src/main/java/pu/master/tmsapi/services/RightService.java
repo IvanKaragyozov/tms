@@ -46,7 +46,7 @@ public class RightService
         final List<Right> allRights = this.rightRepository.findAll();
 
         return allRights.stream()
-                        .map(this::mapRightToRightDto)
+                        .map(this::mapRightToDto)
                         .toList();
     }
 
@@ -64,7 +64,7 @@ public class RightService
     }
 
 
-    private RightDto mapRightToRightDto(final Right right)
+    private RightDto mapRightToDto(final Right right)
     {
         return this.modelMapper.map(right, RightDto.class);
     }

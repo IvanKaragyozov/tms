@@ -56,8 +56,8 @@ public class RoleController
     @GetMapping("/roles")
     public ResponseEntity<List<RoleDto>> getAllRoles()
     {
-        final List<RoleDto> allRoles = this.roleService.getAllRoles();
         LOGGER.info("Requesting all roles from the database");
+        final List<RoleDto> allRoles = this.roleService.getAllRoles();
 
         return ResponseEntity.ok(allRoles);
     }

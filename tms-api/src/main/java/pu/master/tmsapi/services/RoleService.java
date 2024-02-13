@@ -61,7 +61,7 @@ public class RoleService
         final List<Role> allRoles = this.roleRepository.findAll();
 
         return allRoles.stream()
-                       .map(this::mapRoleToRoleDto)
+                       .map(this::mapRoleToDto)
                        .toList();
     }
 
@@ -79,7 +79,7 @@ public class RoleService
     }
 
 
-    private RoleDto mapRoleToRoleDto(final Role role)
+    private RoleDto mapRoleToDto(final Role role)
     {
         return this.modelMapper.map(role, RoleDto.class);
     }

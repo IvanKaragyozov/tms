@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import pu.master.tmsapi.exceptions.UserNotFoundException;
 import pu.master.tmsapi.models.dtos.UserDto;
 import pu.master.tmsapi.models.entities.Role;
 import pu.master.tmsapi.models.entities.User;
@@ -50,6 +51,8 @@ public class UserService
     public User createUser(final UserRequest userRequest)
     {
         final User user = mapUserRequestToUser(userRequest);
+
+        // TODO: Create a default role and assign it to the default user
         final Set<Role> roles = userRequest.getRoles()
                                            .stream()
                                            .map(this.roleService::getRoleById)
@@ -72,15 +75,42 @@ public class UserService
         final List<User> allUsers = this.userRepository.findAll();
 
         return allUsers.stream()
-                       .map(this::mapUserToUserDto)
+                       .map(this::mapUserToDto)
                        .toList();
     }
 
 
     public User getUserById(final long userId)
     {
-        // TODO: Add proper validation for non existing User
-        return this.userRepository.findById(userId).orElse(null);
+        return this.userRepository.findById(userId).orElseThrow(() -> {
+
+            LOGGER.error(String.format("Could not find user with id [%d]", userId));
+            throw new UserNotFoundException(String.format("User with id [%d] not found", userId));
+        });
+    }
+
+    public UserDto getUserDtoById(final long userId)
+    {
+        final User user = getUserById(userId);
+
+        return mapUserToDto(user);
+    }
+
+
+    public User getUserByUsername(final String username)
+    {
+        return this.userRepository.findUserByUsername(username).orElseThrow(() -> {
+
+            LOGGER.error(String.format("Could not find user with username [%s]", username));
+            throw new UserNotFoundException(String.format("User with username [%s] not found", username));
+        });
+    }
+
+    public UserDto getUserDtoByUsername(final String username)
+    {
+        final User user = getUserByUsername(username);
+
+        return mapUserToDto(user);
     }
 
 
@@ -90,7 +120,7 @@ public class UserService
     }
 
 
-    private UserDto mapUserToUserDto(final User user)
+    private UserDto mapUserToDto(final User user)
     {
         return this.modelMapper.map(user, UserDto.class);
     }

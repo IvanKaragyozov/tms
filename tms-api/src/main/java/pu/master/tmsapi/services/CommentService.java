@@ -64,7 +64,7 @@ public class CommentService
         final Task task = this.taskService.getTaskById(taskId);
 
         return this.commentRepository.findCommentsByTaskId(task.getId()).stream()
-                                     .map(this::mapCommentToCommentDto)
+                                     .map(this::mapCommentToDto)
                                      .toList();
     }
 
@@ -75,7 +75,7 @@ public class CommentService
     }
 
 
-    private CommentDto mapCommentToCommentDto(final Comment comment)
+    private CommentDto mapCommentToDto(final Comment comment)
     {
         return this.modelMapper.map(comment, CommentDto.class);
     }

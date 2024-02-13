@@ -65,7 +65,7 @@ public class TaskService
         final User user = this.userService.getUserById(userId);
 
         return this.taskRepository.findTasksByUsersId(user.getId())
-                                  .stream().map(this::mapTaskToTaskDto)
+                                  .stream().map(this::mapTaskToDto)
                                   .toList();
     }
 
@@ -76,7 +76,7 @@ public class TaskService
     }
 
 
-    private TaskDto mapTaskToTaskDto(final Task task)
+    private TaskDto mapTaskToDto(final Task task)
     {
         return this.modelMapper.map(task, TaskDto.class);
     }
