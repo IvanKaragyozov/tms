@@ -89,6 +89,7 @@ public class UserService
         });
     }
 
+
     public UserDto getUserDtoById(final long userId)
     {
         final User user = getUserById(userId);
@@ -105,6 +106,7 @@ public class UserService
             return new UserNotFoundException(String.format("User with username [%s] not found", username));
         });
     }
+
 
     public UserDto getUserDtoByUsername(final String username)
     {
