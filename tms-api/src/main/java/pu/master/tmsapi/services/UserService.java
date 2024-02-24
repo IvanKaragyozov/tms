@@ -85,7 +85,7 @@ public class UserService
         return this.userRepository.findById(userId).orElseThrow(() -> {
 
             LOGGER.error(String.format("Could not find user with id [%d]", userId));
-            throw new UserNotFoundException(String.format("User with id [%d] not found", userId));
+            return new UserNotFoundException(String.format("User with id [%d] not found", userId));
         });
     }
 
@@ -102,7 +102,7 @@ public class UserService
         return this.userRepository.findUserByUsername(username).orElseThrow(() -> {
 
             LOGGER.error(String.format("Could not find user with username [%s]", username));
-            throw new UserNotFoundException(String.format("User with username [%s] not found", username));
+            return new UserNotFoundException(String.format("User with username [%s] not found", username));
         });
     }
 
