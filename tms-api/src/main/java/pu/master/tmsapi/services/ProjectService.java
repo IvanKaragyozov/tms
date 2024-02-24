@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import pu.master.tmsapi.repositories.ProjectRepository;
 @Service
 public class ProjectService
 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectService.class);
 
     private final ProjectRepository projectRepository;
 
@@ -67,7 +71,7 @@ public class ProjectService
 
         return this.projectRepository.findProjectsByUsersId(user.getId())
                                      .stream()
-                                     .map(this::mapProjectToProjectDto)
+                                     .map(this::mapProjectToDto)
                                      .toList();
     }
 
@@ -78,7 +82,7 @@ public class ProjectService
     }
 
 
-    private ProjectDto mapProjectToProjectDto(final Project project)
+    private ProjectDto mapProjectToDto(final Project project)
     {
         return this.modelMapper.map(project, ProjectDto.class);
     }

@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ import pu.master.tmsapi.repositories.CommentRepository;
 @Service
 public class CommentService
 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommentService.class);
 
     private final CommentRepository commentRepository;
 
@@ -60,7 +64,7 @@ public class CommentService
         final Task task = this.taskService.getTaskById(taskId);
 
         return this.commentRepository.findCommentsByTaskId(task.getId()).stream()
-                                     .map(this::mapCommentToCommentDto)
+                                     .map(this::mapCommentToDto)
                                      .toList();
     }
 
@@ -71,7 +75,7 @@ public class CommentService
     }
 
 
-    private CommentDto mapCommentToCommentDto(final Comment comment)
+    private CommentDto mapCommentToDto(final Comment comment)
     {
         return this.modelMapper.map(comment, CommentDto.class);
     }

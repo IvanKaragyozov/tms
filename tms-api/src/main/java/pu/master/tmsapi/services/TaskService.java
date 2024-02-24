@@ -4,6 +4,8 @@ package pu.master.tmsapi.services;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import pu.master.tmsapi.repositories.TaskRepository;
 @Service
 public class TaskService
 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskService.class);
 
     private final TaskRepository taskRepository;
 
@@ -61,7 +65,7 @@ public class TaskService
         final User user = this.userService.getUserById(userId);
 
         return this.taskRepository.findTasksByUsersId(user.getId())
-                                  .stream().map(this::mapTaskToTaskDto)
+                                  .stream().map(this::mapTaskToDto)
                                   .toList();
     }
 
@@ -72,7 +76,7 @@ public class TaskService
     }
 
 
-    private TaskDto mapTaskToTaskDto(final Task task)
+    private TaskDto mapTaskToDto(final Task task)
     {
         return this.modelMapper.map(task, TaskDto.class);
     }

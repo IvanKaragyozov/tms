@@ -12,8 +12,6 @@ public class UserDto extends BaseDto
 
     private String username;
 
-    private String password;
-
     private String email;
 
     private String firstName;
@@ -41,12 +39,6 @@ public class UserDto extends BaseDto
     public String getUsername()
     {
         return username;
-    }
-
-
-    public String getPassword()
-    {
-        return password;
     }
 
 
