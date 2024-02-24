@@ -7,7 +7,6 @@ import pu.master.tmsapi.models.enums.TaskPriority;
 import pu.master.tmsapi.models.enums.TaskStatus;
 
 
-// TODO: Add validation
 public class TaskRequest
 {
 

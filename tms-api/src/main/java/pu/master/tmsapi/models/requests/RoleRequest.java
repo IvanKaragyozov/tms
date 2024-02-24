@@ -4,7 +4,6 @@ package pu.master.tmsapi.models.requests;
 import java.util.Set;
 
 
-// TODO: Add validation
 public class RoleRequest
 {
 

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 
-// TODO: Add validation
 public class UserRequest
 {
 

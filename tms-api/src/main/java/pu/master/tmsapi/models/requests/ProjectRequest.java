@@ -8,7 +8,6 @@ import java.util.Set;
 import pu.master.tmsapi.models.enums.ProjectPriority;
 
 
-// TODO: Add validation
 public class ProjectRequest
 {
 

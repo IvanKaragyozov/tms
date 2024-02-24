@@ -4,7 +4,6 @@ package pu.master.tmsapi.models.requests;
 import java.time.LocalDateTime;
 
 
-// TODO: Add validation
 public class CommentRequest
 {
 
