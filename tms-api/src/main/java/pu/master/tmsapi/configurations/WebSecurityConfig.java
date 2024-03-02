@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -73,10 +74,14 @@ public class WebSecurityConfig
                         .logoutSuccessHandler((request, response, authentication) -> response.setStatus(
                                         HttpServletResponse.SC_OK));*/
 
-        // Enable CSRF protection
-        http.csrf((authorize) -> authorize.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+        // CSRF protection
+        http//.csrf((authorize) -> authorize.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                        .csrf(AbstractHttpConfigurer::disable) // TODO: Enable CSRF protection
             // Authorize requests
-            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/*").permitAll())
+            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/register").permitAll())
+            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/login").permitAll())
+            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/users/1").permitAll())
+            .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
             .sessionManagement((authorize) -> authorize.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // JWT filter
             .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
