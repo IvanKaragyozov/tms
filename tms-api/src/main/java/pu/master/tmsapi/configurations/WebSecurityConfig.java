@@ -1,6 +1,8 @@
 package pu.master.tmsapi.configurations;
 
 
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,15 +11,30 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import pu.master.tmsapi.jwt.JwtRequestFilter;
+
+import static pu.master.tmsapi.utils.constants.JwtConstants.JWT_COOKIE_NAME;
 
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig
 {
+
+    private static final String LOGOUT_URL = "/logout";
+
+    private final JwtRequestFilter jwtRequestFilter;
+
+
+    @Autowired
+    public WebSecurityConfig(final JwtRequestFilter jwtRequestFilter)
+    {
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception
@@ -56,9 +73,17 @@ public class WebSecurityConfig
                         .logoutSuccessHandler((request, response, authentication) -> response.setStatus(
                                         HttpServletResponse.SC_OK));*/
 
+        // Enable CSRF protection
         http.csrf((authorize) -> authorize.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+            // Authorize requests
             .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/*").permitAll())
-            .sessionManagement((authorize) -> authorize.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            .sessionManagement((authorize) -> authorize.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            // JWT filter
+            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+            .logout((customizer) -> customizer.logoutUrl(LOGOUT_URL)
+                                              .deleteCookies(JWT_COOKIE_NAME)
+                                              .logoutSuccessHandler((request, response, authentication) -> response.setStatus(
+                                                              HttpServletResponse.SC_OK)));
 
         return http.build();
     }

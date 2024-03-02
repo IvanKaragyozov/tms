@@ -5,12 +5,13 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import pu.master.tmsapi.models.dtos.RoleDto;
 import pu.master.tmsapi.models.entities.Role;
 import pu.master.tmsapi.models.requests.RoleRequest;
 
 
-@Mapper
+@Component
 public class RoleMapper
 {
 
