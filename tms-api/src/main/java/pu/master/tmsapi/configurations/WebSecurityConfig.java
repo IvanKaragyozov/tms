@@ -3,9 +3,15 @@ package pu.master.tmsapi.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 
 @Configuration
@@ -17,10 +23,58 @@ public class WebSecurityConfig
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception
     {
 
-        http.authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/*").authenticated()
-        );
+
+        /*http
+                        // CSRF protection
+                        .csrf()
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .and()
+                        // Authorization requests
+                        .authorizeRequests()
+                        .antMatchers(AUTH_PATHS)
+                        .permitAll()
+                        .antMatchers(HttpMethod.GET, GUEST_GET_PATTERNS)
+                        .permitAll()
+                        .antMatchers(USER_PATTERNS)
+                        .hasAnyAuthority(DEFAULT_USER_ROLE, DEFAULT_VENDOR_ROLE, DEFAULT_ADMIN_ROLE)
+                        .antMatchers(VENDOR_PATTERNS)
+                        .hasAnyAuthority(DEFAULT_VENDOR_ROLE, DEFAULT_ADMIN_ROLE)
+                        .antMatchers(ADMIN_PATTERNS)
+                        .hasAuthority(DEFAULT_ADMIN_ROLE)
+                        .anyRequest()
+                        .authenticated()
+                        .and()
+                        // Session management
+                        .sessionManagement()
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .and()
+                        // JWT filter
+                        .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                        .logout()
+                        .logoutUrl(LOGOUT_URL)
+                        .deleteCookies(JWT_COOKIE_NAME)
+                        .logoutSuccessHandler((request, response, authentication) -> response.setStatus(
+                                        HttpServletResponse.SC_OK));*/
+
+        http.csrf((authorize) -> authorize.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/*").permitAll())
+            .sessionManagement((authorize) -> authorize.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
+    }
+
+
+    @Bean
+    public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration)
+                    throws Exception
+    {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
     }
 }

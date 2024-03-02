@@ -19,7 +19,7 @@
         <!-- JAVA VERSION -->
         <java.version>17</java.version>
         <!-- Spring Security Version -->
-        <!--<spring-security.version>6.2.2</spring-security.version>-->
+        <spring-security.version>6.2.2</spring-security.version>
     </properties>
 
     <dependencies>
