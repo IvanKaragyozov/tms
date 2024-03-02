@@ -56,7 +56,7 @@ public class RightController
     @GetMapping("/rights")
     public ResponseEntity<List<RightDto>> getAllRights()
     {
-        final List<RightDto> allRights = this.rightService.getAllRights();
+        final List<RightDto> allRights = this.rightService.getAllRightsDtos();
         LOGGER.info("Requesting all roles from the database");
 
         return ResponseEntity.ok(allRights);

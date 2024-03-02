@@ -58,7 +58,7 @@ public class UserController
     @GetMapping("/users")
     public ResponseEntity<List<UserDto>> getAllUsers()
     {
-        final List<UserDto> allUsers = this.userService.getAllUsers();
+        final List<UserDto> allUsers = this.userService.getAllUserDtos();
         LOGGER.info("Requesting all users from the database");
 
         return ResponseEntity.ok(allUsers);
