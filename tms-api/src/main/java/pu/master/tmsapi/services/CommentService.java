@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pu.master.tmsapi.mappers.CommentMapper;
 import pu.master.tmsapi.models.dtos.CommentDto;
 import pu.master.tmsapi.models.entities.Comment;
 import pu.master.tmsapi.models.entities.Task;
@@ -29,25 +30,25 @@ public class CommentService
     private final UserService userService;
     private final TaskService taskService;
 
-    private final ModelMapper modelMapper;
+    private final CommentMapper commentMapper;
 
 
     @Autowired
     public CommentService(final CommentRepository commentRepository,
                           final UserService userService,
                           final TaskService taskService,
-                          final ModelMapper modelMapper)
+                          final CommentMapper commentMapper)
     {
         this.commentRepository = commentRepository;
         this.userService = userService;
         this.taskService = taskService;
-        this.modelMapper = modelMapper;
+        this.commentMapper = commentMapper;
     }
 
 
     public Comment createComment(final CommentRequest commentRequest)
     {
-        final Comment comment = mapCommentRequestToComment(commentRequest);
+        final Comment comment = this.commentMapper.mapCommentRequestToComment(commentRequest);
         final User author = this.userService.getUserById(commentRequest.getAuthor());
         final Task task = this.taskService.getTaskById(commentRequest.getTask());
 
@@ -64,19 +65,8 @@ public class CommentService
         final Task task = this.taskService.getTaskById(taskId);
 
         return this.commentRepository.findCommentsByTaskId(task.getId()).stream()
-                                     .map(this::mapCommentToDto)
+                                     .map(this.commentMapper::mapCommentToDto)
                                      .toList();
     }
 
-
-    private Comment mapCommentRequestToComment(final CommentRequest commentRequest)
-    {
-        return this.modelMapper.map(commentRequest, Comment.class);
-    }
-
-
-    private CommentDto mapCommentToDto(final Comment comment)
-    {
-        return this.modelMapper.map(comment, CommentDto.class);
-    }
 }

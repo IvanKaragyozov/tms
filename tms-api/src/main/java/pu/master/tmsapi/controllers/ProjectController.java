@@ -58,7 +58,7 @@ public class ProjectController
     @GetMapping("/users/{id}/projects")
     public ResponseEntity<List<ProjectDto>> getProjectsByUserId(@PathVariable final long id)
     {
-        final List<ProjectDto> projectDtos = this.projectService.getProjectsByUserId(id);
+        final List<ProjectDto> projectDtos = this.projectService.getProjectDtosByUserId(id);
 
         LOGGER.info(String.format("Request sent for all projects by user with id %d", id));
 

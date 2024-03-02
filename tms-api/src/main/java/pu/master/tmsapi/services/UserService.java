@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import pu.master.tmsapi.exceptions.UserNotFoundException;
+import pu.master.tmsapi.mappers.UserMapper;
 import pu.master.tmsapi.models.dtos.UserDto;
 import pu.master.tmsapi.models.entities.Role;
 import pu.master.tmsapi.models.entities.User;
@@ -31,26 +31,26 @@ public class UserService
 
     private final RoleService roleService;
 
-    private final ModelMapper modelMapper;
+    private final UserMapper userMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Autowired
     public UserService(final UserRepository userRepository,
                        final RoleService roleService,
-                       final ModelMapper modelMapper,
+                       final UserMapper userMapper,
                        final BCryptPasswordEncoder bCryptPasswordEncoder)
     {
         this.userRepository = userRepository;
         this.roleService = roleService;
-        this.modelMapper = modelMapper;
+        this.userMapper = userMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
     public User createUser(final UserRequest userRequest)
     {
-        final User user = mapUserRequestToUser(userRequest);
+        final User user = this.userMapper.mapUserRequestToUser(userRequest);
 
         // TODO: Create a default role and assign it to the default user
         final Set<Role> roles = userRequest.getRoles()
@@ -70,12 +70,12 @@ public class UserService
     }
 
 
-    public List<UserDto> getAllUsers()
+    public List<UserDto> getAllUserDtos()
     {
         final List<User> allUsers = this.userRepository.findAll();
 
         return allUsers.stream()
-                       .map(this::mapUserToDto)
+                       .map(this.userMapper::mapUserToDto)
                        .toList();
     }
 
@@ -94,7 +94,7 @@ public class UserService
     {
         final User user = getUserById(userId);
 
-        return mapUserToDto(user);
+        return this.userMapper.mapUserToDto(user);
     }
 
 
@@ -112,18 +112,7 @@ public class UserService
     {
         final User user = getUserByUsername(username);
 
-        return mapUserToDto(user);
+        return this.userMapper.mapUserToDto(user);
     }
 
-
-    private User mapUserRequestToUser(final UserRequest userRequest)
-    {
-        return this.modelMapper.map(userRequest, User.class);
-    }
-
-
-    private UserDto mapUserToDto(final User user)
-    {
-        return this.modelMapper.map(user, UserDto.class);
-    }
 }

@@ -57,7 +57,7 @@ public class RoleController
     public ResponseEntity<List<RoleDto>> getAllRoles()
     {
         LOGGER.info("Requesting all roles from the database");
-        final List<RoleDto> allRoles = this.roleService.getAllRoles();
+        final List<RoleDto> allRoles = this.roleService.getAllRolesDtos();
 
         return ResponseEntity.ok(allRoles);
     }

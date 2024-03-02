@@ -5,13 +5,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import pu.master.tmsapi.mappers.ProjectMapper;
 import pu.master.tmsapi.models.dtos.ProjectDto;
 import pu.master.tmsapi.models.entities.Project;
 import pu.master.tmsapi.models.entities.User;
@@ -29,23 +27,23 @@ public class ProjectService
 
     private final UserService userService;
 
-    private final ModelMapper modelMapper;
+    private final ProjectMapper projectMapper;
 
 
     @Autowired
     public ProjectService(final ProjectRepository projectRepository,
                           final UserService userService,
-                          final ModelMapper modelMapper)
+                          final ProjectMapper projectMapper)
     {
         this.projectRepository = projectRepository;
         this.userService = userService;
-        this.modelMapper = modelMapper;
+        this.projectMapper = projectMapper;
     }
 
 
     public Project createProject(final ProjectRequest projectRequest)
     {
-        final Project project = mapProjectRequestToProject(projectRequest);
+        final Project project = this.projectMapper.mapProjectRequestToProject(projectRequest);
         final Set<User> users = projectRequest.getUsers().stream()
                                               .map(this.userService::getUserById)
                                               .collect(Collectors.toSet());
@@ -64,26 +62,15 @@ public class ProjectService
     }
 
 
-    public List<ProjectDto> getProjectsByUserId(final long userId)
+    public List<ProjectDto> getProjectDtosByUserId(final long userId)
     {
 
         final User user = this.userService.getUserById(userId);
 
         return this.projectRepository.findProjectsByUsersId(user.getId())
                                      .stream()
-                                     .map(this::mapProjectToDto)
+                                     .map(this.projectMapper::mapProjectToDto)
                                      .toList();
     }
 
-
-    private Project mapProjectRequestToProject(final ProjectRequest projectRequest)
-    {
-        return this.modelMapper.map(projectRequest, Project.class);
-    }
-
-
-    private ProjectDto mapProjectToDto(final Project project)
-    {
-        return this.modelMapper.map(project, ProjectDto.class);
-    }
 }

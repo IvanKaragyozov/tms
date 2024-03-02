@@ -2,13 +2,11 @@ package pu.master.tmsapi.services;
 
 
 import java.util.List;
-
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import pu.master.tmsapi.mappers.RightMapper;
 import pu.master.tmsapi.models.dtos.RightDto;
 import pu.master.tmsapi.models.entities.Right;
 import pu.master.tmsapi.models.requests.RightRequest;
@@ -23,30 +21,30 @@ public class RightService
 
     private final RightRepository rightRepository;
 
-    private final ModelMapper modelMapper;
+    private final RightMapper rightMapper;
 
 
     @Autowired
-    public RightService(final RightRepository rightRepository, final ModelMapper modelMapper)
+    public RightService(final RightRepository rightRepository, final RightMapper rightMapper)
     {
         this.rightRepository = rightRepository;
-        this.modelMapper = modelMapper;
+        this.rightMapper = rightMapper;
     }
 
 
     public Right createRight(final RightRequest rightRequest)
     {
-        final Right right = mapRightRequestToRight(rightRequest);
+        final Right right = this.rightMapper.mapRightRequestToRight(rightRequest);
         return this.rightRepository.save(right);
     }
 
 
-    public List<RightDto> getAllRights()
+    public List<RightDto> getAllRightsDtos()
     {
         final List<Right> allRights = this.rightRepository.findAll();
 
         return allRights.stream()
-                        .map(this::mapRightToDto)
+                        .map(this.rightMapper::mapRightToDto)
                         .toList();
     }
 
@@ -55,18 +53,6 @@ public class RightService
     {
         //TODO: Add validation for non existing Right
         return this.rightRepository.findById(rightId).orElse(null);
-    }
-
-
-    private Right mapRightRequestToRight(final RightRequest rightRequest)
-    {
-        return this.modelMapper.map(rightRequest, Right.class);
-    }
-
-
-    private RightDto mapRightToDto(final Right right)
-    {
-        return this.modelMapper.map(right, RightDto.class);
     }
 
 }
