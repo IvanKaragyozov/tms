@@ -42,45 +42,39 @@ public class WebSecurityConfig
     {
 
 
-        /*http
-                        // CSRF protection
-                        .csrf()
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .and()
-                        // Authorization requests
-                        .authorizeRequests()
-                        .antMatchers(AUTH_PATHS)
-                        .permitAll()
-                        .antMatchers(HttpMethod.GET, GUEST_GET_PATTERNS)
-                        .permitAll()
-                        .antMatchers(USER_PATTERNS)
-                        .hasAnyAuthority(DEFAULT_USER_ROLE, DEFAULT_VENDOR_ROLE, DEFAULT_ADMIN_ROLE)
-                        .antMatchers(VENDOR_PATTERNS)
-                        .hasAnyAuthority(DEFAULT_VENDOR_ROLE, DEFAULT_ADMIN_ROLE)
-                        .antMatchers(ADMIN_PATTERNS)
-                        .hasAuthority(DEFAULT_ADMIN_ROLE)
-                        .anyRequest()
-                        .authenticated()
-                        .and()
-                        // Session management
-                        .sessionManagement()
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                        .and()
-                        // JWT filter
-                        .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                        .logout()
-                        .logoutUrl(LOGOUT_URL)
-                        .deleteCookies(JWT_COOKIE_NAME)
-                        .logoutSuccessHandler((request, response, authentication) -> response.setStatus(
-                                        HttpServletResponse.SC_OK));*/
+        /*private static final String[] GUEST_GET_LIST = {
+           "/categories.*",
+           "/cinemas.*",
+           "/cinemas/\\d/halls",
+           "/cinemas/\\d/reviews",
+           "/items.*",
+           "/movies.*",
+           "/categories/\\d/movies",
+           "/programs.*",
+           "/cinemas/\\d/programs",
+           "/programs/\\d/projections",
+           "/movies/\\d/projections",
+           "/movies/\\d/reviews",
+           "/projections(\\?.*|\\z)"
+         };
+
+         private static final String[] USER_LIST = {
+           "/reviews/\\d.*",
+           "/cinemas/\\d/reviews",
+           "/movies/\\d/reviews",
+           "/users/\\d/orders",
+           "/users\\?username=.*",
+           "/users\\?email=.*",
+           "/users/\\d.*"
+         };*/
 
         // CSRF protection
-        http//.csrf((authorize) -> authorize.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-                        .csrf(AbstractHttpConfigurer::disable) // TODO: Enable CSRF protection
+        http.csrf((authorize) -> authorize.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                        //.csrf(AbstractHttpConfigurer::disable) // TODO: Enable CSRF protection
             // Authorize requests
             .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/register").permitAll())
             .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/login").permitAll())
-            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/users/1").permitAll())
+            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/users/\\d").permitAll())
             .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
             .sessionManagement((authorize) -> authorize.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // JWT filter
