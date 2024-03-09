@@ -2,6 +2,7 @@ package pu.master.tmsapi.configurations;
 
 
 import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
 import pu.master.tmsapi.jwt.JwtRequestFilter;
 
 import static pu.master.tmsapi.utils.constants.JwtConstants.JWT_COOKIE_NAME;
@@ -26,6 +28,12 @@ public class WebSecurityConfig
 {
 
     private static final String LOGOUT_URL = "/logout";
+
+    private static final String[] AUTH_PATH = {
+                    "/login",
+                    "/registration",
+                    "/logout"
+    };
 
     private final JwtRequestFilter jwtRequestFilter;
 
@@ -69,12 +77,15 @@ public class WebSecurityConfig
          };*/
 
         // CSRF protection
-        http.csrf((authorize) -> authorize.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-                        //.csrf(AbstractHttpConfigurer::disable) // TODO: Enable CSRF protection
+        http//.csrf((authorize) -> authorize.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+            .csrf(AbstractHttpConfigurer::disable) // TODO: Enable CSRF protection
+            //.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/*").permitAll())
             // Authorize requests
-            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/register").permitAll())
-            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/login").permitAll())
-            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/users/\\d").permitAll())
+            .authorizeHttpRequests((authorize) -> authorize.requestMatchers(AUTH_PATH).permitAll())
+            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/**").permitAll())
+            //.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/register").permitAll())
+            //.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/login").permitAll())
+            //.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/users/\\d").permitAll())
             .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
             .sessionManagement((authorize) -> authorize.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // JWT filter
