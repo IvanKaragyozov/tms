@@ -3,8 +3,7 @@ package pu.master.tmsapi.services;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpCookie;
@@ -22,6 +21,7 @@ import pu.master.tmsapi.models.entities.User;
 import pu.master.tmsapi.models.requests.LoginRequest;
 import pu.master.tmsapi.models.requests.UserRequest;
 import pu.master.tmsapi.repositories.UserRepository;
+import pu.master.tmsapi.utils.constants.RoleNames;
 
 
 @Service
@@ -82,15 +82,10 @@ public class UserService
     {
         final User user = this.userMapper.mapUserRequestToUser(userRequest);
 
-        // TODO: Create a default role and assign it to the default user
-        final Set<Role> roles = userRequest.getRoles()
-                                           .stream()
-                                           .map(this.roleService::getRoleById)
-                                           .collect(Collectors.toSet());
-
+        final Role defaultUserRole = getDefaultUserRole();
         final String encryptedUserPassword = this.bCryptPasswordEncoder.encode(userRequest.getPassword());
 
-        user.setRoles(roles);
+        user.addRole(defaultUserRole);
         user.setPassword(encryptedUserPassword);
         user.setActive(true);
         user.setDateCreatedAt(LocalDate.now());
@@ -145,4 +140,8 @@ public class UserService
         return this.userMapper.mapUserToDto(user);
     }
 
+    public Role getDefaultUserRole()
+    {
+        return this.roleService.getRoleByName(RoleNames.USER.name());
+    }
 }

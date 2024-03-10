@@ -13,6 +13,7 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -32,6 +33,15 @@ public class GlobalExceptionHandler
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<Map<String, List<String>>> handleHttpRequestMethodNotSupportedException(
+                    final HttpRequestMethodNotSupportedException exception)
+    {
+        LOGGER.error(CAUGHT_EXCEPTION_MESSAGE, exception);
+
+        final Map<String, List<String>> errorsMap = formatErrorsResponse(exception.getMessage());
+        return new ResponseEntity<>(errorsMap, HttpStatus.METHOD_NOT_ALLOWED);
+    }
 
     @ExceptionHandler(InvalidDataAccessResourceUsageException.class)
     public ResponseEntity<Map<String, List<String>>> handleInvalidDataAccessResourceUsageException(

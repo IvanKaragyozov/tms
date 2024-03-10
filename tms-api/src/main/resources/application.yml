@@ -19,4 +19,4 @@ logging:
     root: info
 
 jwt:
-  secret: f232@Gg2f32HJ*_56538fj2W@FJ@fmf9F@2ri92IT2tjf$@@fev
+  secret: secret

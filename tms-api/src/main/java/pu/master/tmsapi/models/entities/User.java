@@ -2,6 +2,7 @@ package pu.master.tmsapi.models.entities;
 
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -241,6 +242,10 @@ public class User extends BaseEntity
 
     public User addRole(final Role role)
     {
+        if (this.roles == null)
+        {
+            this.roles = new HashSet<>(2);
+        }
         this.roles.add(role);
         return this;
     }
