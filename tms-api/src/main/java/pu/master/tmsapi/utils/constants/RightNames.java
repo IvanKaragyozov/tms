@@ -8,6 +8,4 @@ public enum RightNames
     EDIT_USER,
     DELETE_USER,
 
-    CREATE_ACCOUNT
-
 }

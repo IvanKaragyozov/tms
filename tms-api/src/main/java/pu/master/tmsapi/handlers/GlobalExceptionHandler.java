@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
@@ -16,9 +15,10 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import pu.master.tmsapi.exceptions.CommentNotFoundException;
 import pu.master.tmsapi.exceptions.ProjectNotFoundException;
+import pu.master.tmsapi.exceptions.RightNotFoundException;
+import pu.master.tmsapi.exceptions.RoleNotFoundException;
 import pu.master.tmsapi.exceptions.TaskNotFoundException;
 import pu.master.tmsapi.exceptions.UserNotFoundException;
 import pu.master.tmsapi.exceptions.UsernameAlreadyExistsException;
@@ -33,6 +33,7 @@ public class GlobalExceptionHandler
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<Map<String, List<String>>> handleHttpRequestMethodNotSupportedException(
                     final HttpRequestMethodNotSupportedException exception)
@@ -43,6 +44,7 @@ public class GlobalExceptionHandler
         return new ResponseEntity<>(errorsMap, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
+
     @ExceptionHandler(InvalidDataAccessResourceUsageException.class)
     public ResponseEntity<Map<String, List<String>>> handleInvalidDataAccessResourceUsageException(
                     final InvalidDataAccessResourceUsageException exception)
@@ -52,6 +54,7 @@ public class GlobalExceptionHandler
         final Map<String, List<String>> errorsMap = formatErrorsResponse(exception.getMessage());
         return new ResponseEntity<>(errorsMap, HttpStatus.CONFLICT);
     }
+
 
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     public ResponseEntity<Map<String, List<String>>> handleInternalAuthenticationServiceException(
@@ -74,6 +77,7 @@ public class GlobalExceptionHandler
         return new ResponseEntity<>(errorsMap, HttpStatus.CONFLICT);
     }
 
+
     @ExceptionHandler(CommentNotFoundException.class)
     public ResponseEntity<Map<String, List<String>>> handleCommentNotFoundException(final CommentNotFoundException exception)
     {
@@ -83,6 +87,7 @@ public class GlobalExceptionHandler
 
         return new ResponseEntity<>(errorsMap, HttpStatus.NOT_FOUND);
     }
+
 
     @ExceptionHandler(ProjectNotFoundException.class)
     public ResponseEntity<Map<String, List<String>>> handleProjectNotFoundException(final ProjectNotFoundException exception)
@@ -94,6 +99,7 @@ public class GlobalExceptionHandler
         return new ResponseEntity<>(errorsMap, HttpStatus.NOT_FOUND);
     }
 
+
     @ExceptionHandler(TaskNotFoundException.class)
     public ResponseEntity<Map<String, List<String>>> handleTaskNotFoundException(final TaskNotFoundException exception)
     {
@@ -103,6 +109,29 @@ public class GlobalExceptionHandler
 
         return new ResponseEntity<>(errorsMap, HttpStatus.NOT_FOUND);
     }
+
+
+    @ExceptionHandler(RightNotFoundException.class)
+    public ResponseEntity<Map<String, List<String>>> handleRightNotFoundException(final RightNotFoundException exception)
+    {
+        LOGGER.error(CAUGHT_EXCEPTION_MESSAGE, exception);
+
+        final Map<String, List<String>> errorsMap = formatErrorsResponse(exception.getMessage());
+
+        return new ResponseEntity<>(errorsMap, HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<Map<String, List<String>>> handleRoleNotFoundException(final RoleNotFoundException exception)
+    {
+        LOGGER.error(CAUGHT_EXCEPTION_MESSAGE, exception);
+
+        final Map<String, List<String>> errorsMap = formatErrorsResponse(exception.getMessage());
+
+        return new ResponseEntity<>(errorsMap, HttpStatus.NOT_FOUND);
+    }
+
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Map<String, List<String>>> handleUserNotFoundException(final UserNotFoundException exception)
