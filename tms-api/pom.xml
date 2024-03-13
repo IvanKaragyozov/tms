@@ -53,11 +53,20 @@
         </dependency>
 
         <!-- JSON Web Token -->
+        <!-- TODO: Find an alternative and more reliable solution for creating the JWT -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
+
+        <!-- io.jsonwebtoken:jjwt needs JAXB (specifically from 'javax' package) in order to do the Base64 encoding -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
 
         <!-- Database dependencies -->
         <dependency>
