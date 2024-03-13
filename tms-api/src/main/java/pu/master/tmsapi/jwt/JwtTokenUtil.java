@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import static pu.master.tmsapi.utils.constants.JwtConstants.JWT_TOKEN_VALIDITY;
+import static pu.master.tmsapi.utils.constants.JwtConstants.JWT_VALIDITY_DURATION;
 
 
 @Component
@@ -26,12 +26,6 @@ public class JwtTokenUtil implements Serializable
 
     @Value("${jwt.secret}")
     private String secret;
-
-
-    public void setSecret(final String secret)
-    {
-        this.secret = secret;
-    }
 
 
     public String getUsernameFromToken(final String token)
@@ -83,10 +77,13 @@ public class JwtTokenUtil implements Serializable
 
     private String doGenerateToken(final Map<String, Object> claims, final String subject)
     {
-        final Date expirationDate = new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY);
+        final Date expirationDate = new Date(System.currentTimeMillis() + JWT_VALIDITY_DURATION);
         final Date now = new Date(System.currentTimeMillis());
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(now)
+        return Jwts.builder().setClaims(claims)
+                   .setSubject(subject)
+                   .setIssuedAt(now)
                    .setExpiration(expirationDate)
+                   // TODO: Think of a more secure hashing method
                    .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 

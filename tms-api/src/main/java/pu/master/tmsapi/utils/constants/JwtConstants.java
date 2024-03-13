@@ -4,7 +4,7 @@ package pu.master.tmsapi.utils.constants;
 public final class JwtConstants
 {
 
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    public static final long JWT_VALIDITY_DURATION = 5 * 60 * 60;
 
     public static final String JWT_COOKIE_NAME = "JwtCookie";
 

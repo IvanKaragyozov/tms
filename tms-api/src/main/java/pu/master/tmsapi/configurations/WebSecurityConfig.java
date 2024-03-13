@@ -9,12 +9,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import pu.master.tmsapi.jwt.JwtRequestFilter;
+import pu.master.tmsapi.utils.constants.RoleNames;
 
 import static pu.master.tmsapi.utils.constants.JwtConstants.JWT_COOKIE_NAME;
 
@@ -46,21 +49,24 @@ public class WebSecurityConfig
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception
     {
 
+        final CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler =
+                        new CsrfTokenRequestAttributeHandler();
+
         http
             // CSRF protection
             .csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-            //.csrf(AbstractHttpConfigurer::disable) // TODO: Enable CSRF protection
+            .csrf((csrf) -> csrf.csrfTokenRequestHandler(csrfTokenRequestAttributeHandler))
             // Authorize requests
             .authorizeHttpRequests((authorize) -> authorize.requestMatchers(AUTH_PATH).permitAll())
-            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/**").permitAll())
+            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/**").hasAuthority(RoleNames.USER.name()))
             .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
             .sessionManagement((authorize) -> authorize.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // JWT filter
-            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(this.jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
             .logout((customizer) -> customizer.logoutUrl(LOGOUT_URL)
                                               .deleteCookies(JWT_COOKIE_NAME)
                                               .logoutSuccessHandler((request, response, authentication) -> response.setStatus(
-                                                              HttpServletResponse.SC_OK)));
+                                                              HttpServletResponse.SC_NO_CONTENT)));
 
         return http.build();
     }

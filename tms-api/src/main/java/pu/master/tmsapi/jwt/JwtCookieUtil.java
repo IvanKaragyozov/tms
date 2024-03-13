@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import static pu.master.tmsapi.utils.constants.JwtConstants.JWT_COOKIE_NAME;
-import static pu.master.tmsapi.utils.constants.JwtConstants.JWT_TOKEN_VALIDITY;
+import static pu.master.tmsapi.utils.constants.JwtConstants.JWT_VALIDITY_DURATION;
 
 
 @Component
@@ -35,7 +35,7 @@ public class JwtCookieUtil
 
         LOGGER.info("An attempt to create a JWT cookie");
         return ResponseCookie.from(JWT_COOKIE_NAME, jwtToken)
-                             .maxAge(JWT_TOKEN_VALIDITY)
+                             .maxAge(JWT_VALIDITY_DURATION)
                              .httpOnly(true)
                              .build();
     }
