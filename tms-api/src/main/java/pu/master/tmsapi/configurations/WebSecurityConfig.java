@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -37,7 +36,6 @@ public class WebSecurityConfig
 
     private final JwtRequestFilter jwtRequestFilter;
 
-
     @Autowired
     public WebSecurityConfig(final JwtRequestFilter jwtRequestFilter)
     {
@@ -51,6 +49,7 @@ public class WebSecurityConfig
 
         final CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler =
                         new CsrfTokenRequestAttributeHandler();
+        csrfTokenRequestAttributeHandler.setCsrfRequestAttributeName(null);
 
         http
             // CSRF protection
@@ -58,6 +57,7 @@ public class WebSecurityConfig
             .csrf((csrf) -> csrf.csrfTokenRequestHandler(csrfTokenRequestAttributeHandler))
             // Authorize requests
             .authorizeHttpRequests((authorize) -> authorize.requestMatchers(AUTH_PATH).permitAll())
+            // TODO: add paths for each authority
             .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/**").hasAuthority(RoleNames.USER.name()))
             .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
             .sessionManagement((authorize) -> authorize.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

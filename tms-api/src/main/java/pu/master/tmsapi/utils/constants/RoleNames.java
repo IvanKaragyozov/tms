@@ -1,9 +1,12 @@
 package pu.master.tmsapi.utils.constants;
 
 
-// TODO, make class instead of enum
+/**
+ * Enum representing each user authority
+ */
 public enum RoleNames
 {
     USER,
     ADMIN
+
 }

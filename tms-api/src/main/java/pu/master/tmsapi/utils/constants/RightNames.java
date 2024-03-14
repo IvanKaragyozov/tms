@@ -1,9 +1,12 @@
 package pu.master.tmsapi.utils.constants;
 
 
-// TODO, make class instead of enum
+/**
+ * Enum representing each user authority right
+ */
 public enum RightNames
 {
+
     CREATE_USER,
     GET_USER,
     EDIT_USER,

@@ -45,17 +45,6 @@ public class GlobalExceptionHandler
     }
 
 
-    @ExceptionHandler(InvalidDataAccessResourceUsageException.class)
-    public ResponseEntity<Map<String, List<String>>> handleInvalidDataAccessResourceUsageException(
-                    final InvalidDataAccessResourceUsageException exception)
-    {
-        LOGGER.error(CAUGHT_EXCEPTION_MESSAGE, exception);
-
-        final Map<String, List<String>> errorsMap = formatErrorsResponse(exception.getMessage());
-        return new ResponseEntity<>(errorsMap, HttpStatus.CONFLICT);
-    }
-
-
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     public ResponseEntity<Map<String, List<String>>> handleInternalAuthenticationServiceException(
                     final InternalAuthenticationServiceException exception)
@@ -63,7 +52,18 @@ public class GlobalExceptionHandler
         LOGGER.error(CAUGHT_EXCEPTION_MESSAGE, exception);
 
         final Map<String, List<String>> errorsMap = formatErrorsResponse(exception.getMessage());
-        return new ResponseEntity<>(errorsMap, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(InvalidDataAccessResourceUsageException.class)
+    public ResponseEntity<Map<String, List<String>>> handleInvalidDataAccessResourceUsageException(
+                    final InvalidDataAccessResourceUsageException exception)
+    {
+        LOGGER.error(CAUGHT_EXCEPTION_MESSAGE, exception);
+
+        final Map<String, List<String>> errorsMap = formatErrorsResponse(exception.getMessage());
+        return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
     }
 
 
@@ -74,7 +74,7 @@ public class GlobalExceptionHandler
         LOGGER.error(CAUGHT_EXCEPTION_MESSAGE, exception);
 
         final Map<String, List<String>> errorsMap = formatErrorsResponse(exception.getMessage());
-        return new ResponseEntity<>(errorsMap, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
     }
 
 
