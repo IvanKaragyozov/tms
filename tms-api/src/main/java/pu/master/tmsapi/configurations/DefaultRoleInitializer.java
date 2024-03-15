@@ -27,7 +27,7 @@ public class DefaultRoleInitializer
 
 
     @Autowired
-    public DefaultRoleInitializer(RoleRepository roleRepository)
+    public DefaultRoleInitializer(final RoleRepository roleRepository)
     {
         this.roleRepository = roleRepository;
     }
@@ -37,14 +37,14 @@ public class DefaultRoleInitializer
     public void createDefaultRole()
     {
         final String defaultRoleName = RoleNames.USER.name();
-        final Set<Right> defaultRights = Arrays.stream(RightNames.values())
-                                               .map(right -> new Right(right.name()))
-                                               .collect(Collectors.toSet());
-
         if (this.roleRepository.existsByName(defaultRoleName))
         {
             return;
         }
+
+        final Set<Right> defaultRights = Arrays.stream(RightNames.values())
+                                               .map(right -> new Right(right.name()))
+                                               .collect(Collectors.toSet());
 
         final Role defaultRole = new Role(defaultRoleName);
         defaultRole.setRights(defaultRights);
