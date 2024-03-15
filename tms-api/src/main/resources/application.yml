@@ -4,7 +4,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/tms
     password: 1234
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    ##database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
     show-sql: true
@@ -16,4 +16,7 @@ server:
 
 logging:
   level:
-    root: INFO
+    root: info
+
+jwt:
+  secret: f232@Gg2f32HJ*_56538fj2W@FJ@fmf9F@2ri92IT2tjf$@@fev
