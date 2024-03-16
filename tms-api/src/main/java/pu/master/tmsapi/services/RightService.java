@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pu.master.tmsapi.exceptions.RightNotFoundException;
-import pu.master.tmsapi.exceptions.RoleNotFoundException;
 import pu.master.tmsapi.mappers.RightMapper;
 import pu.master.tmsapi.models.dtos.RightDto;
 import pu.master.tmsapi.models.entities.Right;

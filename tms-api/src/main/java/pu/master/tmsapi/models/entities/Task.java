@@ -1,8 +1,6 @@
 package pu.master.tmsapi.models.entities;
 
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,7 +12,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
+import java.util.List;
 import pu.master.tmsapi.models.enums.TaskPriority;
 import pu.master.tmsapi.models.enums.TaskStatus;
 
