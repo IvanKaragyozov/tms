@@ -3,11 +3,9 @@ package pu.master.tmsapi.models.dtos;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import pu.master.tmsapi.models.enums.ProjectPriority;
 
 
-// TODO: Add validation
 public class ProjectDto extends BaseDto
 {
 

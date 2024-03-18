@@ -1,10 +1,6 @@
 package pu.master.tmsapi.models.entities;
 
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,6 +8,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -241,6 +241,10 @@ public class User extends BaseEntity
 
     public User addRole(final Role role)
     {
+        if (this.roles == null)
+        {
+            this.roles = new HashSet<>(2);
+        }
         this.roles.add(role);
         return this;
     }

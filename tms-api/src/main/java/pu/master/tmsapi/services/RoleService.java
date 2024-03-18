@@ -4,11 +4,12 @@ package pu.master.tmsapi.services;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import pu.master.tmsapi.exceptions.RoleNotFoundException;
+import pu.master.tmsapi.mappers.RoleMapper;
 import pu.master.tmsapi.models.dtos.RoleDto;
 import pu.master.tmsapi.models.entities.Right;
 import pu.master.tmsapi.models.entities.Role;
@@ -20,30 +21,32 @@ import pu.master.tmsapi.repositories.RoleRepository;
 public class RoleService
 {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(RoleService.class);
+
     private final RoleRepository roleRepository;
     private final RightService rightService;
 
-    private final ModelMapper modelMapper;
+    private final RoleMapper roleMapper;
 
 
     @Autowired
     public RoleService(final RoleRepository roleRepository,
                        final RightService rightService,
-                       final ModelMapper modelMapper)
+                       final RoleMapper roleMapper)
     {
         this.roleRepository = roleRepository;
         this.rightService = rightService;
-        this.modelMapper = modelMapper;
+        this.roleMapper = roleMapper;
     }
 
 
     public Role createRole(final RoleRequest roleRequest)
     {
-        final Role role = mapRoleRequestToRole(roleRequest);
+        final Role role = this.roleMapper.mapRoleRequestToRole(roleRequest);
         final Set<Right> rights = roleRequest
                         .getRights()
                         .stream()
-                        .map(this.rightService::getRightById)
+                        .map(this.rightService::getRightByName)
                         .collect(Collectors.toSet());
 
         role.setRights(rights);
@@ -52,32 +55,31 @@ public class RoleService
     }
 
 
-    public List<RoleDto> getAllRoles()
+    public List<RoleDto> getAllRolesDtos()
     {
         final List<Role> allRoles = this.roleRepository.findAll();
 
         return allRoles.stream()
-                       .map(this::mapRoleToRoleDto)
+                       .map(this.roleMapper::mapRoleToDto)
                        .toList();
     }
 
 
     public Role getRoleById(final long roleId)
     {
-        // TODO: Add proper validation for non existing Role
-        return this.roleRepository.findById(roleId).orElse(null);
+        return this.roleRepository.findById(roleId).orElseThrow(() -> {
+            LOGGER.error(String.format("Could not find role with id [%d]", roleId));
+            return new RoleNotFoundException(String.format("Role with id [%d] not found", roleId));
+        });
     }
 
 
-    private Role mapRoleRequestToRole(final RoleRequest roleRequest)
+    public Role getRoleByName(final String name)
     {
-        return this.modelMapper.map(roleRequest, Role.class);
-    }
-
-
-    private RoleDto mapRoleToRoleDto(final Role role)
-    {
-        return this.modelMapper.map(role, RoleDto.class);
+        return this.roleRepository.getRoleByName(name).orElseThrow(() -> {
+            LOGGER.error(String.format("Could not find role with name [%s]", name));
+            return new RoleNotFoundException(String.format("Role with name [%s] not found", name));
+        });
     }
 
 }

@@ -1,11 +1,9 @@
 package pu.master.tmsapi.controllers;
 
 
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
-
-import jakarta.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import pu.master.tmsapi.models.dtos.RightDto;
 import pu.master.tmsapi.models.entities.Right;
 import pu.master.tmsapi.models.requests.RightRequest;
@@ -56,7 +53,7 @@ public class RightController
     @GetMapping("/rights")
     public ResponseEntity<List<RightDto>> getAllRights()
     {
-        final List<RightDto> allRights = this.rightService.getAllRights();
+        final List<RightDto> allRights = this.rightService.getAllRightsDtos();
         LOGGER.info("Requesting all roles from the database");
 
         return ResponseEntity.ok(allRights);

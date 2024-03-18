@@ -1,36 +1,28 @@
 package pu.master.tmsapi.models.requests;
 
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 
-// TODO: Add validation
 public class UserRequest
 {
 
+    @NotBlank(message = "Username cannot be blank!")
     private String username;
 
+    @NotBlank(message = "Password cannot be blank!")
     private String password;
 
+    @NotBlank(message = "Email cannot be black!")
+    @Email(regexp = "([a-zA-Z0-9])+@\\.([a-zA-Z])+", message = "Invalid email! Correct pattern is: a@.a")
     private String email;
 
     private String firstName;
 
     private String lastName;
 
-    private boolean isActive;
-
     private String phoneNumber;
-
-    private LocalDate dateCreatedAt;
-
-    private LocalDate dateLastModifiedAt;
-
-    private List<Long> projects;
-
-    private Set<Long> roles;
 
 
     public String getUsername()
@@ -98,19 +90,6 @@ public class UserRequest
     }
 
 
-    public boolean isActive()
-    {
-        return isActive;
-    }
-
-
-    public UserRequest setActive(final boolean active)
-    {
-        isActive = active;
-        return this;
-    }
-
-
     public String getPhoneNumber()
     {
         return phoneNumber;
@@ -120,58 +99,6 @@ public class UserRequest
     public UserRequest setPhoneNumber(final String phoneNumber)
     {
         this.phoneNumber = phoneNumber;
-        return this;
-    }
-
-
-    public LocalDate getDateCreatedAt()
-    {
-        return dateCreatedAt;
-    }
-
-
-    public UserRequest setDateCreatedAt(final LocalDate dateCreatedAt)
-    {
-        this.dateCreatedAt = dateCreatedAt;
-        return this;
-    }
-
-
-    public LocalDate getDateLastModifiedAt()
-    {
-        return dateLastModifiedAt;
-    }
-
-
-    public UserRequest setDateLastModifiedAt(final LocalDate dateLastModifiedAt)
-    {
-        this.dateLastModifiedAt = dateLastModifiedAt;
-        return this;
-    }
-
-
-    public List<Long> getProjects()
-    {
-        return projects;
-    }
-
-
-    public UserRequest setProjects(final List<Long> projects)
-    {
-        this.projects = projects;
-        return this;
-    }
-
-
-    public Set<Long> getRoles()
-    {
-        return roles;
-    }
-
-
-    public UserRequest setRoles(final Set<Long> roles)
-    {
-        this.roles = roles;
         return this;
     }
 }

@@ -1,8 +1,6 @@
 package pu.master.tmsapi.models.entities;
 
 
-import java.util.Set;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,6 +8,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import java.util.Set;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 
 @Entity
@@ -20,6 +21,7 @@ public class Role extends BaseEntity
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Cascade(CascadeType.PERSIST)
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
                     name = "role_rights",
@@ -31,6 +33,12 @@ public class Role extends BaseEntity
 
     public Role()
     {
+    }
+
+
+    public Role(final String name)
+    {
+        this.name = name;
     }
 
 

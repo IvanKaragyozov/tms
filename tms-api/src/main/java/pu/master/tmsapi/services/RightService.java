@@ -2,11 +2,12 @@ package pu.master.tmsapi.services;
 
 
 import java.util.List;
-
-import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import pu.master.tmsapi.exceptions.RightNotFoundException;
+import pu.master.tmsapi.mappers.RightMapper;
 import pu.master.tmsapi.models.dtos.RightDto;
 import pu.master.tmsapi.models.entities.Right;
 import pu.master.tmsapi.models.requests.RightRequest;
@@ -17,52 +18,52 @@ import pu.master.tmsapi.repositories.RightRepository;
 public class RightService
 {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(RightService.class);
+
     private final RightRepository rightRepository;
 
-    private final ModelMapper modelMapper;
+    private final RightMapper rightMapper;
 
 
     @Autowired
-    public RightService(final RightRepository rightRepository, final ModelMapper modelMapper)
+    public RightService(final RightRepository rightRepository, final RightMapper rightMapper)
     {
         this.rightRepository = rightRepository;
-        this.modelMapper = modelMapper;
+        this.rightMapper = rightMapper;
     }
 
 
     public Right createRight(final RightRequest rightRequest)
     {
-        final Right right = mapRightRequestToRight(rightRequest);
+        final Right right = this.rightMapper.mapRightRequestToRight(rightRequest);
         return this.rightRepository.save(right);
     }
 
 
-    public List<RightDto> getAllRights()
+    public List<RightDto> getAllRightsDtos()
     {
         final List<Right> allRights = this.rightRepository.findAll();
 
         return allRights.stream()
-                        .map(this::mapRightToRightDto)
+                        .map(this.rightMapper::mapRightToDto)
                         .toList();
     }
 
 
     public Right getRightById(final long rightId)
     {
-        //TODO: Add validation for non existing Right
-        return this.rightRepository.findById(rightId).orElse(null);
+        return this.rightRepository.findById(rightId).orElseThrow(() -> {
+            LOGGER.error(String.format("Could not find right with name [%s]", rightId));
+            return new RightNotFoundException(String.format("Right with name [%s] not found", rightId));
+        });
     }
 
-
-    private Right mapRightRequestToRight(final RightRequest rightRequest)
+    public Right getRightByName(final String name)
     {
-        return this.modelMapper.map(rightRequest, Right.class);
-    }
-
-
-    private RightDto mapRightToRightDto(final Right right)
-    {
-        return this.modelMapper.map(right, RightDto.class);
+        return this.rightRepository.getRightByName(name).orElseThrow(() -> {
+            LOGGER.error(String.format("Could not find right with name [%s]", name));
+            return new RightNotFoundException(String.format("Right with name [%s] not found", name));
+        });
     }
 
 }

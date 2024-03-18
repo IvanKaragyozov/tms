@@ -1,10 +1,9 @@
 package pu.master.tmsapi.controllers;
 
 
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
-
-import jakarta.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +57,7 @@ public class ProjectController
     @GetMapping("/users/{id}/projects")
     public ResponseEntity<List<ProjectDto>> getProjectsByUserId(@PathVariable final long id)
     {
-        final List<ProjectDto> projectDtos = this.projectService.getProjectsByUserId(id);
+        final List<ProjectDto> projectDtos = this.projectService.getProjectDtosByUserId(id);
 
         LOGGER.info(String.format("Request sent for all projects by user with id %d", id));
 
