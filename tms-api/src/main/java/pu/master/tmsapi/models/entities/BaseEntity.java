@@ -12,6 +12,9 @@ import lombok.experimental.SuperBuilder;
 
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+
 @MappedSuperclass
 public abstract class BaseEntity
 {
@@ -20,9 +23,4 @@ public abstract class BaseEntity
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-
-    public long getId()
-    {
-        return id;
-    }
 }

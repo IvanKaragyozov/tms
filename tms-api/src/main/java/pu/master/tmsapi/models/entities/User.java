@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
+
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity
@@ -69,7 +71,7 @@ public class User extends BaseEntity
     )
     private Set<Role> roles;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
                     name = "user_tasks",
                     joinColumns = @JoinColumn(name = "user_id"),
@@ -82,7 +84,7 @@ public class User extends BaseEntity
     {
         if (this.projects == null)
         {
-            this.projects = new ArrayList<>(4);
+            this.projects = new ArrayList<>();
         }
         this.projects.add(project);
     }

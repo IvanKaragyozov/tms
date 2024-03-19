@@ -4,11 +4,13 @@ package pu.master.tmsapi.models.requests;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import pu.master.tmsapi.models.enums.ProjectPriority;
 
 
-@Data
+@Getter
+@AllArgsConstructor
 public class ProjectRequest
 {
 

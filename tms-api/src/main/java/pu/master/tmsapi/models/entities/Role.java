@@ -9,10 +9,8 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -21,6 +19,7 @@ import org.hibernate.annotations.CascadeType;
 @Getter
 @Setter
 @NoArgsConstructor
+
 @Entity
 @Table(name = "roles")
 public class Role extends BaseEntity

@@ -15,6 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
+
 @Entity
 @Table(name = "comments")
 public class Comment extends BaseEntity
@@ -34,6 +35,15 @@ public class Comment extends BaseEntity
     @JoinColumn(name = "task_id")
     private Task task;
 
+
+    public Comment(final long id, final String text, final LocalDateTime timePosted, final User author, final Task task)
+    {
+        super(id);
+        this.text = text;
+        this.timePosted = timePosted;
+        this.author = author;
+        this.task = task;
+    }
 
     // TODO: Add implementation of equals() and hashCode()
 }

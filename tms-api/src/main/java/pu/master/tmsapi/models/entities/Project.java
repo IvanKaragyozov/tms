@@ -23,6 +23,7 @@ import pu.master.tmsapi.models.enums.ProjectPriority;
 @Getter
 @Setter
 @RequiredArgsConstructor
+
 @Entity
 @Table(name = "projects")
 public class Project extends BaseEntity
@@ -55,6 +56,7 @@ public class Project extends BaseEntity
 
     )
     private Set<User> users;
+
 
 
     // TODO: Add implementation of equals() and hashCode()

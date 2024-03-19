@@ -2,12 +2,14 @@ package pu.master.tmsapi.models.requests;
 
 
 import java.util.List;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import pu.master.tmsapi.models.enums.TaskPriority;
 import pu.master.tmsapi.models.enums.TaskStatus;
 
 
-@Data
+@Getter
+@AllArgsConstructor
 public class TaskRequest
 {
 

@@ -1,15 +1,17 @@
 package pu.master.tmsapi.models.dtos;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class BaseDto
 {
 
-    private int id;
+    private long id;
 
 }

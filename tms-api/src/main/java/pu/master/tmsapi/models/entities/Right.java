@@ -7,15 +7,14 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 @Entity
 @Table(name = "rights")
 public class Right extends BaseEntity
@@ -23,6 +22,13 @@ public class Right extends BaseEntity
 
     @Column(name = "name")
     private String name;
+
+
+    public Right(final long id, final String name)
+    {
+        super(id);
+        this.name = name;
+    }
 
     // TODO: Add implementation of equals() and hashCode()
 }

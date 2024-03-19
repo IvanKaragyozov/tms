@@ -23,6 +23,7 @@ import pu.master.tmsapi.models.enums.TaskStatus;
 @Getter
 @Setter
 @RequiredArgsConstructor
+
 @Entity
 @Table(name = "tasks")
 public class Task extends BaseEntity

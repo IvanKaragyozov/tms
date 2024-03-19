@@ -3,10 +3,12 @@ package pu.master.tmsapi.models.requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 
-@Data
+@Getter
+@AllArgsConstructor
 public class UserRequest
 {
 
