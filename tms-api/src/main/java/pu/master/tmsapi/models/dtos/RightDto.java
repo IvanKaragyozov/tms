@@ -12,6 +12,13 @@ public class RightDto extends BaseDto
     }
 
 
+    public RightDto(final long id, final String name)
+    {
+        super(id);
+        this.name = name;
+    }
+
+
     public String getName()
     {
         return name;

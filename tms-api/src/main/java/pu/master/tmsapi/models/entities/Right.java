@@ -26,6 +26,13 @@ public class Right extends BaseEntity
     }
 
 
+    public Right(final long id, final String name)
+    {
+        super(id);
+        this.name = name;
+    }
+
+
     public String getName()
     {
         return name;

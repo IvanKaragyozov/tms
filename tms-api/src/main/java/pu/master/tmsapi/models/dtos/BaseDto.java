@@ -4,10 +4,21 @@ package pu.master.tmsapi.models.dtos;
 public abstract class BaseDto
 {
 
-    private int id;
+    private long id;
 
 
-    public int getId()
+    public BaseDto()
+    {
+    }
+
+
+    public BaseDto(final long id)
+    {
+        this.id = id;
+    }
+
+
+    public long getId()
     {
         return id;
     }

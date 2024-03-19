@@ -12,6 +12,12 @@ public class RightRequest
     }
 
 
+    public RightRequest(final String name)
+    {
+        this.name = name;
+    }
+
+
     public String getName()
     {
         return name;
