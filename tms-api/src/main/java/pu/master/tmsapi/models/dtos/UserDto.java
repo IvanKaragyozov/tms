@@ -4,8 +4,14 @@ package pu.master.tmsapi.models.dtos;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 
+@Getter
+@Setter
+@RequiredArgsConstructor
 public class UserDto extends BaseDto
 {
 
@@ -28,70 +34,5 @@ public class UserDto extends BaseDto
     private List<ProjectDto> projects;
 
     private Set<RoleDto> roles;
-
-
-    public UserDto()
-    {
-    }
-
-
-    public String getUsername()
-    {
-        return username;
-    }
-
-
-    public String getEmail()
-    {
-        return email;
-    }
-
-
-    public String getFirstName()
-    {
-        return firstName;
-    }
-
-
-    public String getLastName()
-    {
-        return lastName;
-    }
-
-
-    public boolean isActive()
-    {
-        return isActive;
-    }
-
-
-    public String getPhoneNumber()
-    {
-        return phoneNumber;
-    }
-
-
-    public LocalDate getDateCreatedAt()
-    {
-        return dateCreatedAt;
-    }
-
-
-    public LocalDate getDateLastModifiedAt()
-    {
-        return dateLastModifiedAt;
-    }
-
-
-    public List<ProjectDto> getProjects()
-    {
-        return projects;
-    }
-
-
-    public Set<RoleDto> getRoles()
-    {
-        return roles;
-    }
 
 }

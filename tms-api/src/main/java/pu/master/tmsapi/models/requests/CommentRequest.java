@@ -2,8 +2,10 @@ package pu.master.tmsapi.models.requests;
 
 
 import java.time.LocalDateTime;
+import lombok.Data;
 
 
+@Data
 public class CommentRequest
 {
 
@@ -15,32 +17,4 @@ public class CommentRequest
 
     private Long task;
 
-
-    public CommentRequest()
-    {
-    }
-
-
-    public String getText()
-    {
-        return text;
-    }
-
-
-    public LocalDateTime getTimePosted()
-    {
-        return timePosted;
-    }
-
-
-    public Long getAuthor()
-    {
-        return author;
-    }
-
-
-    public Long getTask()
-    {
-        return task;
-    }
 }

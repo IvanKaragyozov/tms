@@ -14,9 +14,15 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import pu.master.tmsapi.models.enums.ProjectPriority;
 
 
+@Getter
+@Setter
+@RequiredArgsConstructor
 @Entity
 @Table(name = "projects")
 public class Project extends BaseEntity
@@ -51,105 +57,5 @@ public class Project extends BaseEntity
     private Set<User> users;
 
 
-    public Project()
-    {
-    }
-
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public Project setTitle(final String title)
-    {
-        this.title = title;
-        return this;
-    }
-
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-
-    public Project setDescription(final String description)
-    {
-        this.description = description;
-        return this;
-    }
-
-
-    public LocalDate getDateCreated()
-    {
-        return dateCreated;
-    }
-
-
-    public Project setDateCreated(final LocalDate dateCreated)
-    {
-        this.dateCreated = dateCreated;
-        return this;
-    }
-
-
-    public LocalDate getDueDate()
-    {
-        return dueDate;
-    }
-
-
-    public Project setDueDate(final LocalDate timeDue)
-    {
-        this.dueDate = timeDue;
-        return this;
-    }
-
-
-    public ProjectPriority getPriorityLevel()
-    {
-        return priorityLevel;
-    }
-
-
-    public Project setPriorityLevel(final ProjectPriority priority)
-    {
-        this.priorityLevel = priority;
-        return this;
-    }
-
-
-    public List<Task> getTasks()
-    {
-        return tasks;
-    }
-
-
-    public Project setTasks(final List<Task> tasks)
-    {
-        this.tasks = tasks;
-        return this;
-    }
-
-
-    public Set<User> getUsers()
-    {
-        return users;
-    }
-
-
-    public Project setUsers(final Set<User> users)
-    {
-        this.users = users;
-        return this;
-    }
-
-
-    public Project addUser(final User user)
-    {
-        this.users.add(user);
-        return this;
-    }
+    // TODO: Add implementation of equals() and hashCode()
 }

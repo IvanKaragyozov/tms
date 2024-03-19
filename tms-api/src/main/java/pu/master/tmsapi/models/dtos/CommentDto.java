@@ -2,30 +2,19 @@ package pu.master.tmsapi.models.dtos;
 
 
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 
+@Getter
+@Setter
+@RequiredArgsConstructor
 public class CommentDto extends BaseDto
 {
 
     private String text;
 
     private LocalDateTime timePosted;
-
-
-    public CommentDto()
-    {
-    }
-
-
-    public String getText()
-    {
-        return text;
-    }
-
-
-    public LocalDateTime getTimePosted()
-    {
-        return timePosted;
-    }
 
 }
