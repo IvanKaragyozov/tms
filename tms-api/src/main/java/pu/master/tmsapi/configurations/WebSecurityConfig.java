@@ -58,7 +58,8 @@ public class WebSecurityConfig
             // Authorize requests
             .authorizeHttpRequests((authorize) -> authorize.requestMatchers(AUTH_PATH).permitAll())
             // TODO: add paths for each authority
-            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/**").hasAuthority(RoleNames.USER.name()))
+            // TODO: Implement GUEST role
+            .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/**").permitAll())
             .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
             .sessionManagement((authorize) -> authorize.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // JWT filter

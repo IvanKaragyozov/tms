@@ -6,6 +6,7 @@ package pu.master.tmsapi.utils.constants;
  */
 public enum RoleNames
 {
+    GUEST,
     USER,
     ADMIN
 
