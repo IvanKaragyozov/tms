@@ -2,8 +2,14 @@ package pu.master.tmsapi.models.dtos;
 
 
 import java.util.Set;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 
+@Getter
+@Setter
+@RequiredArgsConstructor
 public class RoleDto extends BaseDto
 {
 
@@ -11,20 +17,4 @@ public class RoleDto extends BaseDto
 
     private Set<RightDto> rights;
 
-
-    public RoleDto()
-    {
-    }
-
-
-    public String getName()
-    {
-        return name;
-    }
-
-
-    public Set<RightDto> getRights()
-    {
-        return rights;
-    }
 }

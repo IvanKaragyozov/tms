@@ -5,7 +5,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 
 @MappedSuperclass
 public abstract class BaseEntity
@@ -15,9 +23,4 @@ public abstract class BaseEntity
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-
-    public long getId()
-    {
-        return id;
-    }
 }

@@ -7,7 +7,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@RequiredArgsConstructor
 
 @Entity
 @Table(name = "comments")
@@ -29,59 +36,14 @@ public class Comment extends BaseEntity
     private Task task;
 
 
-    public Comment()
+    public Comment(final long id, final String text, final LocalDateTime timePosted, final User author, final Task task)
     {
-    }
-
-
-    public String getText()
-    {
-        return text;
-    }
-
-
-    public Comment setText(final String text)
-    {
+        super(id);
         this.text = text;
-        return this;
-    }
-
-
-    public LocalDateTime getTimePosted()
-    {
-        return timePosted;
-    }
-
-
-    public Comment setTimePosted(final LocalDateTime timePosted)
-    {
         this.timePosted = timePosted;
-        return this;
-    }
-
-
-    public User getAuthor()
-    {
-        return author;
-    }
-
-
-    public Comment setAuthor(final User author)
-    {
         this.author = author;
-        return this;
-    }
-
-
-    public Task getTask()
-    {
-        return task;
-    }
-
-
-    public Comment setTask(final Task task)
-    {
         this.task = task;
-        return this;
     }
+
+    // TODO: Add implementation of equals() and hashCode()
 }

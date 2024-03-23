@@ -2,10 +2,16 @@ package pu.master.tmsapi.models.dtos;
 
 
 import java.util.List;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import pu.master.tmsapi.models.enums.TaskPriority;
 import pu.master.tmsapi.models.enums.TaskStatus;
 
 
+@Getter
+@Setter
+@RequiredArgsConstructor
 public class TaskDto extends BaseDto
 {
 
@@ -20,45 +26,4 @@ public class TaskDto extends BaseDto
     private ProjectDto project;
 
     private List<CommentDto> comments;
-
-
-    public TaskDto()
-    {
-    }
-
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-
-    public TaskPriority getPriorityLevel()
-    {
-        return priorityLevel;
-    }
-
-
-    public TaskStatus getStatus()
-    {
-        return status;
-    }
-
-
-    public ProjectDto getProject()
-    {
-        return project;
-    }
-
-
-    public List<CommentDto> getComments()
-    {
-        return comments;
-    }
 }

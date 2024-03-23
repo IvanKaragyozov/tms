@@ -4,7 +4,16 @@ package pu.master.tmsapi.models.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 @Table(name = "rights")
@@ -15,26 +24,11 @@ public class Right extends BaseEntity
     private String name;
 
 
-    public Right()
+    public Right(final long id, final String name)
     {
-    }
-
-
-    public Right(final String name)
-    {
+        super(id);
         this.name = name;
     }
 
-
-    public String getName()
-    {
-        return name;
-    }
-
-
-    public Right setName(final String name)
-    {
-        this.name = name;
-        return this;
-    }
+    // TODO: Add implementation of equals() and hashCode()
 }

@@ -2,10 +2,14 @@ package pu.master.tmsapi.models.requests;
 
 
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import pu.master.tmsapi.models.enums.TaskPriority;
 import pu.master.tmsapi.models.enums.TaskStatus;
 
 
+@Getter
+@AllArgsConstructor
 public class TaskRequest
 {
 
@@ -23,50 +27,4 @@ public class TaskRequest
 
     private List<Long> users;
 
-
-    public TaskRequest()
-    {
-    }
-
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-
-    public TaskPriority getPriorityLevel()
-    {
-        return priorityLevel;
-    }
-
-
-    public TaskStatus getStatus()
-    {
-        return status;
-    }
-
-
-    public Long getProject()
-    {
-        return project;
-    }
-
-
-    public List<Long> getComments()
-    {
-        return comments;
-    }
-
-
-    public List<Long> getUsers()
-    {
-        return users;
-    }
 }

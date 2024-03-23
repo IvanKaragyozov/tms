@@ -9,10 +9,19 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@RequiredArgsConstructor
 
 @Entity
 @Table(name = "users")
@@ -62,7 +71,7 @@ public class User extends BaseEntity
     )
     private Set<Role> roles;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
                     name = "user_tasks",
                     joinColumns = @JoinColumn(name = "user_id"),
@@ -71,188 +80,24 @@ public class User extends BaseEntity
     private List<Task> tasks;
 
 
-    public User()
+    public void addProject(final Project project)
     {
-    }
-
-
-    public String getUsername()
-    {
-        return username;
-    }
-
-
-    public User setUsername(final String username)
-    {
-        this.username = username;
-        return this;
-    }
-
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-
-    public User setPassword(final String password)
-    {
-        this.password = password;
-        return this;
-    }
-
-
-    public String getEmail()
-    {
-        return email;
-    }
-
-
-    public User setEmail(final String email)
-    {
-        this.email = email;
-        return this;
-    }
-
-
-    public String getFirstName()
-    {
-        return firstName;
-    }
-
-
-    public User setFirstName(final String firstName)
-    {
-        this.firstName = firstName;
-        return this;
-    }
-
-
-    public String getLastName()
-    {
-        return lastName;
-    }
-
-
-    public User setLastName(final String lastName)
-    {
-        this.lastName = lastName;
-        return this;
-    }
-
-
-    public boolean isActive()
-    {
-        return isActive;
-    }
-
-
-    public User setActive(final boolean active)
-    {
-        isActive = active;
-        return this;
-    }
-
-
-    public String getPhoneNumber()
-    {
-        return phoneNumber;
-    }
-
-
-    public User setPhoneNumber(final String phone)
-    {
-        this.phoneNumber = phone;
-        return this;
-    }
-
-
-    public LocalDate getDateCreatedAt()
-    {
-        return dateCreatedAt;
-    }
-
-
-    public User setDateCreatedAt(final LocalDate dateCreatedAt)
-    {
-        this.dateCreatedAt = dateCreatedAt;
-        return this;
-    }
-
-
-    public LocalDate getDateLastModifiedAt()
-    {
-        return dateLastModifiedAt;
-    }
-
-
-    public User setDateLastModifiedAt(final LocalDate dateLastModifiedAt)
-    {
-        this.dateLastModifiedAt = dateLastModifiedAt;
-        return this;
-    }
-
-
-    public Set<Role> getRoles()
-    {
-        return roles;
-    }
-
-
-    public List<Project> getProjects()
-    {
-        return projects;
-    }
-
-
-    public User setProjects(final List<Project> projects)
-    {
-        this.projects = projects;
-        return this;
-    }
-
-
-    public User setRoles(final Set<Role> roles)
-    {
-        this.roles = roles;
-        return this;
-    }
-
-
-    public List<Task> getTasks()
-    {
-        return tasks;
-    }
-
-
-    public User setTasks(final List<Task> tasks)
-    {
-        this.tasks = tasks;
-        return this;
-    }
-
-
-    public User addProject(final Project project)
-    {
+        if (this.projects == null)
+        {
+            this.projects = new ArrayList<>();
+        }
         this.projects.add(project);
-        return this;
     }
 
 
-    public User addRole(final Role role)
+    public void addRole(final Role role)
     {
         if (this.roles == null)
         {
             this.roles = new HashSet<>(2);
         }
         this.roles.add(role);
-        return this;
     }
 
-
-    public User setTask(final Task task)
-    {
-        this.tasks.add(task);
-        return this;
-    }
+    // TODO: Add implementation of equals() and hashCode()
 }

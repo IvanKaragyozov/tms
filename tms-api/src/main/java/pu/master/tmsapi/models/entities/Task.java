@@ -13,9 +13,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import pu.master.tmsapi.models.enums.TaskPriority;
 import pu.master.tmsapi.models.enums.TaskStatus;
 
+
+@Getter
+@Setter
+@RequiredArgsConstructor
 
 @Entity
 @Table(name = "tasks")
@@ -51,99 +58,5 @@ public class Task extends BaseEntity
     )
     private List<User> users;
 
-
-    public Task()
-    {
-    }
-
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public Task setTitle(final String title)
-    {
-        this.title = title;
-        return this;
-    }
-
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-
-    public Task setDescription(final String description)
-    {
-        this.description = description;
-        return this;
-    }
-
-
-    public TaskPriority getPriorityLevel()
-    {
-        return priorityLevel;
-    }
-
-
-    public Task setPriorityLevel(final TaskPriority priorityLevel)
-    {
-        this.priorityLevel = priorityLevel;
-        return this;
-    }
-
-
-    public TaskStatus getStatus()
-    {
-        return status;
-    }
-
-
-    public Task setStatus(final TaskStatus status)
-    {
-        this.status = status;
-        return this;
-    }
-
-
-    public Project getProject()
-    {
-        return project;
-    }
-
-
-    public Task setProject(final Project project)
-    {
-        this.project = project;
-        return this;
-    }
-
-
-    public List<Comment> getComments()
-    {
-        return comments;
-    }
-
-
-    public Task setComments(final List<Comment> comments)
-    {
-        this.comments = comments;
-        return this;
-    }
-
-
-    public List<User> getUsers()
-    {
-        return users;
-    }
-
-
-    public Task setUsers(final List<User> users)
-    {
-        this.users = users;
-        return this;
-    }
+    // TODO: Add implementation of equals() and hashCode()
 }

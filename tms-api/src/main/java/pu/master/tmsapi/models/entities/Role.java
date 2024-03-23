@@ -9,9 +9,16 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
 
 @Entity
 @Table(name = "roles")
@@ -31,40 +38,9 @@ public class Role extends BaseEntity
     private Set<Right> rights;
 
 
-    public Role()
-    {
-    }
-
-
     public Role(final String name)
     {
         this.name = name;
-    }
-
-
-    public String getName()
-    {
-        return name;
-    }
-
-
-    public Role setName(final String name)
-    {
-        this.name = name;
-        return this;
-    }
-
-
-    public Set<Right> getRights()
-    {
-        return rights;
-    }
-
-
-    public Role setRights(final Set<Right> rights)
-    {
-        this.rights = rights;
-        return this;
     }
 
 
@@ -73,5 +49,7 @@ public class Role extends BaseEntity
         this.rights.add(right);
         return this;
     }
+
+    // TODO: Add implementation of equals() and hashCode()
 
 }

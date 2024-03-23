@@ -3,9 +3,15 @@ package pu.master.tmsapi.models.dtos;
 
 import java.time.LocalDate;
 import java.util.List;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import pu.master.tmsapi.models.enums.ProjectPriority;
 
 
+@Getter
+@Setter
+@RequiredArgsConstructor
 public class ProjectDto extends BaseDto
 {
 
@@ -20,46 +26,5 @@ public class ProjectDto extends BaseDto
     private ProjectPriority priorityLevel;
 
     private List<TaskDto> tasks;
-
-
-    public ProjectDto()
-    {
-    }
-
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-
-    public LocalDate getDateCreated()
-    {
-        return dateCreated;
-    }
-
-
-    public LocalDate getDueDate()
-    {
-        return dueDate;
-    }
-
-
-    public ProjectPriority getPriorityLevel()
-    {
-        return priorityLevel;
-    }
-
-
-    public List<TaskDto> getTasks()
-    {
-        return tasks;
-    }
 
 }
