@@ -14,7 +14,7 @@ public class UserRequest
     @NotBlank(message = "Password cannot be blank!")
     private String password;
 
-    @NotBlank(message = "Email cannot be black!")
+    @NotBlank(message = "Email cannot be blank!")
     @Email(regexp = "([a-zA-Z0-9])+@\\.([a-zA-Z])+", message = "Invalid email! Correct pattern is: a@.a")
     private String email;
 

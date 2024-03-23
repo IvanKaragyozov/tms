@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,9 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pu.master.tmsapi.exceptions.CommentNotFoundException;
@@ -44,6 +47,21 @@ public class GlobalExceptionHandler
         return new ResponseEntity<>(errorsMap, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, List<String>>> handleMethodArgumentNotValidException(
+                    final MethodArgumentNotValidException exception)
+    {
+        LOGGER.error(CAUGHT_EXCEPTION_MESSAGE, exception);
+
+        final List<String> errorMessages = exception.getBindingResult()
+                                              .getFieldErrors()
+                                              .stream()
+                                              .map(FieldError::getDefaultMessage)
+                                              .filter(Objects::nonNull)
+                                              .toList();
+
+        return new ResponseEntity<>(formatErrorsResponse(errorMessages), HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     public ResponseEntity<Map<String, List<String>>> handleInternalAuthenticationServiceException(

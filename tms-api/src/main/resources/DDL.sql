@@ -1,7 +1,7 @@
 CREATE TABLE rights
 (
     id   BIGSERIAL,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL UNIQUE,
 
     CONSTRAINT PK_rights_id PRIMARY KEY (id)
 );
@@ -9,7 +9,7 @@ CREATE TABLE rights
 CREATE TABLE roles
 (
     id   BIGSERIAL,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL UNIQUE,
 
     CONSTRAINT PK_roles_id PRIMARY KEY (id)
 );
