@@ -9,7 +9,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 public class RoleDto extends BaseDto
 {
 
@@ -17,4 +16,11 @@ public class RoleDto extends BaseDto
 
     private Set<RightDto> rights;
 
+
+    public RoleDto(final long id, final String name, final Set<RightDto> rights)
+    {
+        super(id);
+        this.name = name;
+        this.rights = rights;
+    }
 }
