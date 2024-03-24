@@ -16,7 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import pu.master.tmsapi.jwt.JwtRequestFilter;
-import pu.master.tmsapi.utils.constants.RoleNames;
 
 import static pu.master.tmsapi.utils.constants.JwtConstants.JWT_COOKIE_NAME;
 
