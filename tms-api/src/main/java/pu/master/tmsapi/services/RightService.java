@@ -35,6 +35,9 @@ public class RightService
 
     public Right createRight(final RightRequest rightRequest)
     {
+
+
+
         final Right right = this.rightMapper.mapRightRequestToRight(rightRequest);
         return this.rightRepository.save(right);
     }
