@@ -13,7 +13,7 @@
     <artifactId>tms-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>tms-api</name>
-    <description>tms-api</description>
+    <description>Task Management System</description>
 
     <properties>
         <!-- JAVA VERSION -->
