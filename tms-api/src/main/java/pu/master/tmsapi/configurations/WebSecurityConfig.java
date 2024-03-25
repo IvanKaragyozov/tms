@@ -16,7 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import pu.master.tmsapi.jwt.JwtRequestFilter;
-import pu.master.tmsapi.utils.constants.RoleNames;
 
 import static pu.master.tmsapi.utils.constants.JwtConstants.JWT_COOKIE_NAME;
 
@@ -47,8 +46,8 @@ public class WebSecurityConfig
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception
     {
 
-        final CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler =
-                        new CsrfTokenRequestAttributeHandler();
+        final CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler = new CsrfTokenRequestAttributeHandler();
+        // Overriding default attribute to: XSRF_TOKEN
         csrfTokenRequestAttributeHandler.setCsrfRequestAttributeName(null);
 
         http

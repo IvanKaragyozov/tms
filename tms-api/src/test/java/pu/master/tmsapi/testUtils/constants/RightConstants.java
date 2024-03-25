@@ -7,6 +7,6 @@ public final class RightConstants
 
     public static final long RIGHT_ID = 1L;
 
-    public static final String RIGHT_NAME = "USER";
+    public static final String RIGHT_NAME = "TEST";
 
 }

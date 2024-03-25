@@ -44,6 +44,14 @@ public class Role extends BaseEntity
     }
 
 
+    public Role(final long id, final String name, final Set<Right> rights)
+    {
+        super(id);
+        this.name = name;
+        this.rights = rights;
+    }
+
+
     public Role addRight(final Right right)
     {
         this.rights.add(right);

@@ -33,7 +33,7 @@ public class JwtCookieUtil
     {
         final String jwtToken = this.tokenUtil.generateToken(userDetails);
 
-        LOGGER.info("An attempt to create a JWT cookie");
+        LOGGER.info("Creating JWT cookie");
         return ResponseCookie.from(JWT_COOKIE_NAME, jwtToken)
                              .maxAge(JWT_VALIDITY_DURATION)
                              .httpOnly(true)
