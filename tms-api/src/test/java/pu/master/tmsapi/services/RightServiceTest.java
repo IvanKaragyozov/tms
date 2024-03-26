@@ -36,7 +36,7 @@ public class RightServiceTest
 
 
     @Test
-    public void testCreateRight_success()
+    void testCreateRight_success()
     {
         Mockito.when(rightMapper.mapRightRequestToRight(Mockito.any(RightRequest.class)))
                .thenReturn(RightFactory.DEFAULT_RIGHT);
@@ -49,7 +49,7 @@ public class RightServiceTest
 
 
     @Test
-    public void testCreateRight_existingRight_throwsRightAlreadyExistsException()
+    void testCreateRight_existingRight_throwsRightAlreadyExistsException()
     {
         Mockito.when(rightRepository.existsByName(Mockito.anyString())).thenReturn(true);
 
@@ -64,28 +64,28 @@ public class RightServiceTest
     }
 
     @Test
-    public void testGetAllRightDtos_success()
+    void testGetAllRightDtos_success()
     {
         Mockito.when(rightRepository.findAll()).thenReturn(RightFactory.DEFAULT_RIGHT_LIST);
         Mockito.when(rightMapper.mapRightToDto(Mockito.any(Right.class))).thenReturn(RightFactory.DEFAULT_RIGHT_DTO);
 
         final List<RightDto> result = rightService.getAllRightsDtos();
 
-        Assertions.assertEquals(result, RightFactory.DEFAULT_RIGHT_DTO_LIST);
+        Assertions.assertEquals(RightFactory.DEFAULT_RIGHT_DTO_LIST, result);
     }
 
     @Test
-    public void testGetRightById_success()
+    void testGetRightById_success()
     {
         Mockito.when(rightRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(RightFactory.DEFAULT_RIGHT));
 
         final Right result = rightService.getRightById(RightConstants.RIGHT_ID);
 
-        Assertions.assertEquals(result, RightFactory.DEFAULT_RIGHT);
+        Assertions.assertEquals(RightFactory.DEFAULT_RIGHT, result);
     }
 
     @Test
-    public void testGetRightById_rightNotFound_throwsRightNotFoundException()
+    void testGetRightById_rightNotFound_throwsRightNotFoundException()
     {
         Mockito.when(rightRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
 
@@ -93,23 +93,23 @@ public class RightServiceTest
                         Assertions.assertThrows(RightNotFoundException.class,
                                                 () -> rightService.getRightById(RightConstants.RIGHT_ID));
 
-        final String exceptionMessage = String.format("Right with id [%s] not found", RightConstants.RIGHT_ID);
+        final String exceptionMessage = String.format("Right with id [%s] not found!", RightConstants.RIGHT_ID);
 
         Assertions.assertEquals(exceptionMessage, exception.getMessage());
     }
 
     @Test
-    public void testGetRightByName_success()
+    void testGetRightByName_success()
     {
         Mockito.when(rightRepository.findRightByName(Mockito.anyString())).thenReturn(Optional.of(RightFactory.DEFAULT_RIGHT));
 
         final Right result = rightService.getRightByName(RightConstants.RIGHT_NAME);
 
-        Assertions.assertEquals(result, RightFactory.DEFAULT_RIGHT);
+        Assertions.assertEquals(RightFactory.DEFAULT_RIGHT, result);
     }
 
     @Test
-    public void testGetRightByName_rightNotFound_throwsRightNotFoundException()
+    void testGetRightByName_rightNotFound_throwsRightNotFoundException()
     {
         Mockito.when(rightRepository.findRightByName(Mockito.anyString())).thenReturn(Optional.empty());
 
@@ -117,7 +117,7 @@ public class RightServiceTest
                         Assertions.assertThrows(RightNotFoundException.class,
                                                 () -> rightService.getRightByName(RightConstants.RIGHT_NAME));
 
-        final String exceptionMessage = String.format("Right with name [%s] not found", RightConstants.RIGHT_NAME);
+        final String exceptionMessage = String.format("Right with name [%s] not found!", RightConstants.RIGHT_NAME);
 
         Assertions.assertEquals(exceptionMessage, exception.getMessage());
     }

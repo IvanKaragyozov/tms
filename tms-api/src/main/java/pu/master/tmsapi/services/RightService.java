@@ -63,7 +63,7 @@ public class RightService
     {
         return this.rightRepository.findById(rightId).orElseThrow(() -> {
             LOGGER.error(String.format("Could not find right with id [%s]", rightId));
-            return new RightNotFoundException(String.format("Right with id [%s] not found", rightId));
+            return new RightNotFoundException(String.format("Right with id [%s] not found!", rightId));
         });
     }
 
@@ -71,8 +71,8 @@ public class RightService
     public Right getRightByName(final String name)
     {
         return this.rightRepository.findRightByName(name).orElseThrow(() -> {
-            LOGGER.error(String.format("Could not find right with name [%s]", name));
-            return new RightNotFoundException(String.format("Right with name [%s] not found", name));
+            LOGGER.error(String.format("Could not find right with name [%s]!", name));
+            return new RightNotFoundException(String.format("Right with name [%s] not found!", name));
         });
     }
 
