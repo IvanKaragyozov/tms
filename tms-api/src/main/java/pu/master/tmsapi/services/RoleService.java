@@ -76,7 +76,7 @@ public class RoleService
 
     public Role getRoleByName(final String name)
     {
-        return this.roleRepository.getRoleByName(name).orElseThrow(() -> {
+        return this.roleRepository.findRoleByName(name).orElseThrow(() -> {
             LOGGER.error(String.format("Could not find role with name [%s]", name));
             return new RoleNotFoundException(String.format("Role with name [%s] not found", name));
         });

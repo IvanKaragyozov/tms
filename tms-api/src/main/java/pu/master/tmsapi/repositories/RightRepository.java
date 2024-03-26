@@ -10,5 +10,7 @@ import pu.master.tmsapi.models.entities.Right;
 @Repository
 public interface RightRepository extends JpaRepository<Right, Long>
 {
-    Optional<Right> getRightByName(final String name);
+    Optional<Right> findRightByName(final String name);
+
+    boolean existsByName(final String name);
 }

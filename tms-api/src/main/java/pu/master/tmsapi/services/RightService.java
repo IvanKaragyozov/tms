@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pu.master.tmsapi.exceptions.RightNameAlreadyExistsException;
 import pu.master.tmsapi.exceptions.RightNotFoundException;
 import pu.master.tmsapi.mappers.RightMapper;
 import pu.master.tmsapi.models.dtos.RightDto;
@@ -36,7 +37,12 @@ public class RightService
     public Right createRight(final RightRequest rightRequest)
     {
 
-
+        if (this.rightRepository.existsByName(rightRequest.getName()))
+        {
+            LOGGER.error(String.format("Right with name [%s] already exists!", rightRequest.getName()));
+            throw new RightNameAlreadyExistsException(String.format("Right with name [%s] already exists!",
+                                                                    rightRequest.getName()));
+        }
 
         final Right right = this.rightMapper.mapRightRequestToRight(rightRequest);
         return this.rightRepository.save(right);
@@ -56,14 +62,15 @@ public class RightService
     public Right getRightById(final long rightId)
     {
         return this.rightRepository.findById(rightId).orElseThrow(() -> {
-            LOGGER.error(String.format("Could not find right with name [%s]", rightId));
-            return new RightNotFoundException(String.format("Right with name [%s] not found", rightId));
+            LOGGER.error(String.format("Could not find right with id [%s]", rightId));
+            return new RightNotFoundException(String.format("Right with id [%s] not found", rightId));
         });
     }
 
+
     public Right getRightByName(final String name)
     {
-        return this.rightRepository.getRightByName(name).orElseThrow(() -> {
+        return this.rightRepository.findRightByName(name).orElseThrow(() -> {
             LOGGER.error(String.format("Could not find right with name [%s]", name));
             return new RightNotFoundException(String.format("Right with name [%s] not found", name));
         });
