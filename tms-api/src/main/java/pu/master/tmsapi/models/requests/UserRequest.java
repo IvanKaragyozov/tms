@@ -12,14 +12,14 @@ import lombok.Getter;
 public class UserRequest
 {
 
-    @NotBlank(message = "Username cannot be blank!")
+    @NotBlank(message = "Username cannot be blank")
     private String username;
 
-    @NotBlank(message = "Password cannot be blank!")
+    @NotBlank(message = "Password cannot be blank")
     private String password;
 
     @NotBlank(message = "Email cannot be blank!")
-    @Email(regexp = "([a-zA-Z0-9])+@\\.([a-zA-Z])+", message = "Invalid email! Correct pattern is: a@.a")
+    @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Invalid email address")
     private String email;
 
     private String firstName;
