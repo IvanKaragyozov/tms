@@ -17,7 +17,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>tms-api</module>
         <module>tms-domain</module>
         <module>tms-core</module>
         <module>tms-rest</module>
