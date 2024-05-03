@@ -11,7 +11,7 @@ import pu.master.tmsapi.models.entities.Role;
 public interface RoleRepository extends JpaRepository<Role, Long>
 {
 
-    Optional<Role> getRoleByName(final String name);
+    Optional<Role> findRoleByName(final String name);
 
     boolean existsByName(final String name);
 }

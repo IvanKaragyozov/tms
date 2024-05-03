@@ -11,8 +11,8 @@ public class LoginRequest
     @NotEmpty(message = "Username cannot be empty")
     private String username;
 
-    @Pattern(regexp = "^.{8,}$", message = "Password should be at least 8 symbols long!")
-    @NotEmpty(message = "Password can't be empty")
+    @Pattern(regexp = "^.{8,}$", message = "Password should be at least 8 symbols long")
+    @NotEmpty(message = "Password cannot be empty")
     private String password;
 
 
