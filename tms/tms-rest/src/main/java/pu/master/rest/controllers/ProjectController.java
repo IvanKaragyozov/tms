@@ -1,10 +1,9 @@
-package pu.master.tmsapi.controllers;
+package pu.master.rest.controllers;
 
 
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import pu.master.tmsapi.models.dtos.ProjectDto;
-import pu.master.tmsapi.models.entities.Project;
-import pu.master.tmsapi.models.requests.ProjectRequest;
-import pu.master.tmsapi.services.ProjectService;
+import pu.master.core.services.ProjectService;
+import pu.master.domain.models.dtos.ProjectDto;
+import pu.master.domain.models.entities.Project;
+import pu.master.domain.models.requests.ProjectRequest;
 
 
 @RestController

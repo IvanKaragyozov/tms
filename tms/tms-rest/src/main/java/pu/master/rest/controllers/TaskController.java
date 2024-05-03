@@ -1,4 +1,4 @@
-package pu.master.tmsapi.controllers;
+package pu.master.rest.controllers;
 
 
 import jakarta.validation.Valid;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-import pu.master.tmsapi.models.dtos.TaskDto;
-import pu.master.tmsapi.models.entities.Task;
-import pu.master.tmsapi.models.requests.TaskRequest;
-import pu.master.tmsapi.services.TaskService;
+import pu.master.core.services.TaskService;
+import pu.master.domain.models.dtos.TaskDto;
+import pu.master.domain.models.entities.Task;
+import pu.master.domain.models.requests.TaskRequest;
 
 
 @RestController

@@ -1,4 +1,4 @@
-package pu.master.tmsapi.controllers;
+package pu.master.rest.controllers;
 
 
 import jakarta.validation.Valid;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-import pu.master.tmsapi.models.dtos.CommentDto;
-import pu.master.tmsapi.models.entities.Comment;
-import pu.master.tmsapi.models.requests.CommentRequest;
-import pu.master.tmsapi.services.CommentService;
+import pu.master.core.services.CommentService;
+import pu.master.domain.models.dtos.CommentDto;
+import pu.master.domain.models.entities.Comment;
+import pu.master.domain.models.requests.CommentRequest;
 
 
 @RestController
