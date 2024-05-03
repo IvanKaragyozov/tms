@@ -1,4 +1,4 @@
-package pu.master.tmsapi.services;
+package pu.master.core.services;
 
 
 import java.util.List;
@@ -6,13 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pu.master.tmsapi.exceptions.RightNameAlreadyExistsException;
-import pu.master.tmsapi.exceptions.RightNotFoundException;
-import pu.master.tmsapi.mappers.RightMapper;
-import pu.master.tmsapi.models.dtos.RightDto;
-import pu.master.tmsapi.models.entities.Right;
-import pu.master.tmsapi.models.requests.RightRequest;
-import pu.master.tmsapi.repositories.RightRepository;
+import pu.master.core.exceptions.RightNameAlreadyExistsException;
+import pu.master.core.exceptions.RightNotFoundException;
+import pu.master.core.mappers.RightMapper;
+import pu.master.core.repositories.RightRepository;
+import pu.master.domain.models.dtos.RightDto;
+import pu.master.domain.models.entities.Right;
+import pu.master.domain.models.requests.RightRequest;
 
 
 @Service

@@ -1,4 +1,4 @@
-package pu.master.tmsapi.utils.constants;
+package pu.master.core.utils.constants;
 
 
 /**

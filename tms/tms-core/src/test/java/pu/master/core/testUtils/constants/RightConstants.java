@@ -1,4 +1,4 @@
-package pu.master.tmsapi.testUtils.constants;
+package pu.master.core.testUtils.constants;
 
 
 public final class RightConstants

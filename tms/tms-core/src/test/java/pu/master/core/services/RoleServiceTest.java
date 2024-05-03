@@ -1,4 +1,4 @@
-package pu.master.tmsapi.services;
+package pu.master.core.services;
 
 
 import java.util.List;
@@ -10,20 +10,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pu.master.tmsapi.exceptions.RightNotFoundException;
-import pu.master.tmsapi.exceptions.RoleNameAlreadyExistsException;
-import pu.master.tmsapi.exceptions.RoleNotFoundException;
-import pu.master.tmsapi.mappers.RoleMapper;
-import pu.master.tmsapi.models.dtos.RightDto;
-import pu.master.tmsapi.models.dtos.RoleDto;
-import pu.master.tmsapi.models.entities.Right;
-import pu.master.tmsapi.models.entities.Role;
-import pu.master.tmsapi.models.requests.RoleRequest;
-import pu.master.tmsapi.repositories.RoleRepository;
-import pu.master.tmsapi.testUtils.constants.RightConstants;
-import pu.master.tmsapi.testUtils.constants.RoleConstants;
-import pu.master.tmsapi.testUtils.factories.RightFactory;
-import pu.master.tmsapi.testUtils.factories.RoleFactory;
+import pu.master.core.exceptions.RoleNameAlreadyExistsException;
+import pu.master.core.exceptions.RoleNotFoundException;
+import pu.master.core.mappers.RoleMapper;
+import pu.master.core.repositories.RoleRepository;
+import pu.master.core.testUtils.constants.RoleConstants;
+import pu.master.core.testUtils.factories.RightFactory;
+import pu.master.core.testUtils.factories.RoleFactory;
+import pu.master.domain.models.dtos.RoleDto;
+import pu.master.domain.models.entities.Role;
+import pu.master.domain.models.requests.RoleRequest;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -42,10 +38,12 @@ public class RoleServiceTest
     @InjectMocks
     private RoleService roleService;
 
+
     @Test
     void createRole_success()
     {
-        Mockito.when(roleMapper.mapRoleRequestToRole(Mockito.any(RoleRequest.class))).thenReturn(RoleFactory.DEFAULT_ROLE);
+        Mockito.when(roleMapper.mapRoleRequestToRole(Mockito.any(RoleRequest.class)))
+               .thenReturn(RoleFactory.DEFAULT_ROLE);
         Mockito.when(rightService.getRightByName(Mockito.anyString())).thenReturn(RightFactory.DEFAULT_RIGHT);
         Mockito.when(roleRepository.save(Mockito.any(Role.class))).thenReturn(RoleFactory.DEFAULT_ROLE);
 
@@ -53,6 +51,7 @@ public class RoleServiceTest
 
         Assertions.assertEquals(RoleFactory.DEFAULT_ROLE, result);
     }
+
 
     @Test
     void createRole_roleAlreadyExists_throwsRoleNameAlreadyExistsException()
@@ -68,6 +67,7 @@ public class RoleServiceTest
         Assertions.assertEquals(exceptionMessage, exception.getMessage());
     }
 
+
     @Test
     void testGetAllRightDtos_success()
     {
@@ -79,6 +79,7 @@ public class RoleServiceTest
         Assertions.assertEquals(RoleFactory.DEFAULT_ROLE_DTO_LIST, result);
     }
 
+
     @Test
     void testGetRightById_success()
     {
@@ -88,6 +89,7 @@ public class RoleServiceTest
 
         Assertions.assertEquals(RoleFactory.DEFAULT_ROLE, result);
     }
+
 
     @Test
     void testGetRoleById_roleNotFound_throwsRoleNotFoundException()
@@ -103,15 +105,18 @@ public class RoleServiceTest
         Assertions.assertEquals(exceptionMessage, exception.getMessage());
     }
 
+
     @Test
     void testGetRoleByName_success()
     {
-        Mockito.when(roleRepository.findRoleByName(Mockito.anyString())).thenReturn(Optional.of(RoleFactory.DEFAULT_ROLE));
+        Mockito.when(roleRepository.findRoleByName(Mockito.anyString()))
+               .thenReturn(Optional.of(RoleFactory.DEFAULT_ROLE));
 
         final Role result = roleService.getRoleByName(RoleConstants.ROLE_NAME);
 
         Assertions.assertEquals(RoleFactory.DEFAULT_ROLE, result);
     }
+
 
     @Test
     void testGetRoleByName_roleNotFound_throwsRoleNotFoundException()

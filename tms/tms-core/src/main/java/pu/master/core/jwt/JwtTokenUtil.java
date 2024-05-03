@@ -1,4 +1,4 @@
-package pu.master.tmsapi.jwt;
+package pu.master.core.jwt;
 
 
 import io.jsonwebtoken.Claims;
@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import static pu.master.tmsapi.utils.constants.JwtConstants.JWT_VALIDITY_DURATION;
+import static pu.master.core.utils.constants.JwtConstants.JWT_VALIDITY_DURATION;
 
 
 @Component

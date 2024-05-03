@@ -1,9 +1,8 @@
-package pu.master.tmsapi.services;
+package pu.master.core.services;
 
 
 import java.time.LocalDate;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpCookie;
@@ -12,16 +11,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pu.master.tmsapi.exceptions.UserNotFoundException;
-import pu.master.tmsapi.jwt.JwtCookieUtil;
-import pu.master.tmsapi.mappers.UserMapper;
-import pu.master.tmsapi.models.dtos.UserDto;
-import pu.master.tmsapi.models.entities.Role;
-import pu.master.tmsapi.models.entities.User;
-import pu.master.tmsapi.models.requests.LoginRequest;
-import pu.master.tmsapi.models.requests.UserRequest;
-import pu.master.tmsapi.repositories.UserRepository;
-import pu.master.tmsapi.utils.constants.RoleNames;
+import pu.master.core.exceptions.UserNotFoundException;
+import pu.master.core.jwt.JwtCookieUtil;
+import pu.master.core.mappers.UserMapper;
+import pu.master.domain.models.dtos.UserDto;
+import pu.master.domain.models.entities.Role;
+import pu.master.domain.models.entities.User;
+import pu.master.domain.models.requests.LoginRequest;
+import pu.master.domain.models.requests.UserRequest;
+import pu.master.core.repositories.UserRepository;
+import pu.master.core.utils.constants.RoleNames;
 
 
 @Service

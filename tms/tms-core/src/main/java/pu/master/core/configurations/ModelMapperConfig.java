@@ -1,4 +1,4 @@
-package pu.master.tmsapi.configurations;
+package pu.master.core.configurations;
 
 
 import org.modelmapper.ModelMapper;

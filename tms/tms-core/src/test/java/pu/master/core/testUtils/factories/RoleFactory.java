@@ -1,17 +1,17 @@
-package pu.master.tmsapi.testUtils.factories;
+package pu.master.core.testUtils.factories;
 
 
 import java.util.Collections;
 import java.util.List;
-import pu.master.tmsapi.models.dtos.RoleDto;
-import pu.master.tmsapi.models.entities.Role;
-import pu.master.tmsapi.models.requests.RoleRequest;
+import pu.master.domain.models.dtos.RoleDto;
+import pu.master.domain.models.entities.Role;
+import pu.master.domain.models.requests.RoleRequest;
 
-import static pu.master.tmsapi.testUtils.constants.RoleConstants.ROLE_DTO_RIGHTS;
-import static pu.master.tmsapi.testUtils.constants.RoleConstants.ROLE_ID;
-import static pu.master.tmsapi.testUtils.constants.RoleConstants.ROLE_NAME;
-import static pu.master.tmsapi.testUtils.constants.RoleConstants.ROLE_REQUEST_RIGHTS;
-import static pu.master.tmsapi.testUtils.constants.RoleConstants.ROLE_RIGHTS;
+import static pu.master.core.testUtils.constants.RoleConstants.ROLE_DTO_RIGHTS;
+import static pu.master.core.testUtils.constants.RoleConstants.ROLE_ID;
+import static pu.master.core.testUtils.constants.RoleConstants.ROLE_NAME;
+import static pu.master.core.testUtils.constants.RoleConstants.ROLE_REQUEST_RIGHTS;
+import static pu.master.core.testUtils.constants.RoleConstants.ROLE_RIGHTS;
 
 
 public final class RoleFactory

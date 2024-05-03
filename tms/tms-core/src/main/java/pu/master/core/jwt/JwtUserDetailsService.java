@@ -1,4 +1,4 @@
-package pu.master.tmsapi.jwt;
+package pu.master.core.jwt;
 
 
 import java.util.ArrayList;
@@ -12,10 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pu.master.tmsapi.exceptions.UserNotFoundException;
-import pu.master.tmsapi.models.entities.Role;
-import pu.master.tmsapi.models.entities.User;
-import pu.master.tmsapi.repositories.UserRepository;
+import pu.master.core.exceptions.UserNotFoundException;
+import pu.master.core.repositories.UserRepository;
+import pu.master.domain.models.entities.Role;
+import pu.master.domain.models.entities.User;
 
 
 @Service

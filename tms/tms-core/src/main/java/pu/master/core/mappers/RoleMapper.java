@@ -1,4 +1,4 @@
-package pu.master.tmsapi.mappers;
+package pu.master.core.mappers;
 
 
 import org.modelmapper.ModelMapper;
@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pu.master.tmsapi.models.dtos.RoleDto;
-import pu.master.tmsapi.models.entities.Role;
-import pu.master.tmsapi.models.requests.RoleRequest;
+import pu.master.domain.models.dtos.RoleDto;
+import pu.master.domain.models.entities.Role;
+import pu.master.domain.models.requests.RoleRequest;
 
 
 @Component

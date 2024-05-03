@@ -1,14 +1,14 @@
-package pu.master.tmsapi.testUtils.factories;
+package pu.master.core.testUtils.factories;
 
 
 import java.util.Collections;
 import java.util.List;
-import pu.master.tmsapi.models.dtos.RightDto;
-import pu.master.tmsapi.models.entities.Right;
-import pu.master.tmsapi.models.requests.RightRequest;
+import pu.master.domain.models.dtos.RightDto;
+import pu.master.domain.models.entities.Right;
+import pu.master.domain.models.requests.RightRequest;
 
-import static pu.master.tmsapi.testUtils.constants.RightConstants.RIGHT_ID;
-import static pu.master.tmsapi.testUtils.constants.RightConstants.RIGHT_NAME;
+import static pu.master.core.testUtils.constants.RightConstants.RIGHT_ID;
+import static pu.master.core.testUtils.constants.RightConstants.RIGHT_NAME;
 
 
 public final class RightFactory

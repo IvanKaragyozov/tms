@@ -1,4 +1,4 @@
-package pu.master.tmsapi.services;
+package pu.master.core.services;
 
 
 import java.util.List;
@@ -6,12 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pu.master.tmsapi.mappers.TaskMapper;
-import pu.master.tmsapi.models.dtos.TaskDto;
-import pu.master.tmsapi.models.entities.Task;
-import pu.master.tmsapi.models.entities.User;
-import pu.master.tmsapi.models.requests.TaskRequest;
-import pu.master.tmsapi.repositories.TaskRepository;
+import pu.master.core.mappers.TaskMapper;
+import pu.master.domain.models.dtos.TaskDto;
+import pu.master.domain.models.entities.Task;
+import pu.master.domain.models.entities.User;
+import pu.master.domain.models.requests.TaskRequest;
+import pu.master.core.repositories.TaskRepository;
 
 
 @Service

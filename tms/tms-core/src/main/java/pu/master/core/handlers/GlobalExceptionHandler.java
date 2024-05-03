@@ -1,4 +1,4 @@
-package pu.master.tmsapi.handlers;
+package pu.master.core.handlers;
 
 
 import java.util.Arrays;
@@ -18,13 +18,13 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import pu.master.tmsapi.exceptions.CommentNotFoundException;
-import pu.master.tmsapi.exceptions.ProjectNotFoundException;
-import pu.master.tmsapi.exceptions.RightNotFoundException;
-import pu.master.tmsapi.exceptions.RoleNotFoundException;
-import pu.master.tmsapi.exceptions.TaskNotFoundException;
-import pu.master.tmsapi.exceptions.UserNotFoundException;
-import pu.master.tmsapi.exceptions.UsernameAlreadyExistsException;
+import pu.master.core.exceptions.CommentNotFoundException;
+import pu.master.core.exceptions.ProjectNotFoundException;
+import pu.master.core.exceptions.RightNotFoundException;
+import pu.master.core.exceptions.RoleNotFoundException;
+import pu.master.core.exceptions.TaskNotFoundException;
+import pu.master.core.exceptions.UserNotFoundException;
+import pu.master.core.exceptions.UsernameAlreadyExistsException;
 
 
 @RestControllerAdvice

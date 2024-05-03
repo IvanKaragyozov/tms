@@ -1,4 +1,4 @@
-package pu.master.tmsapi.services;
+package pu.master.core.services;
 
 
 import java.time.LocalDateTime;
@@ -7,13 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pu.master.tmsapi.mappers.CommentMapper;
-import pu.master.tmsapi.models.dtos.CommentDto;
-import pu.master.tmsapi.models.entities.Comment;
-import pu.master.tmsapi.models.entities.Task;
-import pu.master.tmsapi.models.entities.User;
-import pu.master.tmsapi.models.requests.CommentRequest;
-import pu.master.tmsapi.repositories.CommentRepository;
+import pu.master.core.mappers.CommentMapper;
+import pu.master.domain.models.dtos.CommentDto;
+import pu.master.domain.models.entities.Comment;
+import pu.master.domain.models.entities.Task;
+import pu.master.domain.models.entities.User;
+import pu.master.domain.models.requests.CommentRequest;
+import pu.master.core.repositories.CommentRepository;
 
 
 @Service

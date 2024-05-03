@@ -1,4 +1,4 @@
-package pu.master.tmsapi.services;
+package pu.master.core.services;
 
 
 import java.util.List;
@@ -10,15 +10,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pu.master.tmsapi.exceptions.RightNameAlreadyExistsException;
-import pu.master.tmsapi.exceptions.RightNotFoundException;
-import pu.master.tmsapi.mappers.RightMapper;
-import pu.master.tmsapi.models.dtos.RightDto;
-import pu.master.tmsapi.models.entities.Right;
-import pu.master.tmsapi.models.requests.RightRequest;
-import pu.master.tmsapi.repositories.RightRepository;
-import pu.master.tmsapi.testUtils.constants.RightConstants;
-import pu.master.tmsapi.testUtils.factories.RightFactory;
+import pu.master.core.exceptions.RightNameAlreadyExistsException;
+import pu.master.core.exceptions.RightNotFoundException;
+import pu.master.core.mappers.RightMapper;
+import pu.master.core.repositories.RightRepository;
+import pu.master.core.testUtils.constants.RightConstants;
+import pu.master.core.testUtils.factories.RightFactory;
+import pu.master.domain.models.dtos.RightDto;
+import pu.master.domain.models.entities.Right;
+import pu.master.domain.models.requests.RightRequest;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -63,6 +63,7 @@ public class RightServiceTest
         Assertions.assertEquals(exceptionMessage, exception.getMessage());
     }
 
+
     @Test
     void testGetAllRightDtos_success()
     {
@@ -74,6 +75,7 @@ public class RightServiceTest
         Assertions.assertEquals(RightFactory.DEFAULT_RIGHT_DTO_LIST, result);
     }
 
+
     @Test
     void testGetRightById_success()
     {
@@ -83,6 +85,7 @@ public class RightServiceTest
 
         Assertions.assertEquals(RightFactory.DEFAULT_RIGHT, result);
     }
+
 
     @Test
     void testGetRightById_rightNotFound_throwsRightNotFoundException()
@@ -98,15 +101,18 @@ public class RightServiceTest
         Assertions.assertEquals(exceptionMessage, exception.getMessage());
     }
 
+
     @Test
     void testGetRightByName_success()
     {
-        Mockito.when(rightRepository.findRightByName(Mockito.anyString())).thenReturn(Optional.of(RightFactory.DEFAULT_RIGHT));
+        Mockito.when(rightRepository.findRightByName(Mockito.anyString()))
+               .thenReturn(Optional.of(RightFactory.DEFAULT_RIGHT));
 
         final Right result = rightService.getRightByName(RightConstants.RIGHT_NAME);
 
         Assertions.assertEquals(RightFactory.DEFAULT_RIGHT, result);
     }
+
 
     @Test
     void testGetRightByName_rightNotFound_throwsRightNotFoundException()

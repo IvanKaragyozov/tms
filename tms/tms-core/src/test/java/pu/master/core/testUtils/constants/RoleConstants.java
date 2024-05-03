@@ -1,11 +1,11 @@
-package pu.master.tmsapi.testUtils.constants;
+package pu.master.core.testUtils.constants;
 
 
 import java.util.Collections;
 import java.util.Set;
-import pu.master.tmsapi.models.dtos.RightDto;
-import pu.master.tmsapi.models.entities.Right;
-import pu.master.tmsapi.testUtils.factories.RightFactory;
+import pu.master.core.testUtils.factories.RightFactory;
+import pu.master.domain.models.dtos.RightDto;
+import pu.master.domain.models.entities.Right;
 
 
 public final class RoleConstants

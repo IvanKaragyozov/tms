@@ -1,4 +1,4 @@
-package pu.master.tmsapi.jwt;
+package pu.master.core.jwt;
 
 
 import jakarta.servlet.FilterChain;
@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import static pu.master.tmsapi.utils.constants.JwtConstants.JWT_COOKIE_NAME;
+import static pu.master.core.utils.constants.JwtConstants.JWT_COOKIE_NAME;
 
 
 @Component

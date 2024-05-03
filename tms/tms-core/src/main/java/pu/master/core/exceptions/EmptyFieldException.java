@@ -1,4 +1,4 @@
-package pu.master.tmsapi.exceptions;
+package pu.master.core.exceptions;
 
 
 public class EmptyFieldException extends RuntimeException

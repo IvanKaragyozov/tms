@@ -1,4 +1,4 @@
-package pu.master.tmsapi.configurations;
+package pu.master.core.configurations;
 
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,9 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
-import pu.master.tmsapi.jwt.JwtRequestFilter;
-
-import static pu.master.tmsapi.utils.constants.JwtConstants.JWT_COOKIE_NAME;
+import pu.master.core.jwt.JwtRequestFilter;
+import pu.master.core.utils.constants.JwtConstants;
 
 
 @Configuration
@@ -64,7 +63,7 @@ public class WebSecurityConfig
             // JWT filter
             .addFilterBefore(this.jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
             .logout((customizer) -> customizer.logoutUrl(LOGOUT_URL)
-                                              .deleteCookies(JWT_COOKIE_NAME)
+                                              .deleteCookies(JwtConstants.JWT_COOKIE_NAME)
                                               .logoutSuccessHandler((request, response, authentication) -> response.setStatus(
                                                               HttpServletResponse.SC_NO_CONTENT)));
 
