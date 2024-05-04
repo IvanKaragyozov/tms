@@ -22,7 +22,7 @@ import static pu.master.core.utils.constants.JwtConstants.JWT_VALIDITY_DURATION;
 public class JwtTokenUtil implements Serializable
 {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
 
     @Value("${jwt.secret}")
     private String secret;
