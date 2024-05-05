@@ -1,6 +1,7 @@
 package pu.master.core.handlers;
 
 
+import io.jsonwebtoken.ExpiredJwtException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,19 @@ public class GlobalExceptionHandler
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 
+    // TODO: Find out why it is not working exactly
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<Map<String, List<String>>> handleExpiredJwtException(
+                    final ExpiredJwtException exception)
+    {
+        LOGGER.error(CAUGHT_EXCEPTION_MESSAGE, exception);
+
+        final String expiredTokenMessage = "Your token has expired, please login again to continue.";
+        final Map<String, List<String>> errorsMap = formatErrorsResponse(expiredTokenMessage);
+        return new ResponseEntity<>(errorsMap, HttpStatus.UNAUTHORIZED);
+    }
+
+
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<Map<String, List<String>>> handleHttpRequestMethodNotSupportedException(
                     final HttpRequestMethodNotSupportedException exception)
@@ -46,6 +60,7 @@ public class GlobalExceptionHandler
         final Map<String, List<String>> errorsMap = formatErrorsResponse(exception.getMessage());
         return new ResponseEntity<>(errorsMap, HttpStatus.METHOD_NOT_ALLOWED);
     }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, List<String>>> handleMethodArgumentNotValidException(
@@ -62,6 +77,7 @@ public class GlobalExceptionHandler
 
         return new ResponseEntity<>(formatErrorsResponse(errorMessages), HttpStatus.BAD_REQUEST);
     }
+
 
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     public ResponseEntity<Map<String, List<String>>> handleInternalAuthenticationServiceException(
