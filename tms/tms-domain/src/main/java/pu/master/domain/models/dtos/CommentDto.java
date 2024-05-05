@@ -3,13 +3,13 @@ package pu.master.domain.models.dtos;
 
 import java.time.LocalDateTime;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class CommentDto extends BaseDto
 {
 

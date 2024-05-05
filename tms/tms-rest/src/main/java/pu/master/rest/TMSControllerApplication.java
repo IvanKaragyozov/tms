@@ -12,10 +12,13 @@ import pu.master.rest.utils.PackageNamesScans;
 @SpringBootApplication
 @EntityScan(basePackages = PackageNamesScans.DOMAIN_ENTITY_PACKAGE)
 @EnableJpaRepositories(basePackages = PackageNamesScans.CORE_REPOSITORY_PACKAGE)
-@ComponentScan(basePackages = {PackageNamesScans.CORE_SERVICE_PACKAGE,
-                               PackageNamesScans.CORE_CONFIGURATION_PACKAGE,
-                               PackageNamesScans.CORE_MAPPER_PACKAGE,
-                               PackageNamesScans.CORE_JWT_PACKAGE
+@ComponentScan(basePackages = {
+                PackageNamesScans.REST_CONTROLLER_PACKAGE,
+                PackageNamesScans.CORE_CONFIGURATION_PACKAGE,
+                PackageNamesScans.CORE_JWT_PACKAGE,
+                PackageNamesScans.CORE_HANDLER_PACKAGE,
+                PackageNamesScans.CORE_MAPPER_PACKAGE,
+                PackageNamesScans.CORE_SERVICE_PACKAGE
 })
 public class TMSControllerApplication
 {

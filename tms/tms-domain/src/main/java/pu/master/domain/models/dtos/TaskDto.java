@@ -3,6 +3,7 @@ package pu.master.domain.models.dtos;
 
 import java.util.List;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import pu.master.domain.models.enums.TaskPriority;
@@ -11,7 +12,7 @@ import pu.master.domain.models.enums.TaskStatus;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class TaskDto extends BaseDto
 {
 

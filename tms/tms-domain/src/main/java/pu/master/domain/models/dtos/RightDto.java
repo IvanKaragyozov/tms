@@ -2,13 +2,15 @@ package pu.master.domain.models.dtos;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Getter
+@NoArgsConstructor
 public class RightDto extends BaseDto
 {
 
-    private final String name;
+    private String name;
 
 
     public RightDto(final long id, final String name)

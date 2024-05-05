@@ -4,6 +4,7 @@ package pu.master.core.jwt;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import pu.master.domain.models.entities.User;
 public class JwtUserDetailsService implements UserDetailsService
 {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JwtUserDetailsService.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(JwtUserDetailsService.class);
 
     private final UserRepository userRepository;
 
@@ -45,7 +46,7 @@ public class JwtUserDetailsService implements UserDetailsService
         final List<SimpleGrantedAuthority> authorities = new ArrayList<>(4);
         final Set<Role> roles = user.getRoles();
 
-        if (null != roles)
+        if (roles != null)
         {
             roles.forEach(role -> {
                 final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role.getName());
