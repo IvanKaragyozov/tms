@@ -35,9 +35,6 @@ public class ProjectController
         this.projectService = projectService;
     }
 
-    // TODO: Create POST request for Project entity and GET request for Projects By User Id
-
-
     @PostMapping("/projects")
     public ResponseEntity<Void> createProjects(@RequestBody @Valid final ProjectRequest projectRequest)
     {

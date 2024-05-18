@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,6 +17,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import pu.master.core.jwt.JwtRequestFilter;
 import pu.master.core.utils.constants.JwtConstants;
+import pu.master.core.utils.constants.RoleNames;
 
 
 @Configuration
@@ -31,6 +31,18 @@ public class WebSecurityConfig
                     "/login",
                     "/register",
                     "/logout"
+    };
+
+    private static final String[] ADMIN_PATH = {
+                    "/users",
+                    "/users/\\d+",
+                    "/users\\?username=.*",
+                    "/users\\?email=.*",
+                    "/roles",
+                    "/rights",
+                    "/projects",
+                    "/tasks",
+                    "/comments"
     };
 
     private final JwtRequestFilter jwtRequestFilter;
@@ -60,6 +72,7 @@ public class WebSecurityConfig
             // TODO: Implement GUEST role
             //.anonymous(AbstractHttpConfigurer::disable)
             //.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/**").permitAll())
+            .authorizeHttpRequests((authorize) -> authorize.requestMatchers(ADMIN_PATH).hasAuthority(RoleNames.ADMIN.name()))
             .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
             .sessionManagement((authorize) -> authorize.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // JWT filter

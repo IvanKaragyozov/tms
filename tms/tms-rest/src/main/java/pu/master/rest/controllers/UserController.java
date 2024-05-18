@@ -2,7 +2,6 @@ package pu.master.rest.controllers;
 
 
 import jakarta.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 import pu.master.core.services.UserService;
 import pu.master.domain.models.dtos.UserDto;
-import pu.master.domain.models.entities.User;
 import pu.master.domain.models.requests.LoginRequest;
 import pu.master.domain.models.requests.UserRequest;
 
@@ -62,21 +59,6 @@ public class UserController
         return ResponseEntity.status(HttpStatus.CREATED)
                              .header(HttpHeaders.SET_COOKIE, cookie.toString())
                              .build();
-    }
-
-
-    @PostMapping("/users")
-    public ResponseEntity<Void> createUser(@RequestBody @Valid final UserRequest userRequest)
-    {
-        LOGGER.debug("Trying to save user to the database");
-        final User user = this.userService.createUser(userRequest);
-        LOGGER.info("Created new user");
-
-        final URI location = UriComponentsBuilder.fromUriString("/users/{id}")
-                                                 .buildAndExpand(user.getId())
-                                                 .toUri();
-
-        return ResponseEntity.created(location).build();
     }
 
 
