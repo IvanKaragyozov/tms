@@ -80,8 +80,6 @@ public class UserService
     public User createUser(final UserRequest userRequest)
     {
 
-
-
         final User user = this.userMapper.mapUserRequestToUser(userRequest);
 
         final Role defaultUserRole = getDefaultUserRole();

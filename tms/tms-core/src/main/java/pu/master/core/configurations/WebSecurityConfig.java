@@ -29,7 +29,7 @@ public class WebSecurityConfig
 
     private static final String[] AUTH_PATH = {
                     "/login",
-                    "/registration",
+                    "/register",
                     "/logout"
     };
 
@@ -58,7 +58,7 @@ public class WebSecurityConfig
             .authorizeHttpRequests((authorize) -> authorize.requestMatchers(AUTH_PATH).permitAll())
             // TODO: add paths for each authority
             // TODO: Implement GUEST role
-            .anonymous(AbstractHttpConfigurer::disable)
+            //.anonymous(AbstractHttpConfigurer::disable)
             //.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/**").permitAll())
             .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
             .sessionManagement((authorize) -> authorize.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
