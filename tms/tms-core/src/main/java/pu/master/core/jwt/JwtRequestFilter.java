@@ -47,13 +47,13 @@ public class JwtRequestFilter extends OncePerRequestFilter
         final String token = getJwtToken(request.getCookies());
         String username = null;
 
-        if (null != token && !token.isEmpty())
+        if (token != null && !token.isEmpty())
         {
             LOGGER.info("JWT found");
             username = this.tokenUtil.getUsernameFromToken(token);
         }
 
-        if (null == SecurityContextHolder.getContext().getAuthentication() && null != username)
+        if (SecurityContextHolder.getContext().getAuthentication() == null && username != null)
         {
             final UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
@@ -76,7 +76,7 @@ public class JwtRequestFilter extends OncePerRequestFilter
     private String getJwtToken(final Cookie[] cookies)
     {
         LOGGER.debug("Retrieving a JWT token from all cookies");
-        if (null != cookies)
+        if (cookies != null)
         {
             return Arrays.stream(cookies)
                          .filter(cookie -> JWT_COOKIE_NAME.equals(cookie.getName()))

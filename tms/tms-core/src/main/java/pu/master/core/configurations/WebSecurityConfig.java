@@ -9,15 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
 import pu.master.core.jwt.JwtRequestFilter;
 import pu.master.core.utils.constants.JwtConstants;
 import pu.master.core.utils.constants.RoleNames;
@@ -52,6 +55,7 @@ public class WebSecurityConfig
 
     private final JwtRequestFilter jwtRequestFilter;
 
+
     @Autowired
     public WebSecurityConfig(final JwtRequestFilter jwtRequestFilter)
     {
@@ -60,47 +64,55 @@ public class WebSecurityConfig
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception
+    {
 
-        final CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler = new CsrfTokenRequestAttributeHandler();
-        csrfTokenRequestAttributeHandler.setCsrfRequestAttributeName("_csrf");
+//        final CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler =
+//                        new CsrfTokenRequestAttributeHandler();
+//        csrfTokenRequestAttributeHandler.setCsrfRequestAttributeName(null);
 
-        http
-                        .csrf((csrf) -> csrf
-                                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                                        .csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
-                        )
-                        .authorizeHttpRequests((authorize) -> authorize
-                                        .requestMatchers(AUTH_PATH).permitAll()
-                                        .requestMatchers(ADMIN_PATH).hasAuthority(RoleNames.USER.name())
-                                        .anyRequest().authenticated()
-                        )
-                        .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                        )
-                        .addFilterBefore(this.jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                        .logout((logout) -> logout
-                                        .logoutUrl(LOGOUT_URL)
-                                        .addLogoutHandler((request, response, authentication) -> {
-                                            LOGGER.info("Processing logout for user: " + (authentication != null ? authentication.getName() : "anonymous"));
-                                            if (request.getCookies() != null) {
-                                                for (Cookie cookie : request.getCookies()) {
-                                                    LOGGER.info("Cookie before logout: " + cookie.getName() + "=" + cookie.getValue());
-                                                    cookie.setValue("");
-                                                    cookie.setPath("/");
-                                                    cookie.setMaxAge(0);
-                                                    response.addCookie(cookie);
-                                                }
-                                            }
-                                        })
-                                        .deleteCookies(JwtConstants.JWT_COOKIE_NAME, "XSRF-TOKEN")
-                                        .logoutSuccessHandler((request, response, authentication) -> {
-                                            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-                                            LOGGER.info("Logout successful. Clearing cookies.");
-                                        })
-                        );
+//        http.csrf((csrf) -> csrf
+//                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//                        .csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
+//        )
+
+        http.csrf(AbstractHttpConfigurer::disable)
+            // Authorize requests
+            .authorizeHttpRequests((authorize) -> authorize.requestMatchers(AUTH_PATH).permitAll())
+            .authorizeHttpRequests((authorize) -> authorize.requestMatchers(ADMIN_PATH).hasAuthority(RoleNames.USER.name()))
+            .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
+            // Ensure session is stateless
+            .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            // Add the JWT Request Filter before the Security Filter Chain
+            .addFilterBefore(this.jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+            // Logout handler
+            .logout((logout) -> logout.logoutUrl(LOGOUT_URL)
+                                      .addLogoutHandler((request, response, authentication) -> {
+                                          LOGGER.info("Processing logout for user: " +
+                                                      (authentication != null ? authentication.getName()
+                                                                              : "anonymous"));
+                                          if (request.getCookies() != null)
+                                          {
+                                              for (final Cookie cookie : request.getCookies())
+                                              {
+                                                  LOGGER.info("Cookie before logout: " + cookie.getName() + "=" +
+                                                              cookie.getValue());
+                                                  cookie.setValue("");
+                                                  cookie.setPath("/");
+                                                  cookie.setMaxAge(0);
+                                                  response.addCookie(cookie);
+                                              }
+                                          }
+                                      })
+                                      .deleteCookies(JwtConstants.JWT_COOKIE_NAME, "XSRF-TOKEN")
+                                      .logoutSuccessHandler((request, response, authentication) -> {
+                                          response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                                          LOGGER.info("Logout successful. Clearing cookies.");
+                                      }));
 
         return http.build();
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration)

@@ -45,7 +45,7 @@ public class JwtTokenUtil implements Serializable
     public <T> T getClaimFromToken(final String token, final Function<Claims, T> claimsResolver)
     {
         final Claims claims = getAllClaimsFromToken(token);
-        LOGGER.debug("Extracting the claim from the JWT token");
+        LOGGER.debug("Extracting the claims from the JWT token");
         return claimsResolver.apply(claims);
     }
 
@@ -98,7 +98,7 @@ public class JwtTokenUtil implements Serializable
         final String username = getUsernameFromToken(token);
 
         final boolean isTokenValid = (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-        LOGGER.debug("Validating a JWT token");
+        LOGGER.debug("Validating the JWT token");
         return isTokenValid;
     }
 }

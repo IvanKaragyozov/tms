@@ -38,7 +38,6 @@ public class GlobalExceptionHandler
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 
-    // TODO: Find out why it is not working exactly
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<Map<String, List<String>>> handleExpiredJwtException(
                     final ExpiredJwtException exception)
