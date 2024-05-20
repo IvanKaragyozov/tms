@@ -79,7 +79,6 @@ public class UserService
 
     public User createUser(final UserRequest userRequest)
     {
-
         final User user = this.userMapper.mapUserRequestToUser(userRequest);
 
         final Role defaultUserRole = getDefaultUserRole();
@@ -98,7 +97,6 @@ public class UserService
     public List<UserDto> getAllUserDtos()
     {
         final List<User> allUsers = this.userRepository.findAll();
-
         return allUsers.stream()
                        .map(this.userMapper::mapUserToDto)
                        .toList();

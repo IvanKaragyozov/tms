@@ -60,11 +60,11 @@ public class JwtTokenUtil implements Serializable
     private boolean isTokenExpired(final String token)
     {
         final Date expirationDate = getExpirationDateFromToken(token);
-        final Date now = new Date();
-
-        LOGGER.debug("Checking whether the JWT has expired");
+        final Date now = new Date(System.currentTimeMillis());
+        LOGGER.debug("Checking token expiration. Now: {}, Expiration: {}", now, expirationDate);
         return expirationDate.before(now);
     }
+
 
 
     public String generateToken(final UserDetails userDetails)
@@ -77,15 +77,20 @@ public class JwtTokenUtil implements Serializable
 
     private String doGenerateToken(final Map<String, Object> claims, final String subject)
     {
-        final Date expirationDate = new Date(System.currentTimeMillis() + JWT_VALIDITY_DURATION);
         final Date now = new Date(System.currentTimeMillis());
-        return Jwts.builder().setClaims(claims)
+        final Date expirationDate = new Date(now.getTime() + JWT_VALIDITY_DURATION);
+
+        LOGGER.info("Generating JWT token with expiration time: {}", expirationDate);
+
+        return Jwts.builder()
+                   .setClaims(claims)
                    .setSubject(subject)
                    .setIssuedAt(now)
                    .setExpiration(expirationDate)
-                   // TODO: Think of a more secure hashing method
-                   .signWith(SignatureAlgorithm.HS512, secret).compact();
+                   .signWith(SignatureAlgorithm.HS512, secret)
+                   .compact();
     }
+
 
 
     public boolean validateToken(final String token, final UserDetails userDetails)

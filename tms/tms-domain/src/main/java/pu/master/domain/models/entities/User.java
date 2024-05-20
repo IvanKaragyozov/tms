@@ -54,7 +54,7 @@ public class User extends BaseEntity
     @Column(name = "date_last_modified_at")
     private LocalDate dateLastModifiedAt;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
                     name = "user_projects",
                     joinColumns = @JoinColumn(name = "user_id"),
@@ -62,7 +62,7 @@ public class User extends BaseEntity
     )
     private List<Project> projects;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
                     name = "user_roles",
                     joinColumns = @JoinColumn(name = "user_id"),
@@ -70,7 +70,7 @@ public class User extends BaseEntity
     )
     private Set<Role> roles;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
                     name = "user_tasks",
                     joinColumns = @JoinColumn(name = "user_id"),
