@@ -43,16 +43,13 @@ public class JwtUserDetailsService implements UserDetailsService
         });
 
         final List<SimpleGrantedAuthority> authorities = new ArrayList<>(4);
-        final Set<Role> roles = user.getRoles();
 
-        if (roles != null)
-        {
-            roles.forEach(role -> {
-                final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role.getName());
-                LOGGER.debug(String.format("Creating SimpleGrantedAuthority with name [%s]", role.getName()));
-                authorities.add(simpleGrantedAuthority);
-            });
-        }
+        final Set<Role> roles = user.getRoles();
+        roles.forEach(role -> {
+            final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role.getName());
+            LOGGER.info(String.format("Creating SimpleGrantedAuthority with name [%s]", role.getName()));
+            authorities.add(simpleGrantedAuthority);
+        });
 
         LOGGER.debug("Creating org.springframework.security.core.userdetails.User");
         return new org.springframework.security.core.userdetails.User(
