@@ -45,7 +45,7 @@ class AdminAccountInitializer
 
         final RegistrationRequest adminRequest = createAdminData();
         final User registeredAdmin = this.userService.registerAdmin(adminRequest);
-        LOGGER.info(String.format("Created ADMIN with username [%s]", registeredAdmin.getUsername()));
+        LOGGER.info("Created ADMIN account with username [{}]", registeredAdmin.getUsername());
     }
 
 

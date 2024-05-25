@@ -13,6 +13,7 @@ import pu.master.core.repositories.RightRepository;
 import pu.master.core.repositories.RoleRepository;
 import pu.master.core.utils.constants.RoleNames;
 import pu.master.domain.models.entities.Right;
+import pu.master.domain.models.entities.Role;
 
 
 /**
@@ -39,7 +40,9 @@ class DefaultRoleInitializer extends BaseRoleInitializer
         final String defaultRoleName = RoleNames.USER.name();
         final Set<Right> defaultUserRights = RoleInitializerUtils.DEFAULT_USER_RIGHTS;
 
-        super.createRoleIfNotExists(defaultRoleName, defaultUserRights);
-        LOGGER.info("Created default user role with name: [{}]", defaultRoleName);
+        final Role userRole = super.createRoleIfNotExists(defaultRoleName, defaultUserRights);
+        LOGGER.info(userRole == null
+                    ? "[{}] role was already created"
+                    : "Created default user role with name: [{}]", defaultRoleName);
     }
 }

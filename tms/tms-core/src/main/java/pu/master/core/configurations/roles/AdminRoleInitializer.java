@@ -13,6 +13,7 @@ import pu.master.core.repositories.RightRepository;
 import pu.master.core.repositories.RoleRepository;
 import pu.master.core.utils.constants.RoleNames;
 import pu.master.domain.models.entities.Right;
+import pu.master.domain.models.entities.Role;
 
 
 /**
@@ -38,7 +39,9 @@ class AdminRoleInitializer extends BaseRoleInitializer
         final String adminRoleName = RoleNames.ADMIN.name();
         final Set<Right> adminRights = RoleInitializerUtils.ADMIN_RIGHTS;
 
-        super.createRoleIfNotExists(adminRoleName, adminRights);
-        LOGGER.info("Created admin role with name: [{}]", adminRoleName);
+        final Role adminRole = super.createRoleIfNotExists(adminRoleName, adminRights);
+        LOGGER.info(adminRole == null
+                    ? "[{}] role was already created"
+                    : "Created admin role with name: [{}]", adminRoleName);
     }
 }

@@ -22,5 +22,5 @@ jwt:
 
 application:
   admin:
-    username: ${TMS_ADMIN_USERNAME}
-    password: ${TMS_ADMIN_PASSWORD}
+    username: admin
+    password: admin

@@ -28,26 +28,28 @@ abstract class BaseRoleInitializer
     protected final RightRepository rightRepository;
 
 
-    protected void createRoleIfNotExists(final String roleName, final Set<Right> rights)
+    protected Role createRoleIfNotExists(final String roleName, final Set<Right> rights)
     {
-        if (!this.roleRepository.existsByName(roleName))
+        if (this.roleRepository.existsByName(roleName))
         {
-            final Set<Right> persistedRights = rights
-                            .stream()
-                            .map(right -> this.rightRepository
-                                            .findRightByName(right.getName())
-                                            .orElseGet(() -> {
-                                                final Right newRight = new Right(right.getName());
-                                                LOGGER.info("Saving right with name: [{}]", newRight.getName());
-                                                return rightRepository.save(newRight);
-                                            }))
-                            .collect(Collectors.toSet());
-
-            final Role roleToSave = new Role(roleName);
-            roleToSave.setRights(persistedRights);
-
-            this.roleRepository.save(roleToSave);
+            return null;
         }
+
+        final Set<Right> persistedRights = rights
+                        .stream()
+                        .map(right -> this.rightRepository
+                                        .findRightByName(right.getName())
+                                        .orElseGet(() -> {
+                                            final Right newRight = new Right(right.getName());
+                                            LOGGER.info("Saving right with name: [{}]", newRight.getName());
+                                            return rightRepository.save(newRight);
+                                        }))
+                        .collect(Collectors.toSet());
+
+        final Role roleToSave = new Role(roleName);
+        roleToSave.setRights(persistedRights);
+
+        return this.roleRepository.save(roleToSave);
     }
 
 }
