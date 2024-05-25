@@ -4,10 +4,13 @@ package pu.master.core.services;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+
 import pu.master.core.exceptions.RoleNameAlreadyExistsException;
 import pu.master.core.exceptions.RoleNotFoundException;
 import pu.master.core.mappers.RoleMapper;
@@ -18,6 +21,7 @@ import pu.master.domain.models.entities.Role;
 import pu.master.domain.models.requests.RoleRequest;
 
 
+@RequiredArgsConstructor
 @Service
 public class RoleService
 {
@@ -26,19 +30,7 @@ public class RoleService
 
     private final RoleRepository roleRepository;
     private final RightService rightService;
-
     private final RoleMapper roleMapper;
-
-
-    @Autowired
-    public RoleService(final RoleRepository roleRepository,
-                       final RightService rightService,
-                       final RoleMapper roleMapper)
-    {
-        this.roleRepository = roleRepository;
-        this.rightService = rightService;
-        this.roleMapper = roleMapper;
-    }
 
 
     public Role createRole(final RoleRequest roleRequest)

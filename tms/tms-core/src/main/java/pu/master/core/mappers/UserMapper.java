@@ -6,9 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import pu.master.domain.models.dtos.UserDto;
 import pu.master.domain.models.entities.User;
-import pu.master.domain.models.requests.UserRequest;
+import pu.master.domain.models.requests.RegistrationRequest;
 
 
 @Component
@@ -26,10 +27,10 @@ public class UserMapper
     }
 
 
-    public User mapUserRequestToUser(final UserRequest userRequest)
+    public User mapUserRequestToUser(final RegistrationRequest registrationRequest)
     {
         LOGGER.debug("Mapping UserRequest to User");
-        return this.modelMapper.map(userRequest, User.class);
+        return this.modelMapper.map(registrationRequest, User.class);
     }
 
 

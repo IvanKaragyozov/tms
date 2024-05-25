@@ -2,18 +2,22 @@ package pu.master.core.services;
 
 
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+
 import pu.master.core.mappers.TaskMapper;
+import pu.master.core.repositories.TaskRepository;
 import pu.master.domain.models.dtos.TaskDto;
 import pu.master.domain.models.entities.Task;
 import pu.master.domain.models.entities.User;
 import pu.master.domain.models.requests.TaskRequest;
-import pu.master.core.repositories.TaskRepository;
 
 
+@RequiredArgsConstructor
 @Service
 public class TaskService
 {
@@ -25,17 +29,6 @@ public class TaskService
     private final UserService userService;
 
     private final TaskMapper taskMapper;
-
-
-    @Autowired
-    public TaskService(final TaskRepository taskRepository,
-                       final UserService userService,
-                       final TaskMapper taskMapper)
-    {
-        this.taskRepository = taskRepository;
-        this.userService = userService;
-        this.taskMapper = taskMapper;
-    }
 
 
     public Task createTask(final TaskRequest taskRequest)

@@ -3,13 +3,13 @@ package pu.master.core.configurations;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,9 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
+
 import pu.master.core.jwt.JwtRequestFilter;
 import pu.master.core.utils.constants.JwtConstants;
 import pu.master.core.utils.constants.RoleNames;
@@ -67,19 +65,10 @@ public class WebSecurityConfig
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception
     {
 
-//        final CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler =
-//                        new CsrfTokenRequestAttributeHandler();
-//        csrfTokenRequestAttributeHandler.setCsrfRequestAttributeName(null);
-
-//        http.csrf((csrf) -> csrf
-//                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-//                        .csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
-//        )
-
         http.csrf(AbstractHttpConfigurer::disable)
             // Authorize requests
             .authorizeHttpRequests((authorize) -> authorize.requestMatchers(AUTH_PATH).permitAll())
-            .authorizeHttpRequests((authorize) -> authorize.requestMatchers(ADMIN_PATH).hasAuthority(RoleNames.USER.name()))
+            .authorizeHttpRequests((authorize) -> authorize.requestMatchers(ADMIN_PATH).hasAuthority(RoleNames.ADMIN.name()))
             .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
             // Ensure session is stateless
             .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

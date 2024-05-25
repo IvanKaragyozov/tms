@@ -5,3 +5,4 @@ server:
   servlet:
     session:
       timeout: 5m
+

@@ -3,26 +3,31 @@ package pu.master.core.services;
 
 import java.time.LocalDate;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+
 import pu.master.core.exceptions.UserNotFoundException;
 import pu.master.core.jwt.JwtCookieUtil;
 import pu.master.core.mappers.UserMapper;
+import pu.master.core.repositories.UserRepository;
+import pu.master.core.utils.SecurityUtils;
+import pu.master.core.utils.constants.RoleNames;
 import pu.master.domain.models.dtos.UserDto;
 import pu.master.domain.models.entities.Role;
 import pu.master.domain.models.entities.User;
 import pu.master.domain.models.requests.LoginRequest;
-import pu.master.domain.models.requests.UserRequest;
-import pu.master.core.repositories.UserRepository;
-import pu.master.core.utils.constants.RoleNames;
+import pu.master.domain.models.requests.RegistrationRequest;
 
 
+@RequiredArgsConstructor
 @Service
 public class UserService
 {
@@ -31,27 +36,10 @@ public class UserService
 
     private final AuthenticationManager authenticationManager;
     private final JwtCookieUtil jwtCookieUtil;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final SecurityUtils securityUtils;
     private final UserRepository userRepository;
-
     private final RoleService roleService;
-
     private final UserMapper userMapper;
-
-
-    public UserService(final AuthenticationManager authenticationManager,
-                       final JwtCookieUtil jwtCookieUtil, final BCryptPasswordEncoder bCryptPasswordEncoder,
-                       final UserRepository userRepository,
-                       final RoleService roleService,
-                       final UserMapper userMapper)
-    {
-        this.authenticationManager = authenticationManager;
-        this.jwtCookieUtil = jwtCookieUtil;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.userRepository = userRepository;
-        this.roleService = roleService;
-        this.userMapper = userMapper;
-    }
 
 
     public HttpCookie login(final LoginRequest loginRequest)
@@ -64,33 +52,62 @@ public class UserService
         final UserDetails principal =
                         (UserDetails) this.authenticationManager.authenticate(authenticationToken).getPrincipal();
 
-
         return this.jwtCookieUtil.createJWTCookie(principal);
     }
 
-    public HttpCookie registerUser(final UserRequest userRequest)
+
+    public HttpCookie registerUser(final RegistrationRequest registrationRequest)
     {
-        final User user = createUser(userRequest);
+        final User user = createUser(registrationRequest);
 
         final LoginRequest loginRequest = new LoginRequest().setUsername(user.getUsername())
                                                             .setPassword(user.getPassword());
         return login(loginRequest);
     }
 
-    public User createUser(final UserRequest userRequest)
+
+    /**
+     * Registers a {@link User} with admin authorities with hashed password
+     * and saves it into the database.
+     *
+     * @param registrationRequest The account information for the admin.
+     * @return The newly created admin.
+     */
+    public User registerAdmin(final RegistrationRequest registrationRequest)
     {
-        final User user = this.userMapper.mapUserRequestToUser(userRequest);
+        final User admin = createAdmin(registrationRequest);
+        admin.setDateCreatedAt(LocalDate.now());
+        return this.userRepository.save(admin);
+    }
+
+
+    private User createUser(final RegistrationRequest registrationRequest)
+    {
+        final User user = this.userMapper.mapUserRequestToUser(registrationRequest);
 
         final Role defaultUserRole = getDefaultUserRole();
-        final String encryptedUserPassword = this.bCryptPasswordEncoder.encode(userRequest.getPassword());
+        final String encryptedUserPassword = this.securityUtils.encodePassword(registrationRequest.getPassword());
 
         user.addRole(defaultUserRole);
         user.setPassword(encryptedUserPassword);
         user.setActive(true);
         user.setDateCreatedAt(LocalDate.now());
-        user.setDateLastModifiedAt(LocalDate.now());
 
         return this.userRepository.save(user);
+    }
+
+
+    private User createAdmin(final RegistrationRequest registrationRequest)
+    {
+        final User admin = this.userMapper.mapUserRequestToUser(registrationRequest);
+
+        final Role adminRole = getAdminRole();
+        final String encryptedPassword = this.securityUtils.encodePassword(registrationRequest.getPassword());
+
+        admin.addRole(adminRole);
+        admin.setPassword(encryptedPassword);
+
+        return admin;
     }
 
 
@@ -138,8 +155,15 @@ public class UserService
         return this.userMapper.mapUserToDto(user);
     }
 
-    public Role getDefaultUserRole()
+
+    private Role getDefaultUserRole()
     {
         return this.roleService.getRoleByName(RoleNames.USER.name());
+    }
+
+
+    private Role getAdminRole()
+    {
+        return this.roleService.getRoleByName(RoleNames.ADMIN.name());
     }
 }
