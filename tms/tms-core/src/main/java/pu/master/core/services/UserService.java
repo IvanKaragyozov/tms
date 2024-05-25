@@ -76,6 +76,7 @@ public class UserService
     public User registerAdmin(final RegistrationRequest registrationRequest)
     {
         final User admin = createAdmin(registrationRequest);
+        admin.setDateCreatedAt(LocalDate.now());
         return this.userRepository.save(admin);
     }
 
@@ -91,7 +92,6 @@ public class UserService
         user.setPassword(encryptedUserPassword);
         user.setActive(true);
         user.setDateCreatedAt(LocalDate.now());
-        user.setDateLastModifiedAt(LocalDate.now());
 
         return this.userRepository.save(user);
     }
@@ -107,7 +107,7 @@ public class UserService
         admin.addRole(adminRole);
         admin.setPassword(encryptedPassword);
 
-        return this.userRepository.save(admin);
+        return admin;
     }
 
 

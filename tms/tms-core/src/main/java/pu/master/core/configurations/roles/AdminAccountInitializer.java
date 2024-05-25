@@ -18,6 +18,7 @@ import pu.master.domain.models.requests.RegistrationRequest;
 
 
 @RequiredArgsConstructor
+
 @Component
 class AdminAccountInitializer
 {

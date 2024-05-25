@@ -20,13 +20,5 @@ final class RoleInitializerUtils
     static Set<Right> ADMIN_RIGHTS = Arrays.stream(AdminRightNames.values())
                                            .map(right -> new Right(right.name()))
                                            .collect(Collectors.toSet());
-    private static final Set<String> adminRightNames = Arrays.stream(AdminRightNames.values())
-                                                             .map(Enum::name)
-                                                             .collect(Collectors.toSet());
-
-    static Set<String> ALL_RIGHT_NAMES = Arrays.stream(UserRightNames.values())
-                                               .map(Enum::name)
-                                               .filter(name -> !adminRightNames.contains(name))
-                                               .collect(Collectors.toSet());
 
 }

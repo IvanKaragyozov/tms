@@ -25,7 +25,7 @@ public class RegistrationRequest
     @Pattern(regexp = "^.{8,}$", message = "Password should be at least 8 symbols long")
     private String password;
 
-    @NotBlank(message = "Email cannot be blank!")
+    @NotBlank(message = "Email cannot be blank")
     @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Invalid email address")
     private String email;
 
