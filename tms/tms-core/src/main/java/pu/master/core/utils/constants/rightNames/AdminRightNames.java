@@ -2,7 +2,7 @@ package pu.master.core.utils.constants;
 
 
 /**
- * Enum representing each user authority right
+ * Enum representing each user authority right.
  */
 public enum RightNames
 {
@@ -12,4 +12,5 @@ public enum RightNames
     EDIT_USER,
     DELETE_USER,
 
+    
 }
