@@ -5,3 +5,8 @@ server:
   servlet:
     session:
       timeout: 5m
+
+application:
+  admin:
+    username: admin
+    password: admin

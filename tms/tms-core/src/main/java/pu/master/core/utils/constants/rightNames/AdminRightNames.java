@@ -1,16 +1,15 @@
-package pu.master.core.utils.constants;
+package pu.master.core.utils.constants.rightNames;
 
 
 /**
- * Enum representing each user authority right.
+ * Enum representing admin right names.
  */
-public enum RightNames
+public enum AdminRightNames
 {
 
-    CREATE_USER,
-    GET_USER,
-    EDIT_USER,
-    DELETE_USER,
+    REGISTER_USER_ACCOUNT,
+    GET_OTHER_USER_ACCOUNTS,
+    EDIT_OTHER_USER_ACCOUNTS,
+    DELETE_USER_ACCOUNTS,
 
-    
 }

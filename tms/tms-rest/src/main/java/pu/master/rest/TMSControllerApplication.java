@@ -18,7 +18,8 @@ import pu.master.rest.utils.PackageNamesScans;
                 PackageNamesScans.CORE_JWT_PACKAGE,
                 PackageNamesScans.CORE_HANDLER_PACKAGE,
                 PackageNamesScans.CORE_MAPPER_PACKAGE,
-                PackageNamesScans.CORE_SERVICE_PACKAGE
+                PackageNamesScans.CORE_SERVICE_PACKAGE,
+                PackageNamesScans.CORE_UTILS_PACKAGE
 })
 public class TMSControllerApplication
 {

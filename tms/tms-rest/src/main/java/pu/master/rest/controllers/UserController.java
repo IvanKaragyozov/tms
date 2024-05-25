@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pu.master.core.services.UserService;
 import pu.master.domain.models.dtos.UserDto;
 import pu.master.domain.models.requests.LoginRequest;
-import pu.master.domain.models.requests.UserRequest;
+import pu.master.domain.models.requests.RegistrationRequest;
 
 
 @RestController
@@ -51,10 +51,10 @@ public class UserController
 
 
     @PostMapping("/register")
-    public ResponseEntity<Void> registerUser(@RequestBody @Valid final UserRequest userRequest)
+    public ResponseEntity<Void> registerUser(@RequestBody @Valid final RegistrationRequest registrationRequest)
     {
-        final HttpCookie cookie = this.userService.registerUser(userRequest);
-        LOGGER.info(String.format("Submitting registration request for user with username: [%s]", userRequest.getUsername()));
+        final HttpCookie cookie = this.userService.registerUser(registrationRequest);
+        LOGGER.info(String.format("Submitting registration request for user with username: [%s]", registrationRequest.getUsername()));
 
         return ResponseEntity.status(HttpStatus.CREATED)
                              .header(HttpHeaders.SET_COOKIE, cookie.toString())

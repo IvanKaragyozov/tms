@@ -1,9 +1,12 @@
 package pu.master.domain.models.entities;
 
 
+import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,5 +33,28 @@ public class Right extends BaseEntity
         this.name = name;
     }
 
-    // TODO: Add implementation of equals() and hashCode()
+
+    @Override
+    public boolean equals(final Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        final Right right = (Right) o;
+
+        return Objects.equals(name, right.name);
+    }
+
+
+    @Override
+    public int hashCode()
+    {
+        return name != null ? name.hashCode() : 0;
+    }
 }

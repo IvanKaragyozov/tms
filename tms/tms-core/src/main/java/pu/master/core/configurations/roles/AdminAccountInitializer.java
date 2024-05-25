@@ -1,21 +1,25 @@
-package pu.master.core.configurations;
+package pu.master.core.configurations.roles;
 
 
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
+
 import pu.master.core.repositories.UserRepository;
 import pu.master.core.services.UserService;
+import pu.master.domain.models.entities.User;
 import pu.master.domain.models.requests.RegistrationRequest;
 
 
 @RequiredArgsConstructor
 @Component
-public class AdminAccountInitializer
+class AdminAccountInitializer
 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AdminAccountInitializer.class);
@@ -39,8 +43,8 @@ public class AdminAccountInitializer
         }
 
         final RegistrationRequest adminRequest = createAdminData();
-        this.userService.registerAdmin(adminRequest);
-        LOGGER.info(String.format("Created ADMIN with username [%s]", adminRequest.getUsername()));
+        final User registeredAdmin = this.userService.registerAdmin(adminRequest);
+        LOGGER.info(String.format("Created ADMIN with username [%s]", registeredAdmin.getUsername()));
     }
 
 

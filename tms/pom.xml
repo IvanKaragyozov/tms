@@ -40,7 +40,8 @@
         <mockito-core.version>5.11.0</mockito-core.version>
         <!-- Mockito JUnit-Jupiter Version -->
         <mockito-junitjupiter.version>5.11.0</mockito-junitjupiter.version>
-
+        <!-- Lombok Version -->
+        <lombok-version>1.18.30</lombok-version>
     </properties>
 
     <dependencies>
