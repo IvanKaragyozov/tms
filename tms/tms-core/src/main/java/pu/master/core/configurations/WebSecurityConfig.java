@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,13 +15,18 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import lombok.RequiredArgsConstructor;
 
 import pu.master.core.jwt.JwtRequestFilter;
 import pu.master.core.utils.constants.JwtConstants;
 import pu.master.core.utils.constants.RoleNames;
 
+
+@RequiredArgsConstructor
 
 @Configuration
 @EnableWebSecurity
@@ -52,13 +56,6 @@ public class WebSecurityConfig
     };
 
     private final JwtRequestFilter jwtRequestFilter;
-
-
-    @Autowired
-    public WebSecurityConfig(final JwtRequestFilter jwtRequestFilter)
-    {
-        this.jwtRequestFilter = jwtRequestFilter;
-    }
 
 
     @Bean
@@ -112,7 +109,7 @@ public class WebSecurityConfig
 
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder()
+    public PasswordEncoder passwordEncoder()
     {
         return new BCryptPasswordEncoder();
     }

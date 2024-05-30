@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpCookie;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -49,39 +50,49 @@ public class UserService
                         loginRequest.getUsername(),
                         loginRequest.getPassword());
 
-        final UserDetails principal =
-                        (UserDetails) this.authenticationManager.authenticate(authenticationToken).getPrincipal();
+        LOGGER.debug("Authenticating user: [{}]", loginRequest.getUsername());
 
-        return this.jwtCookieUtil.createJWTCookie(principal);
+        try
+        {
+            final UserDetails principal = (UserDetails) this.authenticationManager.authenticate(authenticationToken)
+                                                                                  .getPrincipal();
+            LOGGER.debug("Authentication successful for user: [{}]", loginRequest.getUsername());
+            return this.jwtCookieUtil.createJWTCookie(principal);
+        }
+        catch (final BadCredentialsException e)
+        {
+            LOGGER.error("Authentication failed for user: {}", loginRequest.getUsername());
+            throw e;
+        }
     }
 
 
-    public HttpCookie registerUser(final RegistrationRequest registrationRequest)
+    public User registerUser(final RegistrationRequest registrationRequest)
     {
-        final User user = createUser(registrationRequest);
+        final User user = createUserData(registrationRequest);
 
-        final LoginRequest loginRequest = new LoginRequest().setUsername(user.getUsername())
-                                                            .setPassword(user.getPassword());
-        return login(loginRequest);
+        this.userRepository.save(user);
+        LOGGER.debug("Registered user with username: [{}]", user.getUsername());
+
+        return user;
     }
 
 
     /**
-     * Registers a {@link User} with admin authorities with hashed password
-     * and saves it into the database.
+     * Registers a {@link User} with admin authorities with hashed password and saves it into the database.
      *
      * @param registrationRequest The account information for the admin.
      * @return The newly created admin.
      */
     public User registerAdmin(final RegistrationRequest registrationRequest)
     {
-        final User admin = createAdmin(registrationRequest);
+        final User admin = createAdminData(registrationRequest);
         admin.setDateCreatedAt(LocalDate.now());
         return this.userRepository.save(admin);
     }
 
 
-    private User createUser(final RegistrationRequest registrationRequest)
+    private User createUserData(final RegistrationRequest registrationRequest)
     {
         final User user = this.userMapper.mapUserRequestToUser(registrationRequest);
 
@@ -93,11 +104,11 @@ public class UserService
         user.setActive(true);
         user.setDateCreatedAt(LocalDate.now());
 
-        return this.userRepository.save(user);
+        return user;
     }
 
 
-    private User createAdmin(final RegistrationRequest registrationRequest)
+    private User createAdminData(final RegistrationRequest registrationRequest)
     {
         final User admin = this.userMapper.mapUserRequestToUser(registrationRequest);
 
