@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,10 +18,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import lombok.RequiredArgsConstructor;
+
 import pu.master.core.jwt.JwtRequestFilter;
 import pu.master.core.utils.constants.JwtConstants;
 import pu.master.core.utils.constants.RoleNames;
 
+
+@RequiredArgsConstructor
 
 @Configuration
 @EnableWebSecurity
@@ -54,13 +57,6 @@ public class WebSecurityConfig
     private final JwtRequestFilter jwtRequestFilter;
 
 
-    @Autowired
-    public WebSecurityConfig(final JwtRequestFilter jwtRequestFilter)
-    {
-        this.jwtRequestFilter = jwtRequestFilter;
-    }
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception
     {
@@ -84,7 +80,7 @@ public class WebSecurityConfig
                                           {
                                               for (final Cookie cookie : request.getCookies())
                                               {
-                                                  LOGGER.info("Cookie before logout: " + cookie.getName() + "=" +
+                                                  LOGGER.debug("Cookie before logout: " + cookie.getName() + "=" +
                                                               cookie.getValue());
                                                   cookie.setValue("");
                                                   cookie.setPath("/");
@@ -96,7 +92,7 @@ public class WebSecurityConfig
                                       .deleteCookies(JwtConstants.JWT_COOKIE_NAME, "XSRF-TOKEN")
                                       .logoutSuccessHandler((request, response, authentication) -> {
                                           response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-                                          LOGGER.info("Logout successful. Clearing cookies.");
+                                          LOGGER.debug("Logout successful. Clearing cookies.");
                                       }));
 
         return http.build();

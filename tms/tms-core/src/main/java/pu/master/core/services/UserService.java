@@ -49,6 +49,8 @@ public class UserService
                         loginRequest.getUsername(),
                         loginRequest.getPassword());
 
+        LOGGER.debug("Is user authenticated: {}", authenticationToken.isAuthenticated());
+
         final UserDetails principal =
                         (UserDetails) this.authenticationManager.authenticate(authenticationToken).getPrincipal();
 
@@ -56,32 +58,32 @@ public class UserService
     }
 
 
-    public HttpCookie registerUser(final RegistrationRequest registrationRequest)
+    public User registerUser(final RegistrationRequest registrationRequest)
     {
-        final User user = createUser(registrationRequest);
+        final User user = createUserData(registrationRequest);
 
-        final LoginRequest loginRequest = new LoginRequest().setUsername(user.getUsername())
-                                                            .setPassword(user.getPassword());
-        return login(loginRequest);
+        this.userRepository.save(user);
+        LOGGER.info("Registered user with username: [{}]", user.getUsername());
+
+        return user;
     }
 
 
     /**
-     * Registers a {@link User} with admin authorities with hashed password
-     * and saves it into the database.
+     * Registers a {@link User} with admin authorities with hashed password and saves it into the database.
      *
      * @param registrationRequest The account information for the admin.
      * @return The newly created admin.
      */
     public User registerAdmin(final RegistrationRequest registrationRequest)
     {
-        final User admin = createAdmin(registrationRequest);
+        final User admin = createAdminData(registrationRequest);
         admin.setDateCreatedAt(LocalDate.now());
         return this.userRepository.save(admin);
     }
 
 
-    private User createUser(final RegistrationRequest registrationRequest)
+    private User createUserData(final RegistrationRequest registrationRequest)
     {
         final User user = this.userMapper.mapUserRequestToUser(registrationRequest);
 
@@ -93,11 +95,11 @@ public class UserService
         user.setActive(true);
         user.setDateCreatedAt(LocalDate.now());
 
-        return this.userRepository.save(user);
+        return user;
     }
 
 
-    private User createAdmin(final RegistrationRequest registrationRequest)
+    private User createAdminData(final RegistrationRequest registrationRequest)
     {
         final User admin = this.userMapper.mapUserRequestToUser(registrationRequest);
 
