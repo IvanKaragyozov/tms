@@ -56,7 +56,6 @@ public class UserController
     @PostMapping("/register")
     public ResponseEntity<Void> createUser(@RequestBody @Valid final RegistrationRequest registrationRequest)
     {
-        LOGGER.debug("Trying to save user to the database");
         final User user = this.userService.registerUser(registrationRequest);
 
         final URI location = UriComponentsBuilder.fromUriString("/users/{id}")
@@ -71,7 +70,7 @@ public class UserController
     public ResponseEntity<List<UserDto>> getAllUsers()
     {
         final List<UserDto> allUsers = this.userService.getAllUserDtos();
-        LOGGER.info("Requesting all users from the database");
+        LOGGER.debug("Requesting all users");
 
         return ResponseEntity.ok(allUsers);
     }
@@ -80,7 +79,7 @@ public class UserController
     @GetMapping("/users/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable final long id)
     {
-        LOGGER.info(String.format("Sending request to user with id [%d]", id));
+        LOGGER.debug(String.format("Sending request to user with id [%d]", id));
         final UserDto userDto = this.userService.getUserDtoById(id);
 
         return ResponseEntity.ok(userDto);
@@ -90,7 +89,7 @@ public class UserController
     @GetMapping(value = "/users", params = "username")
     public ResponseEntity<UserDto> getUserByUsername(@RequestParam final String username)
     {
-        LOGGER.info(String.format("Sending request to user with username [%s]", username));
+        LOGGER.debug(String.format("Sending request to user with username [%s]", username));
         final UserDto userDto = this.userService.getUserDtoByUsername(username);
 
         return ResponseEntity.ok(userDto);

@@ -49,7 +49,7 @@ public class UserService
                         loginRequest.getUsername(),
                         loginRequest.getPassword());
 
-        LOGGER.info("Is user authenticated: {}", authenticationToken.isAuthenticated());
+        LOGGER.debug("Is user authenticated: {}", authenticationToken.isAuthenticated());
 
         final UserDetails principal =
                         (UserDetails) this.authenticationManager.authenticate(authenticationToken).getPrincipal();
