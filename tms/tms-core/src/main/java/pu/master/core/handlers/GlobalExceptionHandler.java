@@ -1,13 +1,13 @@
 package pu.master.core.handlers;
 
 
-import io.jsonwebtoken.ExpiredJwtException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
@@ -19,7 +19,10 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import io.jsonwebtoken.ExpiredJwtException;
 import pu.master.core.exceptions.CommentNotFoundException;
+import pu.master.core.exceptions.EmailAlreadyExistsException;
 import pu.master.core.exceptions.ProjectNotFoundException;
 import pu.master.core.exceptions.RightNotFoundException;
 import pu.master.core.exceptions.RoleNotFoundException;
@@ -92,6 +95,17 @@ public class GlobalExceptionHandler
     @ExceptionHandler(InvalidDataAccessResourceUsageException.class)
     public ResponseEntity<Map<String, List<String>>> handleInvalidDataAccessResourceUsageException(
                     final InvalidDataAccessResourceUsageException exception)
+    {
+        LOGGER.error(CAUGHT_EXCEPTION_MESSAGE, exception);
+
+        final Map<String, List<String>> errorsMap = formatErrorsResponse(exception.getMessage());
+        return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<Map<String, List<String>>> handleEmailAlreadyExistsException(
+                    final EmailAlreadyExistsException exception)
     {
         LOGGER.error(CAUGHT_EXCEPTION_MESSAGE, exception);
 
