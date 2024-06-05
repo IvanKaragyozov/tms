@@ -39,12 +39,14 @@ public class UserValidator
         if (userRepository.findUserByUsername(registrationRequest.getUsername()).isPresent())
         {
             LOGGER.error("Username [{}] already exists", registrationRequest.getUsername());
-            throw new UsernameAlreadyExistsException("Username already exists");
+            throw new UsernameAlreadyExistsException(String.format("Email [%s] already exists.",
+                                                                   registrationRequest.getUsername()));
         }
         if (userRepository.findUserByEmail(registrationRequest.getEmail()).isPresent())
         {
             LOGGER.error("Email [{}] already exists", registrationRequest.getEmail());
-            throw new EmailAlreadyExistsException("Email already exists");
+            throw new EmailAlreadyExistsException(String.format("Email [%s] already exists",
+                                                                registrationRequest.getEmail()));
         }
 
         return true;
