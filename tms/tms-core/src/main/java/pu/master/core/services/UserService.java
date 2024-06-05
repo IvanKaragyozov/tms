@@ -20,6 +20,7 @@ import pu.master.core.mappers.UserMapper;
 import pu.master.core.repositories.UserRepository;
 import pu.master.core.utils.SecurityUtils;
 import pu.master.core.utils.constants.RoleNames;
+import pu.master.core.validators.UserValidator;
 import pu.master.domain.models.dtos.UserDto;
 import pu.master.domain.models.entities.Role;
 import pu.master.domain.models.entities.User;
@@ -28,6 +29,7 @@ import pu.master.domain.models.requests.RegistrationRequest;
 
 
 @RequiredArgsConstructor
+
 @Service
 public class UserService
 {
@@ -40,6 +42,7 @@ public class UserService
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final UserMapper userMapper;
+    private final UserValidator userValidator;
 
 
     public HttpCookie login(final LoginRequest loginRequest)
@@ -60,6 +63,7 @@ public class UserService
 
     public User registerUser(final RegistrationRequest registrationRequest)
     {
+        this.userValidator.validateRegistrationRequest(registrationRequest);
         final User user = createUserData(registrationRequest);
 
         this.userRepository.save(user);
