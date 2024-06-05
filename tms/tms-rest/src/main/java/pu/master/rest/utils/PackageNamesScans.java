@@ -20,7 +20,10 @@ public final class PackageNamesScans
     public static final String CORE_MAPPER_PACKAGE = "pu.master.core.mappers";
 
     public static final String CORE_SERVICE_PACKAGE = "pu.master.core.services";
+
     public static final String CORE_UTILS_PACKAGE = "pu.master.core.utils";
+
+    public static final String CORE_VALIDATORS_PACKAGE = "pu.master.core.validators";
 
     /**
      * Packages located in 'domain' module
