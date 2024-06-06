@@ -47,7 +47,7 @@ public class JwtUserDetailsService implements UserDetailsService
         final Set<Role> roles = user.getRoles();
         roles.forEach(role -> {
             final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role.getName());
-            LOGGER.info(String.format("Creating SimpleGrantedAuthority with name [%s]", role.getName()));
+            LOGGER.debug(String.format("Creating SimpleGrantedAuthority with name [%s]", role.getName()));
             authorities.add(simpleGrantedAuthority);
         });
 
