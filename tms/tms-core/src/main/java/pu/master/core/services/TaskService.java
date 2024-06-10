@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
+import pu.master.core.exceptions.TaskNotFoundException;
 import pu.master.core.mappers.TaskMapper;
 import pu.master.core.repositories.TaskRepository;
 import pu.master.domain.models.dtos.TaskDto;
@@ -46,8 +47,10 @@ public class TaskService
 
     public Task getTaskById(final long taskId)
     {
-        // TODO: Add proper validation for non existing Task
-        return this.taskRepository.findById(taskId).orElse(null);
+        return this.taskRepository.findById(taskId).orElseThrow(() -> {
+            LOGGER.error(String.format("Could not find task with id [%d]!", taskId));
+            return new TaskNotFoundException(String.format("Task with id [%d] not found!", taskId));
+        });
     }
 
 
