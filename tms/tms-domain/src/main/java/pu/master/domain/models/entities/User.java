@@ -1,6 +1,11 @@
 package pu.master.domain.models.entities;
 
 
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,11 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -56,14 +57,6 @@ public class User extends BaseEntity
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-                    name = "user_projects",
-                    joinColumns = @JoinColumn(name = "user_id"),
-                    inverseJoinColumns = @JoinColumn(name = "project_id")
-    )
-    private List<Project> projects;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
                     name = "user_roles",
                     joinColumns = @JoinColumn(name = "user_id"),
                     inverseJoinColumns = @JoinColumn(name = "role_id")
@@ -77,16 +70,6 @@ public class User extends BaseEntity
                     inverseJoinColumns = @JoinColumn(name = "task_id")
     )
     private List<Task> tasks;
-
-
-    public void addProject(final Project project)
-    {
-        if (this.projects == null)
-        {
-            this.projects = new ArrayList<>();
-        }
-        this.projects.add(project);
-    }
 
 
     public void addRole(final Role role)

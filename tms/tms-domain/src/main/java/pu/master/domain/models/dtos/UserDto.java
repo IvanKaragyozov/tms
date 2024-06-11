@@ -4,6 +4,7 @@ package pu.master.domain.models.dtos;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -30,8 +31,6 @@ public class UserDto extends BaseDto
     private LocalDate dateCreatedAt;
 
     private LocalDate dateLastModifiedAt;
-
-    private List<ProjectDto> projects;
 
     private List<TaskDto> tasks;
 
