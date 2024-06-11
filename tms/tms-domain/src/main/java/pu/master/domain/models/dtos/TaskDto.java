@@ -1,11 +1,10 @@
 package pu.master.domain.models.dtos;
 
 
-import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
 import pu.master.domain.models.enums.TaskPriority;
 import pu.master.domain.models.enums.TaskStatus;
 
@@ -23,8 +22,4 @@ public class TaskDto extends BaseDto
     private TaskPriority priorityLevel;
 
     private TaskStatus status;
-
-    private ProjectDto project;
-
-    private List<CommentDto> comments;
 }

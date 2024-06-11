@@ -1,21 +1,17 @@
 package pu.master.domain.models.entities;
 
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import lombok.Getter;
@@ -48,13 +44,6 @@ public class Task extends BaseEntity
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private TaskStatus status;
-
-    @ManyToOne(targetEntity = Project.class)
-    @JoinColumn(name = "project_id")
-    private Project project;
-
-    @OneToMany(targetEntity = Comment.class, mappedBy = "task", fetch = FetchType.LAZY)
-    private List<Comment> comments;
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "owner_id")
