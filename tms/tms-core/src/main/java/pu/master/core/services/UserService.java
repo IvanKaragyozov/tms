@@ -82,7 +82,6 @@ public class UserService
     public User registerAdmin(final RegistrationRequest registrationRequest)
     {
         final User admin = createAdminData(registrationRequest);
-        admin.setDateCreatedAt(LocalDate.now());
         return this.userRepository.save(admin);
     }
 
@@ -91,7 +90,7 @@ public class UserService
     {
         final User user = this.userMapper.mapUserRequestToUser(registrationRequest);
 
-        final Role defaultUserRole = getDefaultUserRole();
+        final Role defaultUserRole = getAdminRole();
         final String encryptedUserPassword = this.securityUtils.encodePassword(registrationRequest.getPassword());
 
         user.addRole(defaultUserRole);
@@ -112,6 +111,7 @@ public class UserService
 
         admin.addRole(adminRole);
         admin.setPassword(encryptedPassword);
+        admin.setDateCreatedAt(LocalDate.now());
 
         return admin;
     }
@@ -150,6 +150,15 @@ public class UserService
 
             LOGGER.error(String.format("Could not find user with username [%s]", username));
             return new UserNotFoundException(String.format("User with username [%s] not found", username));
+        });
+    }
+
+    public User getUserByEmail(final String email)
+    {
+        return this.userRepository.findUserByEmail(email).orElseThrow(() -> {
+
+            LOGGER.error(String.format("Could not find user with email [%s]", email));
+            return new UserNotFoundException(String.format("User with email [%s] not found", email));
         });
     }
 

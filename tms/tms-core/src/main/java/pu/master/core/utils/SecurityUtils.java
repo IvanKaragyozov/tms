@@ -37,6 +37,7 @@ public class SecurityUtils
     {
         final String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         final Optional<User> potentialLoggedInUser = this.userRepository.findUserByUsername(currentUsername);
+        LOGGER.debug("Retrieving current logged in user with username: [{}]", currentUsername);
 
         return potentialLoggedInUser.orElseThrow(() -> {
             LOGGER.error(String.format("Could not find current logged-in user with username [%s]", currentUsername));

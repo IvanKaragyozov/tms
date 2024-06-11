@@ -9,6 +9,17 @@ spring:
     show-sql: false
     properties:
       hibernate.format_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: taskmanagementserviceteam@gmail.com
+    password: sormvbtcaldrbltc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 8080
@@ -16,6 +27,7 @@ server:
 logging:
   level:
     root: info
+    pu.master: debug
 
 jwt:
   secret: f232@Gg2f32HJ*_56538fj2W@FJ@fmf9F@2ri92IT2tjf$@@fev

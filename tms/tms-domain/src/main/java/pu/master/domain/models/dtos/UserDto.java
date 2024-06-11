@@ -33,6 +33,8 @@ public class UserDto extends BaseDto
 
     private List<ProjectDto> projects;
 
+    private List<TaskDto> tasks;
+
     private Set<RoleDto> roles;
 
 }

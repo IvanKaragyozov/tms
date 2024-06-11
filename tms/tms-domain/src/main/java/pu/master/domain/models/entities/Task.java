@@ -1,6 +1,11 @@
 package pu.master.domain.models.entities;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,8 +17,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
-import java.util.List;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +62,16 @@ public class Task extends BaseEntity
                     joinColumns = @JoinColumn(name = "task_id"),
                     inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> users;
+    private Set<User> users;
 
-    // TODO: Add implementation of equals() and hashCode()
+
+    public void addUser(final User user)
+    {
+        if (this.users == null)
+        {
+            this.users = new HashSet<>();
+        }
+
+        this.users.add(user);
+    }
 }

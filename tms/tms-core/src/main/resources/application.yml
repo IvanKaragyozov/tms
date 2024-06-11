@@ -6,3 +6,16 @@ server:
     session:
       timeout: 5m
 
+
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: taskmanagementserviceteam@gmail.com
+    password: sormvbtcaldrbltc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

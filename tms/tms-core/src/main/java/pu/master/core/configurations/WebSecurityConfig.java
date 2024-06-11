@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -51,7 +52,16 @@ public class WebSecurityConfig
                     "/rights",
                     "/projects",
                     "/tasks",
+                    "/tasks/\\d+/invite\\?email=.*",
+                    "/tasks/\\d+/invitation\\?email.*",
                     "/comments"
+    };
+
+    private static final String[] USER_PATH = {
+                    "/users",
+                    "/tasks",
+                    "/tasks/\\d+/invite\\?email=.*",
+                    "/tasks/\\d+/invitation\\?email.*"
     };
 
     private final JwtRequestFilter jwtRequestFilter;
@@ -63,9 +73,12 @@ public class WebSecurityConfig
 
         http.csrf(AbstractHttpConfigurer::disable)
             // Authorize requests
-            .authorizeHttpRequests((authorize) -> authorize.requestMatchers(AUTH_PATH).permitAll())
-            .authorizeHttpRequests((authorize) -> authorize.requestMatchers(ADMIN_PATH).hasAuthority(RoleNames.ADMIN.name()))
-            .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
+            .authorizeHttpRequests((authorize) -> {
+                authorize.requestMatchers(AUTH_PATH).permitAll();
+                authorize.requestMatchers(ADMIN_PATH).hasAuthority(RoleNames.ADMIN.name());
+                authorize.requestMatchers(USER_PATH).hasAuthority(RoleNames.USER.name());
+                authorize.anyRequest().authenticated();
+            })
             // Ensure session is stateless
             .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // Add the JWT Request Filter before the Security Filter Chain
@@ -73,7 +86,7 @@ public class WebSecurityConfig
             // Logout handler
             .logout((logout) -> logout.logoutUrl(LOGOUT_URL)
                                       .addLogoutHandler((request, response, authentication) -> {
-                                          LOGGER.info("Processing logout for user: " +
+                                          LOGGER.debug("Processing logout for user: " +
                                                       (authentication != null ? authentication.getName()
                                                                               : "anonymous"));
                                           if (request.getCookies() != null)
