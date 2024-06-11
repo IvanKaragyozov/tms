@@ -56,6 +56,10 @@ public class Task extends BaseEntity
     @OneToMany(targetEntity = Comment.class, mappedBy = "task", fetch = FetchType.LAZY)
     private List<Comment> comments;
 
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
     @ManyToMany
     @JoinTable(
                     name = "user_tasks",

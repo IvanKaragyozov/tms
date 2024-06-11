@@ -89,7 +89,10 @@ CREATE TABLE tasks
     priority_level VARCHAR(36),
     status         VARCHAR(36),
     title          VARCHAR(128) NOT NULL,
+    owner_id       BIGSERIAL,
     CONSTRAINT PK_tasks_id PRIMARY KEY (id),
+    CONSTRAINT PK_tasks_owner_id FOREIGN KEY (owner_id)
+        REFERENCES users (id),
     CONSTRAINT FK_tasks_project_id FOREIGN KEY (project_id)
         REFERENCES projects (id)
 );

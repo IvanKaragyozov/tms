@@ -46,9 +46,10 @@ public class TaskService
     public Task createTask(final TaskRequest taskRequest)
     {
         final Task task = this.taskMapper.mapTaskRequestToTask(taskRequest);
+        final User taskOwner = this.securityUtils.getCurrentLoggedInUser();
 
-        LOGGER.debug("Adding current logged in user to task [{}]", taskRequest.getTitle());
-        task.addUser(this.securityUtils.getCurrentLoggedInUser());
+        LOGGER.debug("Adding current logged in user [{}] to task [{}]", taskOwner.getUsername(), taskRequest.getTitle());
+        task.setOwner(taskOwner);
 
         return this.taskRepository.save(task);
     }
