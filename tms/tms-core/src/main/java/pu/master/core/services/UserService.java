@@ -90,7 +90,7 @@ public class UserService
     {
         final User user = this.userMapper.mapUserRequestToUser(registrationRequest);
 
-        final Role defaultUserRole = getAdminRole();
+        final Role defaultUserRole = getDefaultUserRole();
         final String encryptedUserPassword = this.securityUtils.encodePassword(registrationRequest.getPassword());
 
         user.addRole(defaultUserRole);
