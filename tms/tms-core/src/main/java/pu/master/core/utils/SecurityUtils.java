@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 
 import pu.master.core.exceptions.UserNotFoundException;
 import pu.master.core.repositories.UserRepository;
+import pu.master.core.utils.constants.RoleNames;
+import pu.master.domain.models.entities.Role;
 import pu.master.domain.models.entities.User;
 
 
@@ -43,6 +45,28 @@ public class SecurityUtils
             LOGGER.error(String.format("Could not find current logged-in user with username [%s]", currentUsername));
             return new UserNotFoundException(String.format("User with username [%s] not found", currentUsername));
         });
+    }
+
+    /**
+     * Checks if the current logged-in user is an admin.
+     *
+     * @return True if the current user is an admin, false otherwise.
+     */
+    public boolean isCurrentLoggedInUserAdmin()
+    {
+        final User currentUser = getCurrentLoggedInUser();
+        return currentUser.getRoles().stream()
+                          .map(Role::getName)
+                          .anyMatch(roleName -> roleName.equals(RoleNames.ADMIN.name()));
+    }
+
+
+    /**
+     * Logouts the current logged-in user
+     */
+    public void logout()
+    {
+        SecurityContextHolder.getContext().setAuthentication(null);
     }
 
 

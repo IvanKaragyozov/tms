@@ -27,6 +27,13 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>pu.master</groupId>
+            <artifactId>tms-rest</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+
         <!-- Vaadin -->
         <dependency>
             <groupId>com.vaadin</groupId>

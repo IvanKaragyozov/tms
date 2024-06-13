@@ -7,6 +7,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -46,14 +47,54 @@ public class TaskService
     public Task createTask(final TaskRequest taskRequest)
     {
         final Task task = this.taskMapper.mapTaskRequestToTask(taskRequest);
+        return createTask(task);
+    }
+
+    public Task createTask(final Task task)
+    {
         final User taskOwner = this.securityUtils.getCurrentLoggedInUser();
 
-        LOGGER.debug("Adding current logged in user [{}] to task [{}]", taskOwner.getUsername(), taskRequest.getTitle());
+        LOGGER.debug("Adding current logged in user [{}] to task [{}]", taskOwner.getUsername(), task.getTitle());
         task.setOwner(taskOwner);
 
         return this.taskRepository.save(task);
     }
+    public Task updateTask(final TaskRequest taskRequest)
+    {
+        final Task taskForUpdate = this.taskMapper.mapTaskRequestToTask(taskRequest);
+        return updateTask(taskForUpdate);
+    }
 
+
+    public Task updateTask(final Task taskForUpdate)
+    {
+        final boolean canTaskBeModified = canModifyTask(taskForUpdate);
+        if (canTaskBeModified)
+        {
+            throw new RuntimeException("Task cannot be modified!");
+        }
+
+        return this.taskRepository.save(taskForUpdate);
+    }
+
+    public Task deleteTask(final TaskRequest taskRequest)
+    {
+        final Task taskForDelete = this.taskMapper.mapTaskRequestToTask(taskRequest);
+        return deleteTask(taskForDelete);
+    }
+
+    public Task deleteTask(final Task taskForDelete)
+    {
+        final boolean canTaskBeModified = canModifyTask(taskForDelete);
+        if (canTaskBeModified)
+        {
+            throw new RuntimeException("Task cannot be modified!");
+        }
+
+        this.taskRepository.delete(taskForDelete);
+
+        return taskForDelete;
+    }
 
     public void handleInvitation(final long taskId, final String email, final boolean isAccepted)
     {
@@ -184,4 +225,28 @@ public class TaskService
                                   .toList();
     }
 
+    private boolean canModifyTask(final Task task)
+    {
+        Objects.requireNonNull(task);
+        return task.getOwner() == this.securityUtils.getCurrentLoggedInUser()
+                        && this.securityUtils.isCurrentLoggedInUserAdmin();
+    }
+
+
+    public List<Task> getTasksByCurrentLoggedInUser()
+    {
+        final User currentLoggedInUser = this.securityUtils.getCurrentLoggedInUser();
+
+        List<Task> tasks;
+        if (this.securityUtils.isCurrentLoggedInUserAdmin())
+        {
+            tasks = this.taskRepository.findAll();
+        }
+        else
+        {
+            tasks = this.taskRepository.findTasksByUsersId(currentLoggedInUser.getId());
+        }
+
+        return tasks;
+    }
 }
