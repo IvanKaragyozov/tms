@@ -5,7 +5,7 @@ public final class PackageNamesScans
 {
 
     /**
-     * Packaged located in 'core' module
+     * Packages located in 'core' module
      */
 
     public static final String CORE_PACKAGES = "pu.master.core";
@@ -23,7 +23,7 @@ public final class PackageNamesScans
 
     public static final String CORE_UTILS_PACKAGE = "pu.master.core.utils";
 
-    public static final String CORE_VALIDATORS_PACKAGE = "pu.master.core.validators";
+    public static final String CORE_VALIDATOR_PACKAGE = "pu.master.core.validators";
 
     /**
      * Packages located in 'domain' module
@@ -36,6 +36,11 @@ public final class PackageNamesScans
      */
 
     public static final String REST_CONTROLLER_PACKAGE = "pu.master.rest.controllers";
+
+    /**
+     * Packages located in 'gui' module
+     */
+    public static final String GUI_VIEWS_PACKAGE = "pu.master.gui.views";
 
 
     /**
