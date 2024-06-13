@@ -72,8 +72,6 @@ public class WebSecurityConfig
             // Authorize requests
             .authorizeHttpRequests((authorize) -> {
                 authorize.requestMatchers(AUTH_PATH).permitAll()
-                         .requestMatchers(ADMIN_PATH).hasAuthority(RoleNames.ADMIN.name())
-                         .requestMatchers(USER_PATH).permitAll()
                          .anyRequest().authenticated();
             })
             // Ensure session is stateless
