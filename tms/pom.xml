@@ -20,6 +20,7 @@
         <module>tms-domain</module>
         <module>tms-core</module>
         <module>tms-rest</module>
+        <module>tms-gui</module>
     </modules>
 
     <properties>

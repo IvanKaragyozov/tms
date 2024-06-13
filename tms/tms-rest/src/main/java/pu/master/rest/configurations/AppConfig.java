@@ -20,6 +20,7 @@ import pu.master.rest.utils.PackageNamesScans;
                 PackageNamesScans.CORE_MAPPER_PACKAGE,
                 PackageNamesScans.CORE_SERVICE_PACKAGE,
                 PackageNamesScans.CORE_UTILS_PACKAGE,
-                PackageNamesScans.CORE_VALIDATORS_PACKAGE
+                PackageNamesScans.CORE_VALIDATOR_PACKAGE,
+                PackageNamesScans.GUI_VIEWS_PACKAGE
 })
 public class AppConfig {}
