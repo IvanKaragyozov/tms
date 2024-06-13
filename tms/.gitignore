@@ -2,3 +2,10 @@ target
 tms.iml
 .idea
 ../
+/tms-gui/node_modules/
+/tms-gui/package.json
+/tms-gui/tsconfig.json
+/tms-gui/types.d.ts
+/tms-gui/vite.config.ts
+/tms-gui/vite.generated.ts
+/tms-gui/package-lock.json
