@@ -2,12 +2,12 @@ package pu.master.core.services;
 
 
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
+import pu.master.core.exceptions.ForbiddenActionException;
 import pu.master.core.exceptions.TaskNotFoundException;
 import pu.master.core.mappers.TaskMapper;
 import pu.master.core.repositories.TaskRepository;
@@ -88,7 +89,7 @@ public class TaskService
         final boolean canTaskBeModified = canModifyTask(taskForDelete);
         if (canTaskBeModified)
         {
-            throw new RuntimeException("Task cannot be modified!");
+            throw new ForbiddenActionException("Task cannot be modified!");
         }
 
         this.taskRepository.delete(taskForDelete);
