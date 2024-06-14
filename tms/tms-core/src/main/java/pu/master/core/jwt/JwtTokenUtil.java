@@ -1,20 +1,21 @@
 package pu.master.core.jwt;
 
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import static pu.master.core.utils.constants.JwtConstants.JWT_VALIDITY_DURATION;
 
 
@@ -66,7 +67,6 @@ public class JwtTokenUtil implements Serializable
     }
 
 
-
     public String generateToken(final UserDetails userDetails)
     {
         final Map<String, Object> claims = new HashMap<>();
@@ -92,11 +92,9 @@ public class JwtTokenUtil implements Serializable
     }
 
 
-
     public boolean validateToken(final String token, final UserDetails userDetails)
     {
         final String username = getUsernameFromToken(token);
-
         final boolean isTokenValid = (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
         LOGGER.debug("Validating the JWT token");
         return isTokenValid;

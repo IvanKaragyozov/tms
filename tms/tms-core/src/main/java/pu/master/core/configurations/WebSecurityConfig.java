@@ -18,18 +18,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.vaadin.flow.spring.security.VaadinWebSecurity;
+
 import lombok.RequiredArgsConstructor;
 
 import pu.master.core.jwt.JwtRequestFilter;
 import pu.master.core.utils.constants.JwtConstants;
-import pu.master.core.utils.constants.RoleNames;
 
 
 @RequiredArgsConstructor
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig
+public class WebSecurityConfig extends VaadinWebSecurity
 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebSecurityConfig.class);
@@ -51,7 +52,7 @@ public class WebSecurityConfig
                     "/rights",
                     "/tasks",
                     "/tasks/\\d+/invite\\?email=.*",
-                    "/tasks/\\d+/invitation\\?email.*",
+                    "/tasks/\\d+/invitation\\?email.*"
     };
 
     private static final String[] USER_PATH = {
@@ -59,6 +60,19 @@ public class WebSecurityConfig
                     "/tasks",
                     "/tasks/\\d+/invite\\?email=.*",
                     "/tasks/\\d+/invitation\\?email.*"
+    };
+
+    private static final String[] VAADIN_PATH = {
+                    "/tasks-view/**",
+                    "/VAADIN/**",
+                    "/frontend/**",
+                    "/images/**",
+                    "/icons/**",
+                    "/styles/**",
+                    "/h2-console/**",
+                    "/resources/**",
+                    "/webjars/**",
+                    "/error"
     };
 
     private final JwtRequestFilter jwtRequestFilter;
@@ -72,6 +86,9 @@ public class WebSecurityConfig
             // Authorize requests
             .authorizeHttpRequests((authorize) -> {
                 authorize.requestMatchers(AUTH_PATH).permitAll()
+                         .requestMatchers(VAADIN_PATH).permitAll()
+                         .requestMatchers(USER_PATH).hasAnyRole("ADMIN", "USER")
+                         .requestMatchers(ADMIN_PATH).hasRole("ADMIN")
                          .anyRequest().authenticated();
             })
             // Ensure session is stateless
@@ -82,14 +99,14 @@ public class WebSecurityConfig
             .logout((logout) -> logout.logoutUrl(LOGOUT_URL)
                                       .addLogoutHandler((request, response, authentication) -> {
                                           LOGGER.debug("Processing logout for user: " +
-                                                      (authentication != null ? authentication.getName()
-                                                                              : "anonymous"));
+                                                       (authentication != null ? authentication.getName()
+                                                                               : "anonymous"));
                                           if (request.getCookies() != null)
                                           {
                                               for (final Cookie cookie : request.getCookies())
                                               {
                                                   LOGGER.debug("Cookie before logout: " + cookie.getName() + "=" +
-                                                              cookie.getValue());
+                                                               cookie.getValue());
                                                   cookie.setValue("");
                                                   cookie.setPath("/");
                                                   cookie.setMaxAge(0);

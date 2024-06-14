@@ -1,13 +1,15 @@
 package pu.master.core.jwt;
 
 
+import java.io.IOException;
+import java.util.Arrays;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Arrays;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import pu.master.core.utils.constants.JwtConstants;
 import static pu.master.core.utils.constants.JwtConstants.JWT_COOKIE_NAME;
 
 
@@ -41,21 +45,45 @@ public class JwtRequestFilter extends OncePerRequestFilter
     @Override
     protected void doFilterInternal(final HttpServletRequest request,
                                     final HttpServletResponse response,
-                                    final FilterChain filterChain)
-                    throws ServletException, IOException
+                                    final FilterChain filterChain) throws ServletException, IOException
     {
         final String token = getJwtToken(request.getCookies());
         String username = null;
+        boolean tokenExpired = false;
 
         if (token != null && !token.isEmpty())
         {
-            LOGGER.info("JWT found");
-            username = this.tokenUtil.getUsernameFromToken(token);
+            LOGGER.debug("JWT found");
+            try
+            {
+                username = this.tokenUtil.getUsernameFromToken(token);
+            }
+            catch (ExpiredJwtException e)
+            {
+                LOGGER.debug("JWT token is expired");
+                tokenExpired = true;
+                username = e.getClaims().getSubject();
+                clearJwtCookie(response);
+            }
         }
 
-        if (SecurityContextHolder.getContext().getAuthentication() == null && username != null)
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null)
         {
             final UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+
+            if (tokenExpired)
+            {
+                LOGGER.debug("Generating a new token for user: {}", username);
+                final String newToken = this.tokenUtil.generateToken(userDetails);
+                final Cookie newCookie = new Cookie(JWT_COOKIE_NAME, newToken);
+                newCookie.setHttpOnly(true);
+                newCookie.setPath("/");
+                newCookie.setMaxAge((int) JwtConstants.JWT_VALIDITY_DURATION / 1000);
+                response.addCookie(newCookie);
+                LOGGER.debug("New JWT token generated and set in response cookie");
+
+                username = this.tokenUtil.getUsernameFromToken(newToken);
+            }
 
             if (this.tokenUtil.validateToken(token, userDetails))
             {
@@ -85,5 +113,16 @@ public class JwtRequestFilter extends OncePerRequestFilter
                          .orElse(null);
         }
         return null;
+    }
+
+
+    private void clearJwtCookie(HttpServletResponse response)
+    {
+        LOGGER.debug("Clearing JWT cookie");
+        Cookie cookie = new Cookie(JWT_COOKIE_NAME, "");
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
     }
 }

@@ -1,6 +1,10 @@
 package pu.master.gui.views.task;
 
 
+import jakarta.annotation.security.RolesAllowed;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -12,16 +16,15 @@ import com.vaadin.flow.data.selection.SingleSelect;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import jakarta.annotation.security.RolesAllowed;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import pu.master.core.services.TaskService;
 import pu.master.domain.models.entities.Task;
 import pu.master.gui.views.MainLayout;
 
 
 @PageTitle("Tasks")
-@Route(value = "/tasks", layout = MainLayout.class)
-//@RolesAllowed(value = {"ADMIN", "USER"})
+@Route(value = "/tasks-view", layout = MainLayout.class)
+@RolesAllowed(value = {"ADMIN", "USER"})
 @AnonymousAllowed
 public class TaskView extends VerticalLayout
 {

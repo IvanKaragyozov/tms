@@ -5,7 +5,6 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.contextmenu.MenuItem;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Footer;
@@ -20,7 +19,7 @@ import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import pu.master.core.services.UserService;
+
 import pu.master.core.utils.SecurityUtils;
 import pu.master.domain.models.entities.User;
 import pu.master.gui.views.task.TaskView;
@@ -30,18 +29,14 @@ public class MainLayout extends AppLayout
 {
 
     private final AccessAnnotationChecker accessChecker;
-    private final UserService userService;
     private final SecurityUtils securityUtils;
 
     private H2 viewTitle;
 
 
-    public MainLayout(final AccessAnnotationChecker accessChecker,
-                      final UserService userService,
-                      final SecurityUtils securityUtils)
+    public MainLayout(final AccessAnnotationChecker accessChecker, final SecurityUtils securityUtils)
     {
         this.accessChecker = accessChecker;
-        this.userService = userService;
         this.securityUtils = securityUtils;
         super.setPrimarySection(Section.DRAWER);
     }
@@ -63,7 +58,7 @@ public class MainLayout extends AppLayout
     {
         final H1 appName = new H1("My App");
         appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
-        Header header = new Header(appName);
+        final Header header = new Header(appName);
 
         Scroller scroller = new Scroller(createNavigation());
 
