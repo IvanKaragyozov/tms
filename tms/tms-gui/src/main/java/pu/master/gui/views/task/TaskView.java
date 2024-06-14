@@ -35,10 +35,9 @@ public class TaskView extends VerticalLayout
 
 
     @Autowired
-    public TaskView(TaskService taskService, TaskGrid taskGrid)
+    public TaskView(final TaskService taskService)
     {
         this.taskService = taskService;
-        this.taskGrid = taskGrid;
         initializeContent();
     }
 
