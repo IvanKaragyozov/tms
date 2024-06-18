@@ -20,8 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import pu.master.core.utils.constants.JwtConstants;
-import static pu.master.core.utils.constants.JwtConstants.JWT_COOKIE_NAME;
+import static pu.master.core.jwt.JwtConstants.JWT_COOKIE_NAME;
 
 
 @Component
@@ -58,7 +57,7 @@ public class JwtRequestFilter extends OncePerRequestFilter
             {
                 username = this.tokenUtil.getUsernameFromToken(token);
             }
-            catch (ExpiredJwtException e)
+            catch (final ExpiredJwtException e)
             {
                 LOGGER.debug("JWT token is expired");
                 tokenExpired = true;
@@ -88,9 +87,7 @@ public class JwtRequestFilter extends OncePerRequestFilter
             if (this.tokenUtil.validateToken(token, userDetails))
             {
                 final UsernamePasswordAuthenticationToken authenticationToken =
-                                new UsernamePasswordAuthenticationToken(userDetails,
-                                                                        null,
-                                                                        userDetails.getAuthorities());
+                                new UsernamePasswordAuthenticationToken(userDetails, userDetails.getAuthorities());
 
                 authenticationToken.setDetails(request);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);

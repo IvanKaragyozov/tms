@@ -1,11 +1,11 @@
-package pu.master.core.utils.constants;
+package pu.master.core.jwt;
 
 
 public final class JwtConstants
 {
 
     // 5 hours in milliseconds
-    public static final long JWT_VALIDITY_DURATION = 5 * 60 * 60 * 10000L;
+    public static final long JWT_VALIDITY_DURATION = 5 * 60 * 60 * 1000L;
 
     public static final String JWT_COOKIE_NAME = "JwtCookie";
 

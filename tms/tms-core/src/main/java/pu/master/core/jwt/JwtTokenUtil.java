@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import static pu.master.core.utils.constants.JwtConstants.JWT_VALIDITY_DURATION;
+import static pu.master.core.jwt.JwtConstants.JWT_VALIDITY_DURATION;
 
 
 @Component

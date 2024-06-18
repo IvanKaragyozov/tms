@@ -23,7 +23,7 @@ import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import lombok.RequiredArgsConstructor;
 
 import pu.master.core.jwt.JwtRequestFilter;
-import pu.master.core.utils.constants.JwtConstants;
+import pu.master.core.jwt.JwtConstants;
 
 
 @RequiredArgsConstructor
