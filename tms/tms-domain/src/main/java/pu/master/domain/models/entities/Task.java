@@ -46,12 +46,7 @@ public class Task extends BaseEntity
     @Column(name = "status")
     private TaskStatus status;
 
-    @ManyToOne(targetEntity = Project.class)
-    @JoinColumn(name = "project_id")
-    private Project project;
 
-    @OneToMany(targetEntity = Comment.class, mappedBy = "task", fetch = FetchType.LAZY)
-    private List<Comment> comments;
 
     @ManyToMany
     @JoinTable(
