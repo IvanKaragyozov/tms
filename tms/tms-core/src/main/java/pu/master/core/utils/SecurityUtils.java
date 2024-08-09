@@ -33,7 +33,7 @@ public class SecurityUtils
     /**
      * Retrieves the current logged-in {@link User} from their username.
      *
-     * @return Rhe currently logged-in user.
+     * @return The currently logged-in user.
      */
     public User getCurrentLoggedInUser()
     {

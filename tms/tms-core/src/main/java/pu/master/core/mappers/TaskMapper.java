@@ -1,6 +1,7 @@
 package pu.master.core.mappers;
 
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,7 @@ import pu.master.domain.models.dtos.TaskDto;
 import pu.master.domain.models.entities.Task;
 import pu.master.domain.models.requests.TaskRequest;
 
-
+@RequiredArgsConstructor
 @Component
 public class TaskMapper
 {
@@ -20,10 +21,10 @@ public class TaskMapper
     private final ModelMapper modelMapper;
 
 
-    @Autowired
-    public TaskMapper(final ModelMapper modelMapper)
+    public TaskDto mapTaskToDto(final Task task)
     {
-        this.modelMapper = modelMapper;
+        LOGGER.debug("Mapping Task to TaskDto");
+        return this.modelMapper.map(task, TaskDto.class);
     }
 
 
@@ -31,12 +32,5 @@ public class TaskMapper
     {
         LOGGER.debug("Mapping TaskRequest To Task");
         return this.modelMapper.map(taskRequest, Task.class);
-    }
-
-
-    public TaskDto mapTaskToDto(final Task task)
-    {
-        LOGGER.debug("Mapping Task to TaskDto");
-        return this.modelMapper.map(task, TaskDto.class);
     }
 }
