@@ -21,6 +21,7 @@
         <module>tms-core</module>
         <module>tms-rest</module>
         <module>tms-gui</module>
+        <module>tms-ui-tests</module>
     </modules>
 
     <properties>
@@ -45,12 +46,7 @@
         <lombok-version>1.18.30</lombok-version>
     </properties>
 
-    <dependencies>
-
-    </dependencies>
-
     <dependencyManagement>
-
         <dependencies>
 
             <!-- Database driver-->
@@ -89,9 +85,7 @@
                 <scope>test</scope>
             </dependency>
 
-
         </dependencies>
-
     </dependencyManagement>
 
 </project>

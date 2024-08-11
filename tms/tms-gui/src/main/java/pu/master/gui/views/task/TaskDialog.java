@@ -34,7 +34,7 @@ public class TaskDialog extends Dialog
     {
         this.task = task;
         this.taskService = taskService;
-        this.isEditMode = task.getId() != 0;
+        this.isEditMode = task.getId() != 0L;
         initializeContent();
     }
 

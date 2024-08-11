@@ -20,11 +20,12 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
+import org.springframework.stereotype.Component;
 import pu.master.core.utils.SecurityUtils;
 import pu.master.domain.models.entities.User;
 import pu.master.gui.views.task.TaskView;
 
-
+@Component
 public class MainLayout extends AppLayout
 {
 
@@ -38,7 +39,10 @@ public class MainLayout extends AppLayout
     {
         this.accessChecker = accessChecker;
         this.securityUtils = securityUtils;
-        super.setPrimarySection(Section.DRAWER);
+        // super.setPrimarySection(Section.DRAWER);
+
+        addDrawerContent();
+        addHeaderContent();
     }
 
 
@@ -56,13 +60,13 @@ public class MainLayout extends AppLayout
 
     private void addDrawerContent()
     {
-        final H1 appName = new H1("My App");
+        final H1 appName = new H1("TMS");
         appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
         final Header header = new Header(appName);
 
-        Scroller scroller = new Scroller(createNavigation());
+        final Scroller scroller = new Scroller(createNavigation());
 
-        addToDrawer(header, scroller, createFooter());
+        super.addToDrawer(header, scroller);
     }
 
 
@@ -70,6 +74,7 @@ public class MainLayout extends AppLayout
     {
         final SideNav nav = new SideNav();
 
+        nav.addItem(new SideNavItem("Tasks", TaskView.class));
         if (accessChecker.hasAccess(TaskView.class))
         {
             nav.addItem(new SideNavItem("Tasks", TaskView.class));
@@ -83,37 +88,37 @@ public class MainLayout extends AppLayout
     {
         final Footer layout = new Footer();
 
-        final User currentLoggedInUser = this.securityUtils.getCurrentLoggedInUser();
-        if (currentLoggedInUser != null)
-        {
-
-            Avatar avatar = new Avatar(currentLoggedInUser.getUsername());
-            avatar.setThemeName("xsmall");
-            avatar.getElement().setAttribute("tabindex", "-1");
-
-            MenuBar userMenu = new MenuBar();
-            userMenu.setThemeName("tertiary-inline contrast");
-
-            MenuItem userName = userMenu.addItem("");
-            Div div = new Div();
-            div.add(avatar);
-            div.add(currentLoggedInUser.getUsername());
-            div.add(new Icon("lumo", "dropdown"));
-            div.getElement().getStyle().set("display", "flex");
-            div.getElement().getStyle().set("align-items", "center");
-            div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
-            userName.add(div);
-            userName.getSubMenu().addItem("Sign out", e -> {
-                this.securityUtils.logout();
-            });
-
-            layout.add(userMenu);
-        }
-        else
-        {
-            final Anchor loginLink = new Anchor("login", "Sign in");
-            layout.add(loginLink);
-        }
+//        final User currentLoggedInUser = this.securityUtils.getCurrentLoggedInUser();
+//        if (currentLoggedInUser != null)
+//        {
+//
+//            final Avatar avatar = new Avatar(currentLoggedInUser.getUsername());
+//            avatar.setThemeName("xsmall");
+//            avatar.getElement().setAttribute("tabindex", "-1");
+//
+//            final MenuBar userMenu = new MenuBar();
+//            userMenu.setThemeName("tertiary-inline contrast");
+//
+//            MenuItem userName = userMenu.addItem("");
+//            Div div = new Div();
+//            div.add(avatar);
+//            div.add(currentLoggedInUser.getUsername());
+//            div.add(new Icon("lumo", "dropdown"));
+//            div.getElement().getStyle().set("display", "flex");
+//            div.getElement().getStyle().set("align-items", "center");
+//            div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
+//            userName.add(div);
+//            userName.getSubMenu().addItem("Sign out", e -> {
+//                this.securityUtils.logout();
+//            });
+//
+//            layout.add(userMenu);
+//        }
+//        else
+//        {
+//            final Anchor loginLink = new Anchor("login", "Sign in");
+//            layout.add(loginLink);
+//        }
 
         return layout;
     }
