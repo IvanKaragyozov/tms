@@ -15,7 +15,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.selection.SingleSelect;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import pu.master.core.services.TaskService;
 import pu.master.domain.models.entities.Task;
@@ -25,7 +24,6 @@ import pu.master.gui.views.MainLayout;
 @PageTitle("Tasks")
 @Route(value = "/tasks-view", layout = MainLayout.class)
 @RolesAllowed(value = {"ADMIN", "USER"})
-@AnonymousAllowed
 public class TaskView extends VerticalLayout
 {
     private final TaskService taskService;

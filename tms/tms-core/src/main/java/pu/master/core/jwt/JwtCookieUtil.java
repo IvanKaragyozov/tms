@@ -9,8 +9,8 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import static pu.master.core.utils.constants.JwtConstants.JWT_COOKIE_NAME;
-import static pu.master.core.utils.constants.JwtConstants.JWT_VALIDITY_DURATION;
+import static pu.master.core.jwt.JwtConstants.JWT_COOKIE_NAME;
+import static pu.master.core.jwt.JwtConstants.JWT_VALIDITY_DURATION;
 
 
 @Component
