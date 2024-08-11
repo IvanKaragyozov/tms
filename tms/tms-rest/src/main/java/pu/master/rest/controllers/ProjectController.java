@@ -1,0 +1,6 @@
+package pu.master.rest.controllers;
+
+
+public class ProjectController
+{
+}
