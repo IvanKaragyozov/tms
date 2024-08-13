@@ -58,7 +58,7 @@ CREATE TABLE user_roles
 CREATE TABLE tasks
 (
     id             BIGSERIAL,
-    description    TEXT, -- Possible definition of limit?
+    description    TEXT,
     priority_level VARCHAR(36),
     status         VARCHAR(36),
     title          VARCHAR(128) NOT NULL,
@@ -78,6 +78,35 @@ CREATE TABLE user_tasks
         ON DELETE NO ACTION,
     CONSTRAINT FK_user_tasks_task_id FOREIGN KEY (task_id)
         REFERENCES tasks (id)
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
+
+CREATE TABLE projects
+(
+    id           BIGSERIAL,
+    date_created DATE         NOT NULL,
+    time_due     DATE,
+    description  TEXT,
+    priority     VARCHAr(36),
+    title        VARCHAR(128) NOT NULL,
+    owner_id     BIGSERIAL,
+    CONSTRAINT PK_projects_id PRIMARY KEY (id),
+    CONSTRAINT PK_projects_owner_id FOREIGN KEY (owner_id)
+        REFERENCES users (id)
+);
+
+CREATE TABLE user_projects
+(
+    user_id    BIGSERIAL,
+    project_id BIGSERIAL,
+    CONSTRAINT PK_user_projects PRIMARY KEY (user_id, project_id),
+    CONSTRAINT FK_user_projects_user_id FOREIGN KEY (user_id)
+        REFERENCES users (id)
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT FK_user_projects_project_id FOREIGN KEY (project_id)
+        REFERENCES projects (id)
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
