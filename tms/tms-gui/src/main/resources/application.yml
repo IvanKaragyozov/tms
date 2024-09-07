@@ -1,8 +1,8 @@
 spring:
   datasource:
-    username: postgres
-    url: jdbc:postgresql://localhost:5432/tms
-    password: 1234
+    username: ${TMS_DB_USERNAME}
+    url: ${TMS_DB_URL}
+    password: ${TMS_DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: none
@@ -34,8 +34,8 @@ jwt:
 
 application:
   admin:
-    username: admin
-    password: admin
+    username: ${TMS.ADMIN.USERNAME}
+    password: ${TMS.ADMIN.PASSWORD}
 
 vaadin:
   launch-browser: true
