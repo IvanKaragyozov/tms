@@ -47,6 +47,7 @@ public class SecurityUtils
         });
     }
 
+
     /**
      * Checks if the current logged-in user is an admin.
      *

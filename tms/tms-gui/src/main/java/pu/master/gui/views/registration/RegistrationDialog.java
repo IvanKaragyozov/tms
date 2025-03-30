@@ -111,7 +111,9 @@ public class RegistrationDialog extends Dialog
         }
     }
 
-    private void openLoginDialog() {
+
+    private void openLoginDialog()
+    {
         LoginDialog loginDialog = new LoginDialog();
         this.close();
         loginDialog.open();

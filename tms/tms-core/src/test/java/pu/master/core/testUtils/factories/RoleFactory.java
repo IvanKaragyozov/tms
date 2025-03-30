@@ -30,5 +30,7 @@ public final class RoleFactory
     public static final List<RoleRequest> DEFAULT_ROLE_REQUEST_LIST = Collections.singletonList(DEFAULT_ROLE_REQUEST);
 
 
-    private RoleFactory() {}
+    private RoleFactory()
+    {
+    }
 }

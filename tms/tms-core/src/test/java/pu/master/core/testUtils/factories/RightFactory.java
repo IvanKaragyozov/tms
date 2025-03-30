@@ -27,6 +27,8 @@ public final class RightFactory
     public static List<RightRequest> DEFAULT_RIGHT_REQUEST_LIST = Collections.singletonList(DEFAULT_RIGHT_REQUEST);
 
 
-    private RightFactory() {}
+    private RightFactory()
+    {
+    }
 
 }

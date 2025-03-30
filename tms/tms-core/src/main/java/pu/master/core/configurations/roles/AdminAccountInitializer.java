@@ -40,7 +40,7 @@ class AdminAccountInitializer
     {
         if (this.userRepository.existsByUsername(adminUsername)
             && userRepository.existsByEmail(adminUsername)
-        && userRepository.existsByPhoneNumber(adminUsername))
+            && userRepository.existsByPhoneNumber(adminUsername))
         {
             return;
         }

@@ -12,9 +12,11 @@
 declare class ComponentResolver {
     resolveElement(element: HTMLElement): HTMLElement;
 }
+
 declare class ComponentHighlightResolver {
     resolveElement(element: HTMLElement): HTMLElement;
 }
+
 export declare const componentResolver: ComponentResolver;
 export declare const componentHighlightResolver: ComponentHighlightResolver;
 export {};

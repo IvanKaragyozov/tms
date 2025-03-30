@@ -13,9 +13,12 @@ public class ProjectController
         return null;
     }
 
-    public ResponseEntity<ProjectDto> getProjectById(final long id) {
+
+    public ResponseEntity<ProjectDto> getProjectById(final long id)
+    {
         return null;
     }
+
 
     public ResponseEntity<List<ProjectDto>> getProjectsByUserId(final long id)
     {

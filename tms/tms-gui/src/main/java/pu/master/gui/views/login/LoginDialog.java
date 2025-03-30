@@ -15,7 +15,8 @@ import org.slf4j.LoggerFactory;
 import pu.master.tms.models.requests.LoginRequest;
 
 
-public class LoginDialog extends Dialog {
+public class LoginDialog extends Dialog
+{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginDialog.class);
 
@@ -25,7 +26,9 @@ public class LoginDialog extends Dialog {
     private final TextField usernameField;
     private final PasswordField passwordField;
 
-    public LoginDialog() {
+
+    public LoginDialog()
+    {
         setWidth("400px");
 
         // Create a new instance of LoginRequest
@@ -46,8 +49,12 @@ public class LoginDialog extends Dialog {
         passwordField.setErrorMessage("Password cannot be blank");
 
         // Debug: Log initial states
-        LOGGER.info("Username Field - ReadOnly: {}, Disabled: {}", usernameField.isReadOnly(), usernameField.isEnabled());
-        LOGGER.info("Password Field - ReadOnly: {}, Disabled: {}", passwordField.isReadOnly(), passwordField.isEnabled());
+        LOGGER.info("Username Field - ReadOnly: {}, Disabled: {}",
+                    usernameField.isReadOnly(),
+                    usernameField.isEnabled());
+        LOGGER.info("Password Field - ReadOnly: {}, Disabled: {}",
+                    passwordField.isReadOnly(),
+                    passwordField.isEnabled());
 
         // Bind fields to LoginRequest
         binder.bind(usernameField, "username");
@@ -68,19 +75,27 @@ public class LoginDialog extends Dialog {
         add(loginLayout);
     }
 
-    private void handleLoginButtonClick() {
-        try {
+
+    private void handleLoginButtonClick()
+    {
+        try
+        {
             binder.writeBean(loginRequest);
 
             boolean loginSuccessful = true; // Replace with actual login logic
 
-            if (loginSuccessful) {
+            if (loginSuccessful)
+            {
                 Notification.show("Login successful");
                 this.close();
-            } else {
+            }
+            else
+            {
                 Notification.show("Login failed, please check your credentials");
             }
-        } catch (ValidationException e) {
+        }
+        catch (ValidationException e)
+        {
             LOGGER.error("Validation exception occurred during login", e);
             Notification.show("Please fix the errors in the form.");
         }

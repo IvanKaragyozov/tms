@@ -87,7 +87,6 @@ public class UserService
 
 
     /**
-     *
      * @param registrationRequest
      * @return
      */
@@ -157,6 +156,7 @@ public class UserService
             return new UserNotFoundException(String.format("User with username [%s] not found", username));
         });
     }
+
 
     public User getUserByEmail(final String email)
     {

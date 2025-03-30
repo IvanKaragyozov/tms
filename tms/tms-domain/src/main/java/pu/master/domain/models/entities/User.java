@@ -79,6 +79,7 @@ public class User extends BaseEntity
     )
     private List<Project> projects;
 
+
     public void addRole(final Role role)
     {
         if (this.roles == null)

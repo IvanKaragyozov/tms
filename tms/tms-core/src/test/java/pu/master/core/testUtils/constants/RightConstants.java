@@ -3,7 +3,10 @@ package pu.master.core.testUtils.constants;
 
 public final class RightConstants
 {
-    private RightConstants() {}
+    private RightConstants()
+    {
+    }
+
 
     public static final long RIGHT_ID = 1L;
 

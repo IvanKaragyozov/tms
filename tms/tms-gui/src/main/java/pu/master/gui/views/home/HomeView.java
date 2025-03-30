@@ -45,8 +45,8 @@ public class HomeView extends VerticalLayout
     private Paragraph createDescriptionParagraph()
     {
         final String paragraphMsg = "Task Management System is an open source application that helps "
-                              + "and encourages people to be more productive by providing an easy way "
-                              + "to store and manage their day to day tasks.";
+                                    + "and encourages people to be more productive by providing an easy way "
+                                    + "to store and manage their day to day tasks.";
 
         final Paragraph paragraph = new Paragraph(paragraphMsg);
         paragraph.setWidth(400, Unit.PIXELS);

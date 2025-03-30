@@ -34,9 +34,11 @@ import pu.master.tms.models.enums.TaskStatus;
 import pu.master.tms.services.TaskService;
 import pu.master.tms.views.MainLayout;
 
+
 @PageTitle("Tasks")
 @Route(value = "tasks", layout = MainLayout.class)
-public class TasksView extends Div {
+public class TasksView extends Div
+{
 
     private final Grid<TaskDto> taskGrid = new Grid<>(TaskDto.class, false);
     private final TaskService taskService = new TaskService();
@@ -52,7 +54,8 @@ public class TasksView extends Div {
     private final Button addButton = new Button(VaadinIcon.PLUS.create());
 
 
-    public TasksView() {
+    public TasksView()
+    {
         setSizeFull();
         addClassName("tasks-view");
 
@@ -96,7 +99,8 @@ public class TasksView extends Div {
     }
 
 
-    private Component createButtonLayout() {
+    private Component createButtonLayout()
+    {
         // Add button click listener to open the add task dialog
         addButton.addClickListener(e -> openAddTaskDialog());
 
@@ -121,7 +125,8 @@ public class TasksView extends Div {
     }
 
 
-    private Component createFilterContainer() {
+    private Component createFilterContainer()
+    {
         filterContainer.addClassName("filter-container");
         filterContainer.setVisible(false);
 
@@ -162,7 +167,8 @@ public class TasksView extends Div {
     }
 
 
-    private Component createGridWrapper() {
+    private Component createGridWrapper()
+    {
         taskGrid.addColumn(TaskDto::getTitle).setHeader("Title").setAutoWidth(true).setSortable(true);
         taskGrid.addColumn(task -> task.getPriorityLevel().name())
                 .setHeader("Priority")
@@ -198,7 +204,8 @@ public class TasksView extends Div {
     }
 
 
-    private void applyFilter() {
+    private void applyFilter()
+    {
         String title = titleFilter.getValue().toLowerCase();
         String priority = priorityFilter.getValue().toLowerCase();
         String status = statusFilter.getValue().toLowerCase();
@@ -220,7 +227,8 @@ public class TasksView extends Div {
     }
 
 
-    private void loadTasks(String tab) {
+    private void loadTasks(String tab)
+    {
         List<TaskDto> tasks;
 
         switch (tab)
@@ -245,7 +253,8 @@ public class TasksView extends Div {
     }
 
 
-    private void openTaskDialog(TaskDto task) {
+    private void openTaskDialog(TaskDto task)
+    {
         Dialog dialog = new Dialog();
 
         // Create the fields for displaying and editing the task details
@@ -288,10 +297,12 @@ public class TasksView extends Div {
         VerticalLayout taskItemsLayout = new VerticalLayout();
         taskItemsLayout.setWidthFull();
 
-        if (task.getTaskItems() != null && !task.getTaskItems().isEmpty()) {
+        if (task.getTaskItems() != null && !task.getTaskItems().isEmpty())
+        {
             taskItemsLayout.add(new NativeLabel("Subtasks"));
 
-            for (TaskItemDto item : task.getTaskItems()) {
+            for (TaskItemDto item : task.getTaskItems())
+            {
                 Checkbox checkbox = new Checkbox(item.getTitle(), item.isFinished());
                 checkbox.setEnabled(false);
                 taskItemsLayout.add(checkbox);
@@ -314,7 +325,8 @@ public class TasksView extends Div {
 
         addSubtaskButton.addClickListener(event -> {
             String subtaskTitle = subtaskField.getValue().trim();
-            if (!subtaskTitle.isEmpty()) {
+            if (!subtaskTitle.isEmpty())
+            {
                 Checkbox subtaskCheckbox = new Checkbox(subtaskTitle);
                 taskItemsLayout.add(subtaskCheckbox); // Add to the end of the taskItemsLayout
                 subtaskField.clear();
@@ -328,7 +340,8 @@ public class TasksView extends Div {
         Button editButton = new Button(VaadinIcon.EDIT.create());
         editButton.addClickListener(e -> {
             boolean isEditing = !titleField.isReadOnly();
-            if (isEditing) {
+            if (isEditing)
+            {
                 editButton.setIcon(VaadinIcon.EDIT.create());
                 titleField.setReadOnly(true);
                 descriptionField.setReadOnly(true);
@@ -337,12 +350,15 @@ public class TasksView extends Div {
                 dueDateTimePicker.setReadOnly(true);
                 collaboratorsComboBox.setReadOnly(true);
                 taskItemsLayout.getChildren().forEach(component -> {
-                    if (component instanceof Checkbox) {
+                    if (component instanceof Checkbox)
+                    {
                         ((Checkbox) component).setEnabled(false);
                     }
                 });
                 subtaskInputLayout.setVisible(false);
-            } else {
+            }
+            else
+            {
                 editButton.setIcon(VaadinIcon.CHECK.create());
                 titleField.setReadOnly(false);
                 descriptionField.setReadOnly(false);
@@ -351,7 +367,8 @@ public class TasksView extends Div {
                 dueDateTimePicker.setReadOnly(false);
                 collaboratorsComboBox.setReadOnly(false);
                 taskItemsLayout.getChildren().forEach(component -> {
-                    if (component instanceof Checkbox) {
+                    if (component instanceof Checkbox)
+                    {
                         ((Checkbox) component).setEnabled(true);
                     }
                 });
@@ -372,7 +389,8 @@ public class TasksView extends Div {
         // Place the edit button on the left and the delete button on the right
         HorizontalLayout buttonLayout = new HorizontalLayout(editButton, deleteButton);
         buttonLayout.setWidthFull();
-        buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN); // Edit button on left, delete on right
+        buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN); // Edit button on left, delete
+        // on right
 
         // Add subtask input layout and task items layout to the dialog layout
         VerticalLayout dialogLayout = new VerticalLayout(
@@ -395,7 +413,9 @@ public class TasksView extends Div {
         dialog.open();
     }
 
-    private void openAddTaskDialog() {
+
+    private void openAddTaskDialog()
+    {
         Dialog dialog = new Dialog();
 
         // Create fields for new task input
@@ -438,7 +458,8 @@ public class TasksView extends Div {
         Button addSubtaskButton = new Button(VaadinIcon.PLUS.create());
         addSubtaskButton.addClickListener(event -> {
             String subtaskTitle = subtaskField.getValue().trim();
-            if (!subtaskTitle.isEmpty()) {
+            if (!subtaskTitle.isEmpty())
+            {
                 Checkbox subtaskCheckbox = new Checkbox(subtaskTitle);
                 taskItemsLayout.addComponentAtIndex(0, subtaskCheckbox);
                 subtaskField.clear();
@@ -461,7 +482,8 @@ public class TasksView extends Div {
                             collaboratorsComboBox.getSelectedItems().stream().toList(),
                             taskItemsLayout.getChildren()
                                            .filter(component -> component instanceof Checkbox)
-                                           .map(component -> new TaskItemDto(((Checkbox) component).getLabel(), ((Checkbox) component).getValue()))
+                                           .map(component -> new TaskItemDto(((Checkbox) component).getLabel(),
+                                                                             ((Checkbox) component).getValue()))
                                            .collect(Collectors.toList()) // Collect task items from layout
             );
 

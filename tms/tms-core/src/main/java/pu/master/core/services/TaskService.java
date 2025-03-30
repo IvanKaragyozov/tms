@@ -51,6 +51,7 @@ public class TaskService
         return createTask(task);
     }
 
+
     public Task createTask(final Task task)
     {
         final User taskOwner = this.securityUtils.getCurrentLoggedInUser();
@@ -60,6 +61,8 @@ public class TaskService
 
         return this.taskRepository.save(task);
     }
+
+
     public Task updateTask(final TaskRequest taskRequest)
     {
         final Task taskForUpdate = this.taskMapper.mapTaskRequestToTask(taskRequest);
@@ -78,11 +81,13 @@ public class TaskService
         return this.taskRepository.save(taskForUpdate);
     }
 
+
     public Task deleteTask(final TaskRequest taskRequest)
     {
         final Task taskForDelete = this.taskMapper.mapTaskRequestToTask(taskRequest);
         return deleteTask(taskForDelete);
     }
+
 
     public Task deleteTask(final Task taskForDelete)
     {
@@ -96,6 +101,7 @@ public class TaskService
 
         return taskForDelete;
     }
+
 
     public void handleInvitation(final long taskId, final String email, final boolean isAccepted)
     {
@@ -226,11 +232,12 @@ public class TaskService
                                   .toList();
     }
 
+
     private boolean canModifyTask(final Task task)
     {
         Objects.requireNonNull(task);
         return task.getOwner() == this.securityUtils.getCurrentLoggedInUser()
-                        && this.securityUtils.isCurrentLoggedInUserAdmin();
+               && this.securityUtils.isCurrentLoggedInUserAdmin();
     }
 
 

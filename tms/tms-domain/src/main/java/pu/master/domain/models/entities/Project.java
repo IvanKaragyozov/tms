@@ -58,7 +58,6 @@ public class Project extends BaseEntity
     )
     private Set<Task> tasks;
 
-
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "owner_id")
     private User owner;

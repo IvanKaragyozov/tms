@@ -62,6 +62,7 @@ public class TaskController
         return ResponseEntity.ok(taskDtos);
     }
 
+
     public ResponseEntity<List<TaskDto>> getTasksByUserUsername(final String username)
     {
         return ResponseEntity.ok(null);
@@ -102,18 +103,26 @@ public class TaskController
         return ResponseEntity.ok().build();
     }
 
+
     @PutMapping("/tasks/{id}")
-    public ResponseEntity<Void> updateTask(@PathVariable final long id, @RequestBody @Valid final UpdateTaskRequest taskRequest) {
+    public ResponseEntity<Void> updateTask(@PathVariable final long id,
+                                           @RequestBody @Valid final UpdateTaskRequest taskRequest)
+    {
         LOGGER.info("Updated task with id [{}]", id);
         return ResponseEntity.noContent().build();
     }
 
+
     // Delete a task
     @DeleteMapping("/tasks/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable final long id) {
+    public ResponseEntity<Void> deleteTask(@PathVariable final long id)
+    {
         LOGGER.info("Deleted task with id [{}]", id);
         return ResponseEntity.noContent().build();
     }
 
-    private class UpdateTaskRequest {}
+
+    private class UpdateTaskRequest
+    {
+    }
 }

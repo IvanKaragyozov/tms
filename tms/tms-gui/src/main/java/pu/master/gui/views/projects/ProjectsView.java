@@ -1,5 +1,6 @@
 package pu.master.gui.views.projects;
 
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -35,9 +36,11 @@ import pu.master.tms.services.ProjectService;
 import pu.master.tms.services.TaskService;
 import pu.master.tms.views.MainLayout;
 
+
 @PageTitle("Projects")
 @Route(value = "projects", layout = MainLayout.class)
-public class ProjectsView extends VerticalLayout {
+public class ProjectsView extends VerticalLayout
+{
 
     private final ProjectService projectService = new ProjectService();
     private final TaskService taskService = new TaskService();
@@ -49,11 +52,17 @@ public class ProjectsView extends VerticalLayout {
     private final TextField dateDueFilter = new TextField("Due Date");
     private final TextField dateCreatedFilter = new TextField("Date Created");
     private final TextField lastModifiedFilter = new TextField("Last Modified");
-    private final Div filterContainer = new Div(titleFilter, priorityFilter, dateDueFilter, dateCreatedFilter, lastModifiedFilter);
+    private final Div filterContainer = new Div(titleFilter,
+                                                priorityFilter,
+                                                dateDueFilter,
+                                                dateCreatedFilter,
+                                                lastModifiedFilter);
     private final Button filterButton = new Button("Filter");
     private final Button addButton = new Button(VaadinIcon.PLUS.create());
 
-    public ProjectsView() {
+
+    public ProjectsView()
+    {
         setSizeFull();
         addClassNames("projects-view");
 
@@ -65,7 +74,9 @@ public class ProjectsView extends VerticalLayout {
         filterContainer.setVisible(false);
     }
 
-    private Component createButtonLayout() {
+
+    private Component createButtonLayout()
+    {
         addButton.addClickListener(e -> openAddProjectDialog());
 
         filterButton.addClickListener(e -> {
@@ -81,7 +92,9 @@ public class ProjectsView extends VerticalLayout {
         return buttonLayout;
     }
 
-    private Component createFilterContainer() {
+
+    private Component createFilterContainer()
+    {
         filterContainer.addClassName("filter-container");
         filterContainer.setVisible(false);
 
@@ -116,16 +129,28 @@ public class ProjectsView extends VerticalLayout {
         return filterContainer;
     }
 
-    private Component createGridWrapper() {
+
+    private Component createGridWrapper()
+    {
         projectGrid.addColumn(ProjectDto::getTitle).setHeader("Title").setAutoWidth(true).setSortable(true);
         projectGrid.addColumn(ProjectDto::getPriorityLevel).setHeader("Priority").setAutoWidth(true).setSortable(true);
         projectGrid.addColumn(project -> project.getProjectStatus().getName())
                    .setHeader("Status")
                    .setAutoWidth(true)
                    .setSortable(true);
-        projectGrid.addColumn(ProjectDto::getProjectOwner).setKey("Owner").setHeader("Owner").setAutoWidth(true).setSortable(true); // Add Project Status column
-        projectGrid.addColumn(ProjectDto::getDateCreated).setHeader("Date Created").setAutoWidth(true).setSortable(true);
-        projectGrid.addColumn(ProjectDto::getDateLastModified).setHeader("Last Modified").setAutoWidth(true).setSortable(true);
+        projectGrid.addColumn(ProjectDto::getProjectOwner)
+                   .setKey("Owner")
+                   .setHeader("Owner")
+                   .setAutoWidth(true)
+                   .setSortable(true); // Add Project Status column
+        projectGrid.addColumn(ProjectDto::getDateCreated)
+                   .setHeader("Date Created")
+                   .setAutoWidth(true)
+                   .setSortable(true);
+        projectGrid.addColumn(ProjectDto::getDateLastModified)
+                   .setHeader("Last Modified")
+                   .setAutoWidth(true)
+                   .setSortable(true);
         projectGrid.addColumn(ProjectDto::getDateDue).setHeader("Due Date").setAutoWidth(true).setSortable(true);
 
         projectGrid.setItems(projectService.findAll());
@@ -142,7 +167,9 @@ public class ProjectsView extends VerticalLayout {
         return gridWrapper;
     }
 
-    private void applyFilter() {
+
+    private void applyFilter()
+    {
         String title = titleFilter.getValue().toLowerCase();
         String priority = priorityFilter.getValue().toLowerCase();
         String dateCreated = dateCreatedFilter.getValue().toLowerCase();
@@ -151,16 +178,27 @@ public class ProjectsView extends VerticalLayout {
 
         List<ProjectDto> projects = projectService.findAll().stream()
                                                   .filter(project -> project.getTitle().toLowerCase().contains(title))
-                                                  .filter(project -> project.getPriorityLevel().toString().toLowerCase().contains(priority))
-                                                  .filter(project -> project.getDateCreated().toLowerCase().contains(dateCreated))
-                                                  .filter(project -> project.getDateLastModified().toLowerCase().contains(lastModified))
-                                                  .filter(project -> project.getDateDue().toLowerCase().contains(dateDue))
+                                                  .filter(project -> project.getPriorityLevel()
+                                                                            .toString()
+                                                                            .toLowerCase()
+                                                                            .contains(priority))
+                                                  .filter(project -> project.getDateCreated()
+                                                                            .toLowerCase()
+                                                                            .contains(dateCreated))
+                                                  .filter(project -> project.getDateLastModified()
+                                                                            .toLowerCase()
+                                                                            .contains(lastModified))
+                                                  .filter(project -> project.getDateDue()
+                                                                            .toLowerCase()
+                                                                            .contains(dateDue))
                                                   .collect(Collectors.toList());
 
         projectGrid.setItems(projects);
     }
 
-    private void openAddProjectDialog() {
+
+    private void openAddProjectDialog()
+    {
         Dialog dialog = new Dialog();
         dialog.setWidth("600px");
 
@@ -204,7 +242,9 @@ public class ProjectsView extends VerticalLayout {
         dialog.open();
     }
 
-    private void openProjectDialog(ProjectDto project) {
+
+    private void openProjectDialog(ProjectDto project)
+    {
         Dialog dialog = new Dialog();
         dialog.setWidth("60%");
         dialog.setHeight("80%");
@@ -268,7 +308,8 @@ public class ProjectsView extends VerticalLayout {
         // Position the buttons on top of the task grid
         HorizontalLayout taskButtonLayout = new HorizontalLayout(addTaskButton, deleteTasksButton);
         taskButtonLayout.setWidthFull();
-        taskButtonLayout.setJustifyContentMode(JustifyContentMode.BETWEEN); // "New Task" on left, "Delete Tasks" on right
+        taskButtonLayout.setJustifyContentMode(JustifyContentMode.BETWEEN); // "New Task" on left, "Delete Tasks" on
+        // right
 
         // Create a layout for tasks
         VerticalLayout taskLayout = new VerticalLayout(taskButtonLayout); // Buttons on top, then the grid
@@ -279,7 +320,11 @@ public class ProjectsView extends VerticalLayout {
         taskLayout.setWidthFull();
 
         // Wrap everything in a scrollable layout
-        VerticalLayout dialogContent = new VerticalLayout(titleField, descriptionField, dueDateField, userComboBox, taskLayout);
+        VerticalLayout dialogContent = new VerticalLayout(titleField,
+                                                          descriptionField,
+                                                          dueDateField,
+                                                          userComboBox,
+                                                          taskLayout);
         dialogContent.setPadding(false); // Remove padding for tighter layout
         dialogContent.setSpacing(false);
         dialogContent.setSizeFull();
@@ -290,7 +335,9 @@ public class ProjectsView extends VerticalLayout {
         dialog.open();
     }
 
-    private void openNewTaskDialog(ProjectDto project) {
+
+    private void openNewTaskDialog(ProjectDto project)
+    {
         Dialog dialog = new Dialog();
         dialog.setWidth("400px");
 
@@ -339,7 +386,8 @@ public class ProjectsView extends VerticalLayout {
         // Layout with buttons aligned to the right
         HorizontalLayout buttonLayout = new HorizontalLayout(saveButton, addExistingTaskButton);
         buttonLayout.setWidthFull(); // Make the button layout take full width
-        buttonLayout.setJustifyContentMode(JustifyContentMode.BETWEEN); // Align "Save" to left, "Add existing task" to right
+        buttonLayout.setJustifyContentMode(JustifyContentMode.BETWEEN); // Align "Save" to left, "Add existing task"
+        // to right
 
         // Add components to layout
         layout.add(taskTitleField, taskDescriptionField, priorityComboBox, statusComboBox, dueDatePicker, buttonLayout);
@@ -348,7 +396,9 @@ public class ProjectsView extends VerticalLayout {
         dialog.open();
     }
 
-    private void openAddExistingTaskDialog(ProjectDto project) {
+
+    private void openAddExistingTaskDialog(ProjectDto project)
+    {
         Dialog dialog = new Dialog();
         dialog.setWidth("400px");
 
@@ -358,7 +408,9 @@ public class ProjectsView extends VerticalLayout {
         MultiSelectComboBox<TaskDto> existingTaskComboBox = new MultiSelectComboBox<>("Existing Tasks");
         existingTaskComboBox.setWidthFull();
         List<TaskDto> availableTasks = taskService.getAllTasks().stream()
-                                                  .filter(task -> !project.getTasks().contains(task)) // Filter out tasks already in the project
+                                                  .filter(task -> !project.getTasks()
+                                                                          .contains(task)) // Filter out tasks
+                                                  // already in the project
                                                   .collect(Collectors.toList());
         existingTaskComboBox.setItems(availableTasks);
         existingTaskComboBox.setItemLabelGenerator(TaskDto::getTitle);
@@ -366,7 +418,8 @@ public class ProjectsView extends VerticalLayout {
         // Button to add existing tasks to the project
         Button addExistingTasksButton = new Button("Add selected tasks", e -> {
             Set<TaskDto> selectedTasks = existingTaskComboBox.getSelectedItems();
-            projectService.addTasks(project.getId(), selectedTasks); // Add selected tasks to the project using projectService
+            projectService.addTasks(project.getId(),
+                                    selectedTasks); // Add selected tasks to the project using projectService
             loadProjects();
             dialog.close();
         });
@@ -389,6 +442,7 @@ public class ProjectsView extends VerticalLayout {
         dialog.open();
     }
 
+
     private Component createTabs()
     {
         Tab mineTab = new Tab("Mine");
@@ -406,12 +460,15 @@ public class ProjectsView extends VerticalLayout {
         return tabs;
     }
 
+
     private void loadProjects()
     {
         this.projectGrid.setItems(projectService.findAll());
     }
 
-    private void loadProjects(String tab) {
+
+    private void loadProjects(String tab)
+    {
         List<ProjectDto> projects;
 
         switch (tab)

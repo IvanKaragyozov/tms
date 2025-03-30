@@ -15,6 +15,7 @@ public class TaskItemDto
     private String title;
     private boolean isFinished;
 
+
     public TaskItemDto(String title, boolean isFinished)
     {
         this.title = title;

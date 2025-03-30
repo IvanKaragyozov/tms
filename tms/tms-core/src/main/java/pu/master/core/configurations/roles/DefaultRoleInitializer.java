@@ -17,8 +17,8 @@ import pu.master.domain.models.entities.Role;
 
 
 /**
- * Class used to create the USER role.
- * The {@code createDefaultRole} is invoked after all Spring beans have been created.
+ * Class used to create the USER role. The {@code createDefaultRole} is invoked after all Spring beans have been
+ * created.
  */
 @Component
 class DefaultRoleInitializer extends BaseRoleInitializer

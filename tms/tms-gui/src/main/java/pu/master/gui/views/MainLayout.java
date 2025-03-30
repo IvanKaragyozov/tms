@@ -36,7 +36,8 @@ import pu.master.gui.views.tasks.TasksView;
 /**
  * The main view is a top-level placeholder for other views.
  */
-public class MainLayout extends AppLayout {
+public class MainLayout extends AppLayout
+{
 
     private H1 viewTitle;
     private HorizontalLayout headerLayout;
@@ -44,14 +45,18 @@ public class MainLayout extends AppLayout {
     private Button registerButton;
     private SideNav nav;
 
-    public MainLayout() {
+
+    public MainLayout()
+    {
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent();
         updateNavigationVisibility(isLoggedIn());
     }
 
-    private void addHeaderContent() {
+
+    private void addHeaderContent()
+    {
         DrawerToggle toggle = new DrawerToggle();
         toggle.setAriaLabel("Menu toggle");
 
@@ -77,7 +82,9 @@ public class MainLayout extends AppLayout {
         addToNavbar(headerLayout);
     }
 
-    private void openProfileDialog() {
+
+    private void openProfileDialog()
+    {
         // Fetch current user info (replace with actual user fetching logic)
         UserDto currentUser = getCurrentUser();
 
@@ -116,13 +123,16 @@ public class MainLayout extends AppLayout {
         Button editButton = new Button(VaadinIcon.EDIT.create());
         editButton.addClickListener(e -> {
             boolean isEditing = !firstNameField.isReadOnly();
-            if (isEditing) {
+            if (isEditing)
+            {
                 editButton.setIcon(VaadinIcon.EDIT.create());
                 firstNameField.setReadOnly(true);
                 lastNameField.setReadOnly(true);
                 emailField.setReadOnly(true);
                 phoneNumberField.setReadOnly(true);
-            } else {
+            }
+            else
+            {
                 editButton.setIcon(VaadinIcon.CHECK.create());
                 firstNameField.setReadOnly(false);
                 lastNameField.setReadOnly(false);
@@ -149,14 +159,16 @@ public class MainLayout extends AppLayout {
 
             HorizontalLayout confirmationButtons = new HorizontalLayout(cancelButton, confirmButton);
             confirmationButtons.setWidthFull();
-            confirmationButtons.setJustifyContentMode(FlexComponent.JustifyContentMode.END); // Aligns cancel to the right
+            confirmationButtons.setJustifyContentMode(FlexComponent.JustifyContentMode.END); // Aligns cancel to the
+            // right
             confirmationDialog.add(new VerticalLayout(message, confirmationButtons));
             confirmationDialog.open();
         });
 
         HorizontalLayout buttonLayout = new HorizontalLayout(editButton, deleteButton);
         buttonLayout.setWidthFull();
-        buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN); // Edit button on left, delete on right
+        buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN); // Edit button on left, delete
+        // on right
 
         FormLayout formLayout = new FormLayout(
                         usernameField,
@@ -178,7 +190,8 @@ public class MainLayout extends AppLayout {
     }
 
 
-    private void handleLogout() {
+    private void handleLogout()
+    {
         // Simulate logout by removing avatar and showing register button
         removeAvatarFromHeader();
         showRegisterButton();
@@ -186,40 +199,54 @@ public class MainLayout extends AppLayout {
         getUI().ifPresent(ui -> ui.navigate(HomeView.class));
     }
 
-    private void removeAvatarFromHeader() {
+
+    private void removeAvatarFromHeader()
+    {
         headerLayout.remove(avatar);
     }
 
-    private void showRegisterButton() {
+
+    private void showRegisterButton()
+    {
         registerButton = new Button("Register", event -> openRegisterDialog());
         headerLayout.add(registerButton);
     }
 
-    private void updateNavigationVisibility(boolean isLoggedIn) {
+
+    private void updateNavigationVisibility(boolean isLoggedIn)
+    {
         nav.getChildren().forEach(component -> {
-            if (component instanceof SideNavItem) {
+            if (component instanceof SideNavItem)
+            {
                 SideNavItem item = (SideNavItem) component;
                 String label = item.getLabel();
                 // Hide "Tasks" and "Projects" if not logged in
-                if ("Tasks".equals(label) || "Projects".equals(label)) {
+                if ("Tasks".equals(label) || "Projects".equals(label))
+                {
                     item.setVisible(isLoggedIn);
                 }
             }
         });
     }
 
-    private boolean isLoggedIn() {
+
+    private boolean isLoggedIn()
+    {
         // Implement your logic here to determine if the user is logged in
         // For now, we'll assume the user is logged out if the avatar is not visible
         return avatar.isVisible();
     }
 
-    private void openRegisterDialog() {
+
+    private void openRegisterDialog()
+    {
         RegistrationDialog registrationDialog = new RegistrationDialog();
         registrationDialog.open();
     }
 
-    private void addDrawerContent() {
+
+    private void addDrawerContent()
+    {
         Span appName = new Span("TMS");
         appName.addClassNames(LumoUtility.FontWeight.SEMIBOLD, LumoUtility.FontSize.LARGE);
         Header header = new Header(appName);
@@ -230,23 +257,30 @@ public class MainLayout extends AppLayout {
         addToDrawer(header, scroller, createFooter());
     }
 
-    private SideNav createNavigation() {
+
+    private SideNav createNavigation()
+    {
         nav = new SideNav();
 
-//        nav.addItem(new SideNavItem("Home", HomeView.class, LineAwesomeIcon.HOUSE_DAMAGE_SOLID.create()));
-//        nav.addItem(new SideNavItem("Tasks", TasksView.class, LineAwesomeIcon.PEN_ALT_SOLID.create()));
-//        nav.addItem(new SideNavItem("Projects", ProjectsView.class, LineAwesomeIcon.CLIPBOARD_LIST_SOLID.create()));
+        //        nav.addItem(new SideNavItem("Home", HomeView.class, LineAwesomeIcon.HOUSE_DAMAGE_SOLID.create()));
+        //        nav.addItem(new SideNavItem("Tasks", TasksView.class, LineAwesomeIcon.PEN_ALT_SOLID.create()));
+        //        nav.addItem(new SideNavItem("Projects", ProjectsView.class, LineAwesomeIcon.CLIPBOARD_LIST_SOLID
+        //        .create()));
 
         return nav;
     }
 
-    private Footer createFooter() {
+
+    private Footer createFooter()
+    {
         Footer layout = new Footer();
 
         return layout;
     }
 
-    private UserDto getCurrentUser() {
+
+    private UserDto getCurrentUser()
+    {
         // Replace with actual current user fetching logic
         UserDto user = new UserDto();
         user.setUsername("Ivan K");
@@ -259,13 +293,17 @@ public class MainLayout extends AppLayout {
         return user;
     }
 
+
     @Override
-    protected void afterNavigation() {
+    protected void afterNavigation()
+    {
         super.afterNavigation();
         viewTitle.setText(getCurrentPageTitle());
     }
 
-    private String getCurrentPageTitle() {
+
+    private String getCurrentPageTitle()
+    {
         PageTitle title = getContent().getClass().getAnnotation(PageTitle.class);
         return title == null ? "" : title.value();
     }
