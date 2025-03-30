@@ -1,242 +1,488 @@
 package pu.master.tms.views.tasks;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.CheckboxGroup;
+import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.dependency.Uses;
+import com.vaadin.flow.component.datetimepicker.DateTimePicker;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.html.NativeLabel;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.Tabs;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
-import com.vaadin.flow.theme.lumo.LumoUtility;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Expression;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
-import java.util.ArrayList;
+
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
-import pu.master.tms.data.SamplePerson;
-import pu.master.tms.services.SamplePersonService;
+import java.util.stream.Collectors;
+import pu.master.tms.models.dtos.TaskDto;
+import pu.master.tms.models.dtos.TaskItemDto;
+import pu.master.tms.models.dtos.UserDto;
+import pu.master.tms.models.enums.TaskPriority;
+import pu.master.tms.models.enums.TaskStatus;
+import pu.master.tms.services.TaskService;
 import pu.master.tms.views.MainLayout;
 
 @PageTitle("Tasks")
 @Route(value = "tasks", layout = MainLayout.class)
-@Uses(Icon.class)
 public class TasksView extends Div {
 
-    private Grid<SamplePerson> grid;
+    private final Grid<TaskDto> taskGrid = new Grid<>(TaskDto.class, false);
+    private final TaskService taskService = new TaskService();
 
-    private Filters filters;
-    private final SamplePersonService samplePersonService;
+    private final TextField titleFilter = new TextField("Title");
+    private final TextField priorityFilter = new TextField("Priority Level");
+    private final TextField statusFilter = new TextField("Status");
+    private final TextField ownerFilter = new TextField("Owner");
+    private final TextField dateDueFilter = new TextField("Date Due");
 
-    public TasksView(SamplePersonService SamplePersonService) {
-        this.samplePersonService = SamplePersonService;
+    private final Div filterContainer = new Div(titleFilter, priorityFilter, statusFilter, ownerFilter, dateDueFilter);
+    private final Button filterButton = new Button("Filter");
+    private final Button addButton = new Button(VaadinIcon.PLUS.create());
+
+
+    public TasksView() {
         setSizeFull();
-        addClassNames("tasks-view");
+        addClassName("tasks-view");
 
-        filters = new Filters(() -> refreshGrid());
-        VerticalLayout layout = new VerticalLayout(createMobileFilters(), filters, createGrid());
+        VerticalLayout layout = new VerticalLayout(
+                        createTabs(),
+                        createButtonLayout(),
+                        createFilterContainer(),
+                        createGridWrapper()
+        );
         layout.setSizeFull();
         layout.setPadding(false);
         layout.setSpacing(false);
         add(layout);
+
+        // Initially load the "Mine" tasks
+        loadTasks("Mine");
+
+        // Initially hide filters
+        filterContainer.setVisible(false);
+
+        // Add double-click listener for grid rows
+        taskGrid.addItemDoubleClickListener(event -> openTaskDialog(event.getItem()));
     }
 
-    private HorizontalLayout createMobileFilters() {
-        // Mobile version
-        HorizontalLayout mobileFilters = new HorizontalLayout();
-        mobileFilters.setWidthFull();
-        mobileFilters.addClassNames(LumoUtility.Padding.MEDIUM, LumoUtility.BoxSizing.BORDER,
-                LumoUtility.AlignItems.CENTER);
-        mobileFilters.addClassName("mobile-filters");
 
-        Icon mobileIcon = new Icon("lumo", "plus");
-        Span filtersHeading = new Span("Filters");
-        mobileFilters.add(mobileIcon, filtersHeading);
-        mobileFilters.setFlexGrow(1, filtersHeading);
-        mobileFilters.addClickListener(e -> {
-            if (filters.getClassNames().contains("visible")) {
-                filters.removeClassName("visible");
-                mobileIcon.getElement().setAttribute("icon", "lumo:plus");
-            } else {
-                filters.addClassName("visible");
-                mobileIcon.getElement().setAttribute("icon", "lumo:minus");
+    private Component createTabs()
+    {
+        Tab mineTab = new Tab("Mine");
+        Tab collabTab = new Tab("Collab");
+        Tab archivedTab = new Tab("Archived");
+
+        Tabs tabs = new Tabs(mineTab, collabTab, archivedTab);
+        tabs.setWidthFull();
+
+        tabs.addSelectedChangeListener(event -> {
+            String selectedTab = event.getSelectedTab().getLabel();
+            loadTasks(selectedTab);
+        });
+
+        return tabs;
+    }
+
+
+    private Component createButtonLayout() {
+        // Add button click listener to open the add task dialog
+        addButton.addClickListener(e -> openAddTaskDialog());
+
+        addButton.getStyle().set("margin-left", "15px");  // Adds space to the left of the add button
+        filterButton.getStyle().set("margin-right", "15px");  // Adds space to the right of the filter button
+
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.setWidthFull();
+        buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN); // Place buttons on opposite ends
+        buttonLayout.add(addButton, filterButton);
+
+        buttonLayout.getStyle().set("margin-top", "10px");  // Adds space from the top
+
+        // Toggle visibility of filter container when filter button is clicked
+        filterButton.addClickListener(e -> {
+            boolean visible = !filterContainer.isVisible();
+            filterContainer.setVisible(visible);
+            filterButton.setText(visible ? "Hide" : "Filter");
+        });
+
+        return buttonLayout;
+    }
+
+
+    private Component createFilterContainer() {
+        filterContainer.addClassName("filter-container");
+        filterContainer.setVisible(false);
+
+        // Set fixed width for the filters to avoid stretching
+        titleFilter.setWidth("200px");
+        priorityFilter.setWidth("200px");
+        statusFilter.setWidth("200px");
+        ownerFilter.setWidth("200px");
+        dateDueFilter.setWidth("200px");
+
+        // Add placeholders for the filters
+        titleFilter.setPlaceholder("Filter by Title");
+        titleFilter.addValueChangeListener(e -> applyFilter());
+
+        priorityFilter.setPlaceholder("Filter by Priority Level");
+        priorityFilter.addValueChangeListener(e -> applyFilter());
+
+        statusFilter.setPlaceholder("Filter by Status");
+        statusFilter.addValueChangeListener(e -> applyFilter());
+
+        ownerFilter.setPlaceholder("Filter by Owner");
+        ownerFilter.addValueChangeListener(e -> applyFilter());
+
+        dateDueFilter.setPlaceholder("Filter by Date Due");
+        dateDueFilter.addValueChangeListener(e -> applyFilter());
+
+        // Set padding and spacing for the filter container
+        filterContainer.getStyle().set("padding", "5px");  // Adds padding around the entire container
+        filterContainer.getStyle().set("display", "flex");  // Use flexbox for layout
+        filterContainer.getStyle().set("gap", "10px");  // Adds spacing between filters
+        filterContainer.getStyle().set("flex-wrap", "wrap");  // Allows filters to wrap if they exceed the width
+        filterContainer.getStyle().set("justify-content", "flex-start");  // Aligns filters to the left
+
+        // Set the width of the container to full
+        filterContainer.setWidthFull();
+
+        return filterContainer;
+    }
+
+
+    private Component createGridWrapper() {
+        taskGrid.addColumn(TaskDto::getTitle).setHeader("Title").setAutoWidth(true).setSortable(true);
+        taskGrid.addColumn(task -> task.getPriorityLevel().name())
+                .setHeader("Priority")
+                .setAutoWidth(true)
+                .setSortable(true);
+        taskGrid.addColumn(task -> task.getStatus().getName())
+                .setHeader("Status")
+                .setAutoWidth(true)
+                .setSortable(true);
+        taskGrid.addColumn(TaskDto::getOwnerUsername)
+                .setKey("Owner")
+                .setHeader("Owner")
+                .setAutoWidth(true)
+                .setSortable(true);
+        taskGrid.addColumn(TaskDto::getDateCreated).setHeader("Date Created").setAutoWidth(true).setSortable(true);
+        taskGrid.addColumn(TaskDto::getDateLastModified)
+                .setHeader("Date Last Modified")
+                .setAutoWidth(true)
+                .setSortable(true);
+        taskGrid.addColumn(TaskDto::getDateDue).setHeader("Date Due").setAutoWidth(true).setSortable(true);
+
+        taskGrid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+        taskGrid.setSizeFull();
+
+        Div gridWrapper = new Div(taskGrid);
+        gridWrapper.setSizeFull();
+        gridWrapper.getStyle().set("overflow-y", "auto");
+        gridWrapper.getStyle().set("flex-grow", "1");
+        gridWrapper.getStyle().set("margin-left", "10px"); // Add left margin
+        gridWrapper.getStyle().set("margin-right", "10px"); // Add right margin
+
+        return gridWrapper;
+    }
+
+
+    private void applyFilter() {
+        String title = titleFilter.getValue().toLowerCase();
+        String priority = priorityFilter.getValue().toLowerCase();
+        String status = statusFilter.getValue().toLowerCase();
+        String owner = ownerFilter.getValue().toLowerCase();
+        String dateDue = dateDueFilter.getValue().toLowerCase();
+
+        List<TaskDto> tasks = taskService.getAllTasks().stream()
+                                         .filter(task -> task.getTitle().toLowerCase().contains(title))
+                                         .filter(task -> task.getPriorityLevel()
+                                                             .name()
+                                                             .toLowerCase()
+                                                             .contains(priority))
+                                         .filter(task -> task.getStatus().name().toLowerCase().contains(status))
+                                         .filter(task -> task.getOwnerUsername().toLowerCase().contains(owner))
+                                         .filter(task -> task.getDateDue().toString().contains(dateDue))
+                                         .collect(Collectors.toList());
+
+        taskGrid.setItems(tasks);
+    }
+
+
+    private void loadTasks(String tab) {
+        List<TaskDto> tasks;
+
+        switch (tab)
+        {
+            case "Mine":
+                tasks = taskService.getTasksCreatedByCurrentUser();
+                taskGrid.getColumnByKey("Owner").setVisible(false); // Hide "Owner" column for "Mine" tab
+                break;
+            case "Collab":
+                tasks = taskService.getCollaborativeTasksForCurrentUser();
+                taskGrid.getColumnByKey("Owner").setVisible(true); // Show "Owner" column for other tabs
+                break;
+            case "Archived":
+                tasks = taskService.getArchivedTasksForCurrentUser();
+                taskGrid.getColumnByKey("Owner").setVisible(true); // Show "Owner" column for other tabs
+                break;
+            default:
+                tasks = Collections.emptyList();
+        }
+
+        taskGrid.setItems(tasks);
+    }
+
+
+    private void openTaskDialog(TaskDto task) {
+        Dialog dialog = new Dialog();
+
+        // Create the fields for displaying and editing the task details
+        TextField titleField = new TextField("Title");
+        titleField.setWidthFull();
+        titleField.setValue(task.getTitle());
+        titleField.setReadOnly(true);
+
+        TextArea descriptionField = new TextArea("Description");
+        descriptionField.setValue(task.getDescription());
+        descriptionField.setWidthFull();
+        descriptionField.setSizeFull();
+        descriptionField.getStyle().set("resize", "both");
+        descriptionField.setReadOnly(true);
+
+        ComboBox<TaskPriority> priorityComboBox = new ComboBox<>("Priority Level", TaskPriority.values());
+        priorityComboBox.setValue(task.getPriorityLevel());
+        priorityComboBox.setWidthFull();
+        priorityComboBox.setReadOnly(true);
+
+        ComboBox<TaskStatus> statusComboBox = new ComboBox<>("Status", TaskStatus.values());
+        statusComboBox.setWidthFull();
+        statusComboBox.setValue(task.getStatus());
+        statusComboBox.setReadOnly(true);
+
+        DateTimePicker dueDateTimePicker = new DateTimePicker("Due Date");
+        dueDateTimePicker.setValue(task.getDateDue());
+        dueDateTimePicker.setWidthFull();
+
+        // MultiSelectComboBox for selecting and managing collaborators
+        MultiSelectComboBox<UserDto> collaboratorsComboBox = new MultiSelectComboBox<>("Collaborators");
+        collaboratorsComboBox.setWidthFull();
+        collaboratorsComboBox.setVisible(!task.getUsers().isEmpty());
+        collaboratorsComboBox.setItems(taskService.getUsers());
+        collaboratorsComboBox.setItemLabelGenerator(UserDto::getUsername);
+        collaboratorsComboBox.select(task.getUsers()); // Pre-select existing collaborators
+        collaboratorsComboBox.setReadOnly(true);
+
+        // Task Items List
+        VerticalLayout taskItemsLayout = new VerticalLayout();
+        taskItemsLayout.setWidthFull();
+
+        if (task.getTaskItems() != null && !task.getTaskItems().isEmpty()) {
+            taskItemsLayout.add(new NativeLabel("Subtasks"));
+
+            for (TaskItemDto item : task.getTaskItems()) {
+                Checkbox checkbox = new Checkbox(item.getTitle(), item.isFinished());
+                checkbox.setEnabled(false);
+                taskItemsLayout.add(checkbox);
+            }
+        }
+
+        // New subtask input and button (only visible when editing)
+        HorizontalLayout subtaskInputLayout = new HorizontalLayout();
+        subtaskInputLayout.setWidthFull();
+        subtaskInputLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+
+        Button addSubtaskButton = new Button(VaadinIcon.PLUS.create());
+        addSubtaskButton.getStyle().set("margin-right", "5px");
+        addSubtaskButton.setVisible(false);
+
+        TextField subtaskField = new TextField();
+        subtaskField.setPlaceholder("Add subtask");
+        subtaskField.setWidthFull();
+        subtaskField.setVisible(false);
+
+        addSubtaskButton.addClickListener(event -> {
+            String subtaskTitle = subtaskField.getValue().trim();
+            if (!subtaskTitle.isEmpty()) {
+                Checkbox subtaskCheckbox = new Checkbox(subtaskTitle);
+                taskItemsLayout.add(subtaskCheckbox); // Add to the end of the taskItemsLayout
+                subtaskField.clear();
             }
         });
-        return mobileFilters;
+
+        // Add the "+" button to the left and the text field to the right
+        subtaskInputLayout.add(addSubtaskButton, subtaskField);
+
+        // Create the edit button with a pencil icon
+        Button editButton = new Button(VaadinIcon.EDIT.create());
+        editButton.addClickListener(e -> {
+            boolean isEditing = !titleField.isReadOnly();
+            if (isEditing) {
+                editButton.setIcon(VaadinIcon.EDIT.create());
+                titleField.setReadOnly(true);
+                descriptionField.setReadOnly(true);
+                priorityComboBox.setReadOnly(true);
+                statusComboBox.setReadOnly(true);
+                dueDateTimePicker.setReadOnly(true);
+                collaboratorsComboBox.setReadOnly(true);
+                taskItemsLayout.getChildren().forEach(component -> {
+                    if (component instanceof Checkbox) {
+                        ((Checkbox) component).setEnabled(false);
+                    }
+                });
+                subtaskInputLayout.setVisible(false);
+            } else {
+                editButton.setIcon(VaadinIcon.CHECK.create());
+                titleField.setReadOnly(false);
+                descriptionField.setReadOnly(false);
+                priorityComboBox.setReadOnly(false);
+                statusComboBox.setReadOnly(false);
+                dueDateTimePicker.setReadOnly(false);
+                collaboratorsComboBox.setReadOnly(false);
+                taskItemsLayout.getChildren().forEach(component -> {
+                    if (component instanceof Checkbox) {
+                        ((Checkbox) component).setEnabled(true);
+                    }
+                });
+                subtaskInputLayout.setVisible(true);
+                subtaskField.setVisible(true);
+                addSubtaskButton.setVisible(true);
+            }
+        });
+
+        // Create the delete button with a trash can icon
+        Button deleteButton = new Button(VaadinIcon.TRASH.create(), event -> {
+            List<TaskDto> tasks = taskGrid.getListDataView().getItems().collect(Collectors.toList());
+            tasks.remove(task);
+            taskGrid.setItems(tasks);
+            dialog.close();
+        });
+
+        // Place the edit button on the left and the delete button on the right
+        HorizontalLayout buttonLayout = new HorizontalLayout(editButton, deleteButton);
+        buttonLayout.setWidthFull();
+        buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN); // Edit button on left, delete on right
+
+        // Add subtask input layout and task items layout to the dialog layout
+        VerticalLayout dialogLayout = new VerticalLayout(
+                        titleField,
+                        descriptionField,
+                        priorityComboBox,
+                        statusComboBox,
+                        dueDateTimePicker,
+                        collaboratorsComboBox,
+                        taskItemsLayout,
+                        subtaskInputLayout, // Add subtask input layout after task items
+                        buttonLayout
+        );
+
+        dialogLayout.setSizeFull();
+        dialog.add(dialogLayout);
+
+        dialog.setHeight("1000px");
+        dialog.setWidth("600px");
+        dialog.open();
     }
 
-    public static class Filters extends Div implements Specification<SamplePerson> {
+    private void openAddTaskDialog() {
+        Dialog dialog = new Dialog();
 
-        private final TextField name = new TextField("Name");
-        private final TextField phone = new TextField("Phone");
-        private final DatePicker startDate = new DatePicker("Date of Birth");
-        private final DatePicker endDate = new DatePicker();
-        private final MultiSelectComboBox<String> occupations = new MultiSelectComboBox<>("Occupation");
-        private final CheckboxGroup<String> roles = new CheckboxGroup<>("Role");
+        // Create fields for new task input
+        TextField titleField = new TextField("Title");
+        titleField.setWidthFull();
 
-        public Filters(Runnable onSearch) {
+        TextArea descriptionField = new TextArea("Description");
+        descriptionField.setSizeFull();
+        descriptionField.setWidthFull();
+        descriptionField.getStyle().set("resize", "both");
 
-            setWidthFull();
-            addClassName("filter-layout");
-            addClassNames(LumoUtility.Padding.Horizontal.LARGE, LumoUtility.Padding.Vertical.MEDIUM,
-                    LumoUtility.BoxSizing.BORDER);
-            name.setPlaceholder("First or last name");
+        ComboBox<TaskPriority> priorityComboBox = new ComboBox<>("Priority Level", TaskPriority.values());
+        priorityComboBox.setWidthFull();
+        ComboBox<TaskStatus> statusComboBox = new ComboBox<>("Status", TaskStatus.values());
+        statusComboBox.setWidthFull();
 
-            occupations.setItems("Insurance Clerk", "Mortarman", "Beer Coil Cleaner", "Scale Attendant");
+        DateTimePicker dueDateTimePicker = new DateTimePicker("Due Date");
+        dueDateTimePicker.setWidthFull();
 
-            roles.setItems("Worker", "Supervisor", "Manager", "External");
-            roles.addClassName("double-width");
+        MultiSelectComboBox<UserDto> collaboratorsComboBox = new MultiSelectComboBox<>("Collaborators");
+        collaboratorsComboBox.setItems(taskService.getUsers());
+        collaboratorsComboBox.setItemLabelGenerator(UserDto::getUsername);
+        collaboratorsComboBox.setWidthFull();
 
-            // Action buttons
-            Button resetBtn = new Button("Reset");
-            resetBtn.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-            resetBtn.addClickListener(e -> {
-                name.clear();
-                phone.clear();
-                startDate.clear();
-                endDate.clear();
-                occupations.clear();
-                roles.clear();
-                onSearch.run();
-            });
-            Button searchBtn = new Button("Search");
-            searchBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-            searchBtn.addClickListener(e -> onSearch.run());
+        VerticalLayout taskItemsLayout = new VerticalLayout();
+        taskItemsLayout.setWidthFull();
 
-            Div actions = new Div(resetBtn, searchBtn);
-            actions.addClassName(LumoUtility.Gap.SMALL);
-            actions.addClassName("actions");
+        HorizontalLayout subtaskInputLayout = new HorizontalLayout();
+        subtaskInputLayout.setWidthFull();
 
-            add(name, phone, createDateRangeFilter(), occupations, roles, actions);
-        }
+        TextField subtaskField = new TextField();
+        subtaskField.setPlaceholder("Add subtask");
+        subtaskField.setWidthFull();
 
-        private Component createDateRangeFilter() {
-            startDate.setPlaceholder("From");
-
-            endDate.setPlaceholder("To");
-
-            // For screen readers
-            startDate.setAriaLabel("From date");
-            endDate.setAriaLabel("To date");
-
-            FlexLayout dateRangeComponent = new FlexLayout(startDate, new Text(" – "), endDate);
-            dateRangeComponent.setAlignItems(FlexComponent.Alignment.BASELINE);
-            dateRangeComponent.addClassName(LumoUtility.Gap.XSMALL);
-
-            return dateRangeComponent;
-        }
-
-        @Override
-        public Predicate toPredicate(Root<SamplePerson> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-            List<Predicate> predicates = new ArrayList<>();
-
-            if (!name.isEmpty()) {
-                String lowerCaseFilter = name.getValue().toLowerCase();
-                Predicate firstNameMatch = criteriaBuilder.like(criteriaBuilder.lower(root.get("firstName")),
-                        lowerCaseFilter + "%");
-                Predicate lastNameMatch = criteriaBuilder.like(criteriaBuilder.lower(root.get("lastName")),
-                        lowerCaseFilter + "%");
-                predicates.add(criteriaBuilder.or(firstNameMatch, lastNameMatch));
+        Button addSubtaskButton = new Button(VaadinIcon.PLUS.create());
+        addSubtaskButton.addClickListener(event -> {
+            String subtaskTitle = subtaskField.getValue().trim();
+            if (!subtaskTitle.isEmpty()) {
+                Checkbox subtaskCheckbox = new Checkbox(subtaskTitle);
+                taskItemsLayout.addComponentAtIndex(0, subtaskCheckbox);
+                subtaskField.clear();
             }
-            if (!phone.isEmpty()) {
-                String databaseColumn = "phone";
-                String ignore = "- ()";
+        });
 
-                String lowerCaseFilter = ignoreCharacters(ignore, phone.getValue().toLowerCase());
-                Predicate phoneMatch = criteriaBuilder.like(
-                        ignoreCharacters(ignore, criteriaBuilder, criteriaBuilder.lower(root.get(databaseColumn))),
-                        "%" + lowerCaseFilter + "%");
-                predicates.add(phoneMatch);
+        subtaskInputLayout.add(addSubtaskButton, subtaskField);
 
+        // Create BeanValidationBinder
+        BeanValidationBinder<TaskDto> binder = new BeanValidationBinder<>(TaskDto.class);
+
+        // Bind fields with validation
+        binder.forField(titleField)
+              .asRequired("The title cannot be empty")  // Set required with custom message
+              .bind(TaskDto::getTitle, TaskDto::setTitle);
+
+        // Add a "Save" button to create the task
+        Button saveButton = new Button("Save", event -> {
+            TaskDto newTask = new TaskDto();
+            if (binder.writeBeanIfValid(newTask)) {  // Check if the form is valid
+                // Add the new task to the grid
+                List<TaskDto> tasks = taskGrid.getListDataView().getItems().collect(Collectors.toList());
+                tasks.add(newTask);
+                taskGrid.setItems(tasks);
+
+                dialog.close();
             }
-            if (startDate.getValue() != null) {
-                String databaseColumn = "dateOfBirth";
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get(databaseColumn),
-                        criteriaBuilder.literal(startDate.getValue())));
-            }
-            if (endDate.getValue() != null) {
-                String databaseColumn = "dateOfBirth";
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(criteriaBuilder.literal(endDate.getValue()),
-                        root.get(databaseColumn)));
-            }
-            if (!occupations.isEmpty()) {
-                String databaseColumn = "occupation";
-                List<Predicate> occupationPredicates = new ArrayList<>();
-                for (String occupation : occupations.getValue()) {
-                    occupationPredicates
-                            .add(criteriaBuilder.equal(criteriaBuilder.literal(occupation), root.get(databaseColumn)));
-                }
-                predicates.add(criteriaBuilder.or(occupationPredicates.toArray(Predicate[]::new)));
-            }
-            if (!roles.isEmpty()) {
-                String databaseColumn = "role";
-                List<Predicate> rolePredicates = new ArrayList<>();
-                for (String role : roles.getValue()) {
-                    rolePredicates.add(criteriaBuilder.equal(criteriaBuilder.literal(role), root.get(databaseColumn)));
-                }
-                predicates.add(criteriaBuilder.or(rolePredicates.toArray(Predicate[]::new)));
-            }
-            return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
-        }
+        });
 
-        private String ignoreCharacters(String characters, String in) {
-            String result = in;
-            for (int i = 0; i < characters.length(); i++) {
-                result = result.replace("" + characters.charAt(i), "");
-            }
-            return result;
-        }
+        VerticalLayout dialogLayout = new VerticalLayout(
+                        titleField,
+                        descriptionField,
+                        priorityComboBox,
+                        statusComboBox,
+                        dueDateTimePicker,
+                        collaboratorsComboBox,
+                        subtaskInputLayout,  // Add subtask input layout
+                        taskItemsLayout,     // Add task items layout
+                        saveButton
+        );
 
-        private Expression<String> ignoreCharacters(String characters, CriteriaBuilder criteriaBuilder,
-                Expression<String> inExpression) {
-            Expression<String> expression = inExpression;
-            for (int i = 0; i < characters.length(); i++) {
-                expression = criteriaBuilder.function("replace", String.class, expression,
-                        criteriaBuilder.literal(characters.charAt(i)), criteriaBuilder.literal(""));
-            }
-            return expression;
-        }
+        dialogLayout.setSizeFull();
+        dialog.add(dialogLayout);
 
-    }
-
-    private Component createGrid() {
-        grid = new Grid<>(SamplePerson.class, false);
-        grid.addColumn("firstName").setAutoWidth(true);
-        grid.addColumn("lastName").setAutoWidth(true);
-        grid.addColumn("email").setAutoWidth(true);
-        grid.addColumn("phone").setAutoWidth(true);
-        grid.addColumn("dateOfBirth").setAutoWidth(true);
-        grid.addColumn("occupation").setAutoWidth(true);
-        grid.addColumn("role").setAutoWidth(true);
-
-        grid.setItems(query -> samplePersonService.list(
-                PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)),
-                filters).stream());
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
-        grid.addClassNames(LumoUtility.Border.TOP, LumoUtility.BorderColor.CONTRAST_10);
-
-        return grid;
-    }
-
-    private void refreshGrid() {
-        grid.getDataProvider().refreshAll();
+        dialog.setHeight("1000px");
+        dialog.setWidth("400px");
+        dialog.open();
     }
 
 }

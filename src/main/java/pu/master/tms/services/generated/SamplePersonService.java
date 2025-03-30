@@ -1,4 +1,4 @@
-package pu.master.tms.services;
+package pu.master.tms.services.generated;
 
 import java.util.Optional;
 import org.springframework.data.domain.Page;
