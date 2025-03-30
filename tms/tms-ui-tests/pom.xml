@@ -12,6 +12,14 @@
     <groupId>pu</groupId>
     <artifactId>tms-ui-tests</artifactId>
 
+    <dependencies>
 
+        <dependency>
+            <groupId>pu.master</groupId>
+            <artifactId>tms-domain</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
 
 </project>

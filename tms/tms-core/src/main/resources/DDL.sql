@@ -31,12 +31,12 @@ CREATE TABLE users
     date_created_at       DATE         NOT NULL,
     date_last_modified_at DATE,
     is_active             BOOLEAN,
-    email                 VARCHAR(128) NOT NULL,
+    email                 VARCHAR(128) NOT NULL, UNIQUE,
     first_name            VARCHAR(128),
     last_name             VARCHAR(128),
     password              VARCHAR(255) NOT NULL,
-    phone_number          VARCHAR(15),
-    username              VARCHAR(64)  NOT NULL,
+    phone_number          VARCHAR(15) UNIQUE,
+    username              VARCHAR(64)  NOT NULL UNIQUE,
     CONSTRAINT PK_users_id PRIMARY KEY (id)
 );
 
@@ -71,14 +71,14 @@ CREATE TABLE tasks
         REFERENCES users (id)
 );
 
-CREATE TABLE task_items
+CREATE TABLE subtasks
 (
     id          BIGSERIAL,
     title       VARCHAR(128) NOT NULL,
     is_finished BOOLEAN      NOT NULL,
     task_id     BIGSERIAL,
-    CONSTRAINT PK_task_items_id PRIMARY KEY (id),
-    CONSTRAINT FK_task_items_task_id FOREIGN KEY (task_id)
+    CONSTRAINT PK_subtasks_id PRIMARY KEY (id),
+    CONSTRAINT FK_subtasks_task_id FOREIGN KEY (task_id)
         REFERENCES tasks (id)
 );
 

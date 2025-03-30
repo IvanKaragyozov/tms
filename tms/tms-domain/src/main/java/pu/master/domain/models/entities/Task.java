@@ -1,6 +1,9 @@
 package pu.master.domain.models.entities;
 
 
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,6 +48,26 @@ public class Task extends BaseEntity
     @Column(name = "status")
     private TaskStatus status;
 
+    @Column(name = "date_created", updatable = false)
+    private LocalDateTime dateCreated;
+
+    @Column(name = "date_last_modified")
+    private LocalDateTime dateLastModified;
+
+    @Column(name = "date_due")
+    private LocalDateTime dateDue;
+
+    @OneToMany(mappedBy = "task")
+    private Set<Subtask> subtasks;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+                    name = "project_tasks",
+                    joinColumns = @JoinColumn(name = "task_id"),
+                    inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private Set<Project> projects;
+
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "owner_id")
     private User owner;
@@ -66,5 +89,15 @@ public class Task extends BaseEntity
         }
 
         this.users.add(user);
+    }
+
+
+    public void addProject(final Project project)
+    {
+        if (this.projects == null)
+        {
+            this.projects = new HashSet<>();
+        }
+        this.projects.add(project);
     }
 }

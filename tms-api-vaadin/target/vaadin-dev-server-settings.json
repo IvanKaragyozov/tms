@@ -1,0 +1,17 @@
+{
+  "frontendFolder": "C:/dev/IntelliJProjects/university-master/tms/tms-api-vaadin/./frontend",
+  "themeFolder": "themes",
+  "themeResourceFolder": "C:/dev/IntelliJProjects/university-master/tms/tms-api-vaadin/./frontend/generated/jar-resources",
+  "staticOutput": "C:/dev/IntelliJProjects/university-master/tms/tms-api-vaadin/target/classes/META-INF/VAADIN/webapp/VAADIN/static",
+  "generatedFolder": "generated",
+  "statsOutput": "C:\\dev\\IntelliJProjects\\university-master\\tms\\tms-api-vaadin\\target\\classes\\META-INF\\VAADIN\\config",
+  "frontendBundleOutput": "C:\\dev\\IntelliJProjects\\university-master\\tms\\tms-api-vaadin\\target\\classes\\META-INF\\VAADIN\\webapp",
+  "devBundleOutput": "C:/dev/IntelliJProjects/university-master/tms/tms-api-vaadin/target/dev-bundle/webapp",
+  "devBundleStatsOutput": "C:/dev/IntelliJProjects/university-master/tms/tms-api-vaadin/target/dev-bundle/config",
+  "jarResourcesFolder": "C:/dev/IntelliJProjects/university-master/tms/tms-api-vaadin/./frontend/generated/jar-resources",
+  "themeName": "",
+  "clientServiceWorkerSource": "C:\\dev\\IntelliJProjects\\university-master\\tms\\tms-api-vaadin\\target\\sw.ts",
+  "pwaEnabled": false,
+  "offlineEnabled": false,
+  "offlinePath": "'offline.html'"
+}

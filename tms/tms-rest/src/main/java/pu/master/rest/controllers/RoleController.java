@@ -4,6 +4,7 @@ package pu.master.rest.controllers;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import pu.master.domain.models.dtos.RoleDto;
 import pu.master.domain.models.entities.Role;
 import pu.master.domain.models.requests.RoleRequest;
 
+@RequiredArgsConstructor
 
 @RestController
 public class RoleController
@@ -27,13 +29,6 @@ public class RoleController
     private static final Logger LOGGER = LoggerFactory.getLogger(RoleController.class.getName());
 
     private final RoleService roleService;
-
-
-    @Autowired
-    public RoleController(final RoleService roleService)
-    {
-        this.roleService = roleService;
-    }
 
 
     @PreAuthorize("hasAnyAuthority({'ADMIN'})")
@@ -52,6 +47,7 @@ public class RoleController
     }
 
 
+    @PreAuthorize("hasAnyAuthority({'ADMIN'})")
     @GetMapping("/roles")
     public ResponseEntity<List<RoleDto>> getAllRoles()
     {

@@ -86,6 +86,11 @@ public class UserService
     }
 
 
+    /**
+     *
+     * @param registrationRequest
+     * @return
+     */
     private User createUserData(final RegistrationRequest registrationRequest)
     {
         final User user = this.userMapper.mapUserRequestToUser(registrationRequest);

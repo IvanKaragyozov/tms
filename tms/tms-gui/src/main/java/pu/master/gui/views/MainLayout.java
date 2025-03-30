@@ -26,12 +26,12 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import java.time.LocalDate;
-import org.vaadin.lineawesome.LineAwesomeIcon;
-import pu.master.tms.models.dtos.UserDto;
-import pu.master.tms.views.home.HomeView;
-import pu.master.tms.views.projects.ProjectsView;
-import pu.master.tms.views.registration.RegistrationDialog;
-import pu.master.tms.views.tasks.TasksView;
+import pu.master.domain.models.dtos.UserDto;
+import pu.master.gui.views.home.HomeView;
+import pu.master.gui.views.projects.ProjectsView;
+import pu.master.gui.views.registration.RegistrationDialog;
+import pu.master.gui.views.tasks.TasksView;
+
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -233,9 +233,9 @@ public class MainLayout extends AppLayout {
     private SideNav createNavigation() {
         nav = new SideNav();
 
-        nav.addItem(new SideNavItem("Home", HomeView.class, LineAwesomeIcon.HOUSE_DAMAGE_SOLID.create()));
-        nav.addItem(new SideNavItem("Tasks", TasksView.class, LineAwesomeIcon.PEN_ALT_SOLID.create()));
-        nav.addItem(new SideNavItem("Projects", ProjectsView.class, LineAwesomeIcon.CLIPBOARD_LIST_SOLID.create()));
+//        nav.addItem(new SideNavItem("Home", HomeView.class, LineAwesomeIcon.HOUSE_DAMAGE_SOLID.create()));
+//        nav.addItem(new SideNavItem("Tasks", TasksView.class, LineAwesomeIcon.PEN_ALT_SOLID.create()));
+//        nav.addItem(new SideNavItem("Projects", ProjectsView.class, LineAwesomeIcon.CLIPBOARD_LIST_SOLID.create()));
 
         return nav;
     }

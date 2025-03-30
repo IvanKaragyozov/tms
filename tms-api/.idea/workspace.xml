@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3549e0de-c58e-4039-9bd6-0287dbaa3881" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/pu/master/tmsapi/models/requests/LoginRequest.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2bmB15WRAlJRnS9zCPxsg6qETiY" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "JUnit.RightServiceTest.testCreateRight_existingRight_throwsRightAlreadyExistsException.executor": "Run",
+    "JUnit.RightServiceTest.testCreateRight_success.executor": "Run",
+    "JUnit.TmsApiApplicationTests.executor": "Run",
+    "JUnit.java in tms-api.executor": "Coverage",
+    "Maven.tms-api [clean].executor": "Run",
+    "Maven.tms-api [install].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.TmsApiApplication.executor": "Run",
+    "git-widget-placeholder": "tms-spring-security",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/dev/IntelliJProjects/university-master/tms/tms-api",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.sourceCode.Java",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="QodanaReportsService">
+    <option name="descriptions">
+      <ReportDescription localRun="true" path="C:\Users\flopp\AppData\Local\Temp\qodana_output\qodana.sarif.json" reportGuid="efdaf221-ad6b-4994-8e30-ea455dae8f9c" reportId="tms-api/qodana/2024-02-01" />
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="pu.master.tmsapi.exceptions" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.TmsApiApplication">
+    <configuration name="RightServiceTest.testCreateRight_existingRight_throwsRightAlreadyExistsException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tms-api" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pu.master.tmsapi.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pu.master.tmsapi.services" />
+      <option name="MAIN_CLASS_NAME" value="pu.master.tmsapi.services.RightServiceTest" />
+      <option name="METHOD_NAME" value="testCreateRight_existingRight_throwsRightAlreadyExistsException" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RightServiceTest.testCreateRight_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tms-api" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pu.master.tmsapi.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pu.master.tmsapi.services" />
+      <option name="MAIN_CLASS_NAME" value="pu.master.tmsapi.services.RightServiceTest" />
+      <option name="METHOD_NAME" value="testCreateRight_success" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TmsApiApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tms-api" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pu.master.tmsapi.tmsapi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pu.master.tmsapi.tmsapi" />
+      <option name="MAIN_CLASS_NAME" value="pu.master.tmsapi.tmsapi.TmsApiApplicationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="java in tms-api" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tms-api" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/src/test/java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TmsApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="tms-api" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="pu.master.tmsapi.TmsApiApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pu.master.tmsapi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.TmsApiApplication" />
+        <item itemvalue="JUnit.java in tms-api" />
+        <item itemvalue="JUnit.RightServiceTest.testCreateRight_existingRight_throwsRightAlreadyExistsException" />
+        <item itemvalue="JUnit.RightServiceTest.testCreateRight_success" />
+        <item itemvalue="JUnit.TmsApiApplicationTests" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-5cd809f4" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3549e0de-c58e-4039-9bd6-0287dbaa3881" name="Changes" comment="" />
+      <created>1706810156140</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1706810156140</updated>
+      <workItem from="1706810157210" duration="499000" />
+      <workItem from="1706810740669" duration="192000" />
+      <workItem from="1706811147512" duration="790000" />
+      <workItem from="1706815462697" duration="1450000" />
+      <workItem from="1707004842605" duration="340000" />
+      <workItem from="1708764293446" duration="617000" />
+      <workItem from="1708764939299" duration="2508000" />
+      <workItem from="1708778198291" duration="503000" />
+      <workItem from="1708784560374" duration="681000" />
+      <workItem from="1708851328690" duration="1979000" />
+      <workItem from="1708853334449" duration="2745000" />
+      <workItem from="1708899145601" duration="437000" />
+      <workItem from="1709884385429" duration="10000" />
+      <workItem from="1709940198862" duration="84000" />
+      <workItem from="1709983759153" duration="3429000" />
+      <workItem from="1710065485305" duration="2736000" />
+      <workItem from="1710089824636" duration="5358000" />
+      <workItem from="1710620220256" duration="5621000" />
+      <workItem from="1711270670547" duration="1214000" />
+      <workItem from="1711280818648" duration="2668000" />
+      <workItem from="1711285015729" duration="45000" />
+      <workItem from="1712476688807" duration="692000" />
+      <workItem from="1714778806309" duration="91000" />
+      <workItem from="1714904144993" duration="112000" />
+      <workItem from="1716020561010" duration="513000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/pu/master/tmsapi/jwt/JwtUserDetailsService.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/pu/master/tmsapi/jwt/JwtRequestFilter.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/pu/master/tmsapi/controllers/UserController.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/tms_api$java_in_tms_api.ic" NAME="java in tms-api Coverage Results" MODIFIED="1712476802397" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>

@@ -38,7 +38,9 @@ class AdminAccountInitializer
     @EventListener(ApplicationReadyEvent.class)
     public void createAdmin()
     {
-        if (this.userRepository.existsByUsername(adminUsername))
+        if (this.userRepository.existsByUsername(adminUsername)
+            && userRepository.existsByEmail(adminUsername)
+        && userRepository.existsByPhoneNumber(adminUsername))
         {
             return;
         }

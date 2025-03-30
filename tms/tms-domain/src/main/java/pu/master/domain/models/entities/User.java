@@ -49,7 +49,7 @@ public class User extends BaseEntity
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "date_created_at")
+    @Column(name = "date_created_at", updatable = false)
     private LocalDate dateCreatedAt;
 
     @Column(name = "date_last_modified_at")
@@ -71,6 +71,13 @@ public class User extends BaseEntity
     )
     private List<Task> tasks;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+                    name = "user_projects",
+                    joinColumns = @JoinColumn(name = "user_id"),
+                    inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private List<Project> projects;
 
     public void addRole(final Role role)
     {
@@ -81,5 +88,4 @@ public class User extends BaseEntity
         this.roles.add(role);
     }
 
-    // TODO: Add implementation of equals() and hashCode()
 }

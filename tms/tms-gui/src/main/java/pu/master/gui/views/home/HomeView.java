@@ -8,7 +8,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
-import pu.master.tms.views.MainLayout;
+import pu.master.gui.views.MainLayout;
 
 
 @PageTitle("Home")
