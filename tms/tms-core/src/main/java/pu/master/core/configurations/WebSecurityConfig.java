@@ -3,8 +3,6 @@ package pu.master.core.configurations;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,60 +12,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import pu.master.core.jwt.JwtRequestFilter;
 
 
 @RequiredArgsConstructor
 
 @Configuration
 @EnableWebSecurity
+// TODO: Create a dev profile
 public class WebSecurityConfig extends VaadinWebSecurity
 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebSecurityConfig.class);
-
-    private static final String LOGOUT_URL = "/logout";
-
-    private static final String[] AUTH_PATH = {
-                    "/login",
-                    "/register",
-                    "/logout"
-    };
-
-    private static final String[] ADMIN_PATH = {
-                    "/users",
-                    "/users/\\d+",
-                    "/users\\?username=.*",
-                    "/users\\?email=.*",
-                    "/roles",
-                    "/rights",
-                    "/tasks",
-                    "/tasks/\\d+/invite\\?email=.*",
-                    "/tasks/\\d+/invitation\\?email.*"
-    };
-
-    private static final String[] USER_PATH = {
-                    "/users",
-                    "/tasks",
-                    "/tasks/\\d+/invite\\?email=.*",
-                    "/tasks/\\d+/invitation\\?email.*"
-    };
-
-    private static final String[] VAADIN_PATH = {
-                    "/tasks-view/**",
-                    "/VAADIN/**",
-                    "/frontend/**",
-                    "/images/**",
-                    "/icons/**",
-                    "/styles/**",
-                    "/h2-console/**",
-                    "/resources/**",
-                    "/webjars/**",
-                    "/error"
-    };
-
-    private final JwtRequestFilter jwtRequestFilter;
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception
@@ -77,47 +30,6 @@ public class WebSecurityConfig extends VaadinWebSecurity
 
         return http.build();
     }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception
-//    {
-//
-//        http.csrf(AbstractHttpConfigurer::disable)
-//            .authorizeHttpRequests((authorize) -> {
-//                authorize.requestMatchers(AUTH_PATH).permitAll()
-//                         .requestMatchers(VAADIN_PATH).permitAll()
-//                         .requestMatchers(USER_PATH).hasAnyRole("ADMIN", "USER")
-//                         .requestMatchers(ADMIN_PATH).hasRole("ADMIN")
-//                         .anyRequest().authenticated();
-//            })
-//            .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//            .addFilterBefore(this.jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-//            .logout((logout) -> logout.logoutUrl(LOGOUT_URL)
-//                                      .addLogoutHandler((request, response, authentication) -> {
-//                                          LOGGER.debug("Processing logout for user: " +
-//                                                       (authentication != null ? authentication.getName()
-//                                                                               : "anonymous"));
-//                                          if (request.getCookies() != null)
-//                                          {
-//                                              for (final Cookie cookie : request.getCookies())
-//                                              {
-//                                                  LOGGER.debug("Cookie before logout: " + cookie.getName() + "=" +
-//                                                               cookie.getValue());
-//                                                  cookie.setValue("");
-//                                                  cookie.setPath("/");
-//                                                  cookie.setMaxAge(0);
-//                                                  response.addCookie(cookie);
-//                                              }
-//                                          }
-//                                      })
-//                                      .deleteCookies(JwtConstants.JWT_COOKIE_NAME, "XSRF-TOKEN")
-//                                      .logoutSuccessHandler((request, response, authentication) -> {
-//                                          response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-//                                          LOGGER.debug("Logout successful. Clearing cookies.");
-//                                      }));
-//
-//        return http.build();
-//    }
 
 
     @Bean
