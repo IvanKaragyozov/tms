@@ -24,15 +24,10 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
-import pu.master.tms.models.dtos.TaskDto;
-import pu.master.tms.models.dtos.TaskItemDto;
-import pu.master.tms.models.dtos.UserDto;
-import pu.master.tms.models.enums.TaskPriority;
-import pu.master.tms.models.enums.TaskStatus;
-import pu.master.tms.services.TaskService;
-import pu.master.tms.views.MainLayout;
+import pu.master.core.services.TaskService;
+import pu.master.domain.models.dtos.TaskDto;
+import pu.master.gui.views.MainLayout;
 
 
 @PageTitle("Tasks")
