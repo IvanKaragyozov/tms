@@ -1,9 +1,8 @@
 package pu.master.core.configurations;
 
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
-
+import com.vaadin.flow.spring.security.VaadinWebSecurity;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -13,17 +12,9 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import com.vaadin.flow.spring.security.VaadinWebSecurity;
-
-import lombok.RequiredArgsConstructor;
-
 import pu.master.core.jwt.JwtRequestFilter;
-import pu.master.core.jwt.JwtConstants;
 
 
 @RequiredArgsConstructor
@@ -81,47 +72,52 @@ public class WebSecurityConfig extends VaadinWebSecurity
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception
     {
-
-        http.csrf(AbstractHttpConfigurer::disable)
-            // Authorize requests
-            .authorizeHttpRequests((authorize) -> {
-                authorize.requestMatchers(AUTH_PATH).permitAll()
-                         .requestMatchers(VAADIN_PATH).permitAll()
-                         .requestMatchers(USER_PATH).hasAnyRole("ADMIN", "USER")
-                         .requestMatchers(ADMIN_PATH).hasRole("ADMIN")
-                         .anyRequest().authenticated();
-            })
-            // Ensure session is stateless
-            .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            // Add the JWT Request Filter before the Security Filter Chain
-            .addFilterBefore(this.jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-            // Logout handler
-            .logout((logout) -> logout.logoutUrl(LOGOUT_URL)
-                                      .addLogoutHandler((request, response, authentication) -> {
-                                          LOGGER.debug("Processing logout for user: " +
-                                                       (authentication != null ? authentication.getName()
-                                                                               : "anonymous"));
-                                          if (request.getCookies() != null)
-                                          {
-                                              for (final Cookie cookie : request.getCookies())
-                                              {
-                                                  LOGGER.debug("Cookie before logout: " + cookie.getName() + "=" +
-                                                               cookie.getValue());
-                                                  cookie.setValue("");
-                                                  cookie.setPath("/");
-                                                  cookie.setMaxAge(0);
-                                                  response.addCookie(cookie);
-                                              }
-                                          }
-                                      })
-                                      .deleteCookies(JwtConstants.JWT_COOKIE_NAME, "XSRF-TOKEN")
-                                      .logoutSuccessHandler((request, response, authentication) -> {
-                                          response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-                                          LOGGER.debug("Logout successful. Clearing cookies.");
-                                      }));
+        http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+            .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception
+//    {
+//
+//        http.csrf(AbstractHttpConfigurer::disable)
+//            .authorizeHttpRequests((authorize) -> {
+//                authorize.requestMatchers(AUTH_PATH).permitAll()
+//                         .requestMatchers(VAADIN_PATH).permitAll()
+//                         .requestMatchers(USER_PATH).hasAnyRole("ADMIN", "USER")
+//                         .requestMatchers(ADMIN_PATH).hasRole("ADMIN")
+//                         .anyRequest().authenticated();
+//            })
+//            .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//            .addFilterBefore(this.jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+//            .logout((logout) -> logout.logoutUrl(LOGOUT_URL)
+//                                      .addLogoutHandler((request, response, authentication) -> {
+//                                          LOGGER.debug("Processing logout for user: " +
+//                                                       (authentication != null ? authentication.getName()
+//                                                                               : "anonymous"));
+//                                          if (request.getCookies() != null)
+//                                          {
+//                                              for (final Cookie cookie : request.getCookies())
+//                                              {
+//                                                  LOGGER.debug("Cookie before logout: " + cookie.getName() + "=" +
+//                                                               cookie.getValue());
+//                                                  cookie.setValue("");
+//                                                  cookie.setPath("/");
+//                                                  cookie.setMaxAge(0);
+//                                                  response.addCookie(cookie);
+//                                              }
+//                                          }
+//                                      })
+//                                      .deleteCookies(JwtConstants.JWT_COOKIE_NAME, "XSRF-TOKEN")
+//                                      .logoutSuccessHandler((request, response, authentication) -> {
+//                                          response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+//                                          LOGGER.debug("Logout successful. Clearing cookies.");
+//                                      }));
+//
+//        return http.build();
+//    }
 
 
     @Bean
