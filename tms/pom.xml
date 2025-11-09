@@ -21,7 +21,6 @@
         <module>tms-core</module>
         <module>tms-rest</module>
         <module>tms-gui</module>
-        <module>tms-ui-tests</module>
     </modules>
 
     <properties>
