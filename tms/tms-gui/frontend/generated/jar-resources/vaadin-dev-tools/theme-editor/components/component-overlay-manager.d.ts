@@ -1,6 +1,5 @@
-import {ComponentReference} from '../../component-util';
-import {ComponentMetadata} from '../metadata/model';
-
+import { ComponentReference } from '../../component-util';
+import { ComponentMetadata } from '../metadata/model';
 export declare class ComponentOverlayManager {
     currentActiveComponent: ComponentReference | null;
     currentActiveComponentMetaData: ComponentMetadata | null;
@@ -9,7 +8,6 @@ export declare class ComponentOverlayManager {
     hideOverlay: () => void;
     reset: () => void;
 }
-
 export declare const componentOverlayManager: ComponentOverlayManager;
 export declare const defaultShowOverlay: (component: ComponentReference) => void;
 export declare const defaultHideOverlay: (component: ComponentReference) => void;

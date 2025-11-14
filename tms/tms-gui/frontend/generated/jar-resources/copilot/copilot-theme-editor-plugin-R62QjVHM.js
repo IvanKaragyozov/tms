@@ -1,124 +1,84 @@
-import {B as je} from "./base-panel-Zq4jKPA_.js";
-import {
-    u as T,
-    v,
-    m as H,
-    r as b,
-    w as h,
-    t as f,
-    y as S,
-    x as n,
-    z as qe,
-    s as Re,
-    A as Ve,
-    B as He,
-    C as De,
-    D as Ue,
-    E as Be,
-    G as L,
-    H as Q,
-    I as Fe,
-    g as We,
-    J as Ge,
-    K as ee,
-    L as Ke,
-    P as Ze
-} from "./copilot-sWvu6xks.js";
-
-var D = /* @__PURE__ */ ((t) => (t.disabled = "disabled", t.enabled = "enabled", t.missing_theme = "missing_theme", t))(D || {}),
-    u = /* @__PURE__ */ ((t) => (t.local = "local", t.global = "global", t))(u || {});
-
+import { B as je } from "./base-panel-Zq4jKPA_.js";
+import { u as T, v, m as H, r as b, w as h, t as f, y as S, x as n, z as qe, s as Re, A as Ve, B as He, C as De, D as Ue, E as Be, G as L, H as Q, I as Fe, g as We, J as Ge, K as ee, L as Ke, P as Ze } from "./copilot-sWvu6xks.js";
+var D = /* @__PURE__ */ ((t) => (t.disabled = "disabled", t.enabled = "enabled", t.missing_theme = "missing_theme", t))(D || {}), u = /* @__PURE__ */ ((t) => (t.local = "local", t.global = "global", t))(u || {});
 function te(t, e) {
-    return `${t}|${e}`;
+  return `${t}|${e}`;
 }
-
 class x {
-    constructor(e) {
-        this._properties = {}, this._metadata = e;
+  constructor(e) {
+    this._properties = {}, this._metadata = e;
+  }
+  get metadata() {
+    return this._metadata;
+  }
+  get properties() {
+    return Object.values(this._properties);
+  }
+  getPropertyValue(e, s) {
+    return this._properties[te(e, s)] || null;
+  }
+  updatePropertyValue(e, s, o, i) {
+    if (!o) {
+      delete this._properties[te(e, s)];
+      return;
     }
-
-    get metadata() {
-        return this._metadata;
-    }
-
-    get properties() {
-        return Object.values(this._properties);
-    }
-
-    getPropertyValue(e, s) {
-        return this._properties[te(e, s)] || null;
-    }
-
-    updatePropertyValue(e, s, o, i) {
-        if (!o) {
-            delete this._properties[te(e, s)];
-            return;
-        }
-        let r = this.getPropertyValue(e, s);
-        r ? (r.value = o, r.modified = i || !1) : (r = {
-            elementSelector: e,
-            propertyName: s,
-            value: o,
-            modified: i || !1
-        }, this._properties[te(e, s)] = r);
-    }
-
-    addPropertyValues(e) {
-        e.forEach((s) => {
-            this.updatePropertyValue(s.elementSelector, s.propertyName, s.value, s.modified);
-        });
-    }
-
-    getPropertyValuesForElement(e) {
-        return this.properties.filter((s) => s.elementSelector === e);
-    }
-
-    static combine(...e) {
-        if (e.length < 2)
-            throw new Error("Must provide at least two themes");
-        const s = new x(e[0].metadata);
-        return e.forEach((o) => s.addPropertyValues(o.properties)), s;
-    }
-
-    static fromServerRules(e, s, o) {
-        const i = new x(e);
-        return e.elements.forEach((r) => {
-            const a = R(r, s), l = o.find((c) => c.selector === a.replace(/ > /g, ">"));
-            l && r.properties.forEach((c) => {
-                const d = l.properties[c.propertyName];
-                d && i.updatePropertyValue(r.selector, c.propertyName, d, !0);
-            });
-        }), i;
-    }
+    let r = this.getPropertyValue(e, s);
+    r ? (r.value = o, r.modified = i || !1) : (r = {
+      elementSelector: e,
+      propertyName: s,
+      value: o,
+      modified: i || !1
+    }, this._properties[te(e, s)] = r);
+  }
+  addPropertyValues(e) {
+    e.forEach((s) => {
+      this.updatePropertyValue(s.elementSelector, s.propertyName, s.value, s.modified);
+    });
+  }
+  getPropertyValuesForElement(e) {
+    return this.properties.filter((s) => s.elementSelector === e);
+  }
+  static combine(...e) {
+    if (e.length < 2)
+      throw new Error("Must provide at least two themes");
+    const s = new x(e[0].metadata);
+    return e.forEach((o) => s.addPropertyValues(o.properties)), s;
+  }
+  static fromServerRules(e, s, o) {
+    const i = new x(e);
+    return e.elements.forEach((r) => {
+      const a = R(r, s), l = o.find((c) => c.selector === a.replace(/ > /g, ">"));
+      l && r.properties.forEach((c) => {
+        const d = l.properties[c.propertyName];
+        d && i.updatePropertyValue(r.selector, c.propertyName, d, !0);
+      });
+    }), i;
+  }
 }
-
 function R(t, e) {
-    const s = t.selector;
-    if (e.themeScope === "global")
-        return s;
-    if (!e.localClassName)
-        throw new Error("Can not build local scoped selector without instance class name");
-    const o = s.match(/^[\w\d-_]+/), i = o && o[0];
-    if (!i)
-        throw new Error(`Selector does not start with a tag name: ${s}`);
-    return `${i}.${e.localClassName}${s.substring(i.length, s.length)}`;
+  const s = t.selector;
+  if (e.themeScope === "global")
+    return s;
+  if (!e.localClassName)
+    throw new Error("Can not build local scoped selector without instance class name");
+  const o = s.match(/^[\w\d-_]+/), i = o && o[0];
+  if (!i)
+    throw new Error(`Selector does not start with a tag name: ${s}`);
+  return `${i}.${e.localClassName}${s.substring(i.length, s.length)}`;
 }
-
 function Je(t, e, s, o) {
-    const i = R(t, e), r = {[s]: o};
-    return s === "border-width" && (parseInt(o) > 0 ? r["border-style"] = "solid" : r["border-style"] = ""), {
-        selector: i,
-        properties: r
-    };
+  const i = R(t, e), r = { [s]: o };
+  return s === "border-width" && (parseInt(o) > 0 ? r["border-style"] = "solid" : r["border-style"] = ""), {
+    selector: i,
+    properties: r
+  };
 }
-
 function Xe(t) {
-    const e = Object.entries(t.properties).map(([s, o]) => `${s}: ${o};`).join(" ");
-    return `${t.selector} { ${e} }`;
+  const e = Object.entries(t.properties).map(([s, o]) => `${s}: ${o};`).join(" ");
+  return `${t.selector} { ${e} }`;
 }
-
 const ve = {
-    crosshair: T`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  crosshair: T`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
    <path d="M4 8v-2a2 2 0 0 1 2 -2h2"></path>
    <path d="M4 16v2a2 2 0 0 0 2 2h2"></path>
@@ -127,11 +87,11 @@ const ve = {
    <path d="M9 12l6 0"></path>
    <path d="M12 9l0 6"></path>
 </svg>`,
-    square: T`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="currentColor" stroke-linecap="round" stroke-linejoin="round">
+  square: T`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="currentColor" stroke-linecap="round" stroke-linejoin="round">
    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
    <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
 </svg>`,
-    font: T`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  font: T`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
    <path d="M4 20l3 0"></path>
    <path d="M14 20l7 0"></path>
@@ -139,26 +99,24 @@ const ve = {
    <path d="M10.2 6.3l5.8 13.7"></path>
    <path d="M5 20l6 -16l2 0l7 16"></path>
 </svg>`,
-    undo: T`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  undo: T`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
    <path d="M9 13l-4 -4l4 -4m-4 4h11a4 4 0 0 1 0 8h-1"></path>
 </svg>`,
-    redo: T`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  redo: T`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
    <path d="M15 13l4 -4l-4 -4m4 4h-11a4 4 0 0 0 0 8h1"></path>
 </svg>`,
-    cross: T`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  cross: T`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
    <path d="M18 6l-12 12"></path>
    <path d="M6 6l12 12"></path>
 </svg>`
 };
 let j, ge = "";
-
 function Ae(t) {
-    j || (j = new CSSStyleSheet(), document.adoptedStyleSheets = [...document.adoptedStyleSheets, j]), ge += t.cssText, j.replaceSync(ge);
+  j || (j = new CSSStyleSheet(), document.adoptedStyleSheets = [...document.adoptedStyleSheets, j]), ge += t.cssText, j.replaceSync(ge);
 }
-
 const Me = v`
   .editor-row {
     display: flex;
@@ -184,202 +142,179 @@ Ae(v`
     visibility: hidden;
   }
 `);
-
 async function Ye(t) {
-    const e = new x(t), s = document.createElement(t.tagName);
-    s.classList.add(fe), document.body.append(s), t.setupElement && await t.setupElement(s);
-    const o = {
-        themeScope: u.local,
-        localClassName: fe
-    };
+  const e = new x(t), s = document.createElement(t.tagName);
+  s.classList.add(fe), document.body.append(s), t.setupElement && await t.setupElement(s);
+  const o = {
+    themeScope: u.local,
+    localClassName: fe
+  };
+  try {
+    t.elements.forEach((i) => {
+      we(s, i, o, !0);
+      let r = R(i, o);
+      const a = r.match(ye);
+      r = r.replace(ye, "");
+      const l = r.match(be), c = r.replace(be, "");
+      let d = document.querySelector(c);
+      if (d && l) {
+        const k = `[part~="${l[1]}"]`;
+        d = d.shadowRoot.querySelector(k);
+      }
+      if (!d)
+        return;
+      d.style.transition = "none";
+      const w = a ? a[1] : null, $ = getComputedStyle(d, w);
+      i.properties.forEach((E) => {
+        const k = $.getPropertyValue(E.propertyName) || E.defaultValue || "";
+        e.updatePropertyValue(i.selector, E.propertyName, k);
+      }), we(s, i, o, !1);
+    });
+  } finally {
     try {
-        t.elements.forEach((i) => {
-            we(s, i, o, !0);
-            let r = R(i, o);
-            const a = r.match(ye);
-            r = r.replace(ye, "");
-            const l = r.match(be), c = r.replace(be, "");
-            let d = document.querySelector(c);
-            if (d && l) {
-                const k = `[part~="${l[1]}"]`;
-                d = d.shadowRoot.querySelector(k);
-            }
-            if (!d)
-                return;
-            d.style.transition = "none";
-            const w = a ? a[1] : null, $ = getComputedStyle(d, w);
-            i.properties.forEach((E) => {
-                const k = $.getPropertyValue(E.propertyName) || E.defaultValue || "";
-                e.updatePropertyValue(i.selector, E.propertyName, k);
-            }), we(s, i, o, !1);
-        });
+      t.cleanupElement && await t.cleanupElement(s);
     } finally {
-        try {
-            t.cleanupElement && await t.cleanupElement(s);
-        } finally {
-            s.remove();
-        }
+      s.remove();
     }
-    return e;
+  }
+  return e;
 }
-
 function we(t, e, s, o) {
-    if (e.stateAttribute) {
-        if (e.stateElementSelector) {
-            const i = R(
-                {
-                    ...e,
-                    selector: e.stateElementSelector
-                },
-                s
-            );
-            t = document.querySelector(i);
-        }
-        t && (o ? t.setAttribute(e.stateAttribute, "") : t.removeAttribute(e.stateAttribute));
+  if (e.stateAttribute) {
+    if (e.stateElementSelector) {
+      const i = R(
+        {
+          ...e,
+          selector: e.stateElementSelector
+        },
+        s
+      );
+      t = document.querySelector(i);
     }
+    t && (o ? t.setAttribute(e.stateAttribute, "") : t.removeAttribute(e.stateAttribute));
+  }
 }
-
 function xe(t) {
-    return t.trim();
+  return t.trim();
 }
-
 function Qe(t) {
-    const e = t.element;
-    if (!e)
-        return null;
-    const s = e.querySelector("label");
-    if (s && s.textContent)
-        return xe(s.textContent);
-    const o = e.textContent;
-    return o ? xe(o) : null;
+  const e = t.element;
+  if (!e)
+    return null;
+  const s = e.querySelector("label");
+  if (s && s.textContent)
+    return xe(s.textContent);
+  const o = e.textContent;
+  return o ? xe(o) : null;
 }
-
 class et {
-    constructor() {
-        this._localClassNameMap = /* @__PURE__ */ new Map();
-    }
-
-    get stylesheet() {
-        return this.ensureStylesheet(), this._stylesheet;
-    }
-
-    add(e) {
-        this.ensureStylesheet(), this._stylesheet.replaceSync(e);
-    }
-
-    clear() {
-        this.ensureStylesheet(), this._stylesheet.replaceSync("");
-    }
-
-    previewLocalClassName(e, s) {
-        if (!e)
-            return;
-        const o = this._localClassNameMap.get(e);
-        o && (e.classList.remove(o), e.overlayClass = null), s ? (e.classList.add(s), e.overlayClass = s, this._localClassNameMap.set(e, s)) : this._localClassNameMap.delete(e);
-    }
-
-    ensureStylesheet() {
-        this._stylesheet || (this._stylesheet = new CSSStyleSheet(), this._stylesheet.replaceSync(""), document.adoptedStyleSheets = [...document.adoptedStyleSheets, this._stylesheet]);
-    }
+  constructor() {
+    this._localClassNameMap = /* @__PURE__ */ new Map();
+  }
+  get stylesheet() {
+    return this.ensureStylesheet(), this._stylesheet;
+  }
+  add(e) {
+    this.ensureStylesheet(), this._stylesheet.replaceSync(e);
+  }
+  clear() {
+    this.ensureStylesheet(), this._stylesheet.replaceSync("");
+  }
+  previewLocalClassName(e, s) {
+    if (!e)
+      return;
+    const o = this._localClassNameMap.get(e);
+    o && (e.classList.remove(o), e.overlayClass = null), s ? (e.classList.add(s), e.overlayClass = s, this._localClassNameMap.set(e, s)) : this._localClassNameMap.delete(e);
+  }
+  ensureStylesheet() {
+    this._stylesheet || (this._stylesheet = new CSSStyleSheet(), this._stylesheet.replaceSync(""), document.adoptedStyleSheets = [...document.adoptedStyleSheets, this._stylesheet]);
+  }
 }
-
 const A = new et(), p = {
-    index: -1,
-    entries: []
+  index: -1,
+  entries: []
 };
-
 class tt {
-    constructor(e) {
-        this.api = e;
+  constructor(e) {
+    this.api = e;
+  }
+  get allowUndo() {
+    return p.index >= 0;
+  }
+  get allowRedo() {
+    return p.index < p.entries.length - 1;
+  }
+  get allowedActions() {
+    return {
+      allowUndo: this.allowUndo,
+      allowRedo: this.allowRedo
+    };
+  }
+  push(e, s, o) {
+    const i = {
+      requestId: e,
+      execute: s,
+      rollback: o
+    };
+    if (p.index++, p.entries = p.entries.slice(0, p.index), p.entries.push(i), s)
+      try {
+        s();
+      } catch (r) {
+        H("Execute history entry failed", r);
+      }
+    return this.allowedActions;
+  }
+  async undo() {
+    if (!this.allowUndo)
+      return this.allowedActions;
+    const e = p.entries[p.index];
+    p.index--;
+    try {
+      await this.api.undo(e.requestId), e.rollback && e.rollback();
+    } catch (s) {
+      H("Undo failed", s);
     }
-
-    get allowUndo() {
-        return p.index >= 0;
+    return this.allowedActions;
+  }
+  async redo() {
+    if (!this.allowRedo)
+      return this.allowedActions;
+    p.index++;
+    const e = p.entries[p.index];
+    try {
+      await this.api.redo(e.requestId), e.execute && e.execute();
+    } catch (s) {
+      H("Redo failed", s);
     }
-
-    get allowRedo() {
-        return p.index < p.entries.length - 1;
-    }
-
-    get allowedActions() {
-        return {
-            allowUndo: this.allowUndo,
-            allowRedo: this.allowRedo
-        };
-    }
-
-    push(e, s, o) {
-        const i = {
-            requestId: e,
-            execute: s,
-            rollback: o
-        };
-        if (p.index++, p.entries = p.entries.slice(0, p.index), p.entries.push(i), s)
-            try {
-                s();
-            } catch (r) {
-                H("Execute history entry failed", r);
-            }
-        return this.allowedActions;
-    }
-
-    async undo() {
-        if (!this.allowUndo)
-            return this.allowedActions;
-        const e = p.entries[p.index];
-        p.index--;
-        try {
-            await this.api.undo(e.requestId), e.rollback && e.rollback();
-        } catch (s) {
-            H("Undo failed", s);
-        }
-        return this.allowedActions;
-    }
-
-    async redo() {
-        if (!this.allowRedo)
-            return this.allowedActions;
-        p.index++;
-        const e = p.entries[p.index];
-        try {
-            await this.api.redo(e.requestId), e.execute && e.execute();
-        } catch (s) {
-            H("Redo failed", s);
-        }
-        return this.allowedActions;
-    }
-
-    // Only intended to be used for testing
-    static clear() {
-        p.entries = [], p.index = -1;
-    }
+    return this.allowedActions;
+  }
+  // Only intended to be used for testing
+  static clear() {
+    p.entries = [], p.index = -1;
+  }
 }
-
 var st = Object.defineProperty, ot = Object.getOwnPropertyDescriptor, _ = (t, e, s, o) => {
-    for (var i = o > 1 ? void 0 : o ? ot(e, s) : e, r = t.length - 1, a; r >= 0; r--)
-        (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
-    return o && i && st(e, s, i), i;
+  for (var i = o > 1 ? void 0 : o ? ot(e, s) : e, r = t.length - 1, a; r >= 0; r--)
+    (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
+  return o && i && st(e, s, i), i;
 };
-
 class it extends CustomEvent {
-    constructor(e, s, o) {
-        super("theme-property-value-change", {
-            bubbles: !0,
-            composed: !0,
-            detail: {element: e, property: s, value: o}
-        });
-    }
+  constructor(e, s, o) {
+    super("theme-property-value-change", {
+      bubbles: !0,
+      composed: !0,
+      detail: { element: e, property: s, value: o }
+    });
+  }
 }
-
 class g extends S {
-    constructor() {
-        super(), this.value = "", this.originalValue = "";
-    }
-
-    static get styles() {
-        return [
-            Me,
-            v`
+  constructor() {
+    super(), this.value = "", this.originalValue = "";
+  }
+  static get styles() {
+    return [
+      Me,
+      v`
         :host {
           display: block;
         }
@@ -393,20 +328,17 @@ class g extends S {
           margin-left: 3px;
         }
       `
-        ];
-    }
-
-    firstUpdated(e) {
-        super.firstUpdated(e), e.has("value") && (this.originalValue = this.value);
-    }
-
-    update(e) {
-        super.update(e), (e.has("propertyMetadata") || e.has("theme")) && this.updateValueFromTheme();
-    }
-
-    render() {
-        var e;
-        return n`
+    ];
+  }
+  firstUpdated(e) {
+    super.firstUpdated(e), e.has("value") && (this.originalValue = this.value);
+  }
+  update(e) {
+    super.update(e), (e.has("propertyMetadata") || e.has("theme")) && this.updateValueFromTheme();
+  }
+  render() {
+    var e;
+    return n`
       <div class="editor-row">
         <div class="label">
           ${this.propertyMetadata.displayName}
@@ -415,88 +347,76 @@ class g extends S {
         <div class="editor">${this.renderEditor()}</div>
       </div>
     `;
-    }
-
-    updateValueFromTheme() {
-        var e;
-        this.propertyValue = this.theme.getPropertyValue(this.elementMetadata.selector, this.propertyMetadata.propertyName), this.value = ((e = this.propertyValue) == null ? void 0 : e.value) || "";
-    }
-
-    dispatchChange(e) {
-        this.dispatchEvent(new it(this.elementMetadata, this.propertyMetadata, e));
-    }
+  }
+  updateValueFromTheme() {
+    var e;
+    this.propertyValue = this.theme.getPropertyValue(this.elementMetadata.selector, this.propertyMetadata.propertyName), this.value = ((e = this.propertyValue) == null ? void 0 : e.value) || "";
+  }
+  dispatchChange(e) {
+    this.dispatchEvent(new it(this.elementMetadata, this.propertyMetadata, e));
+  }
 }
-
 _([
-    h({})
+  h({})
 ], g.prototype, "elementMetadata", 2);
 _([
-    h({})
+  h({})
 ], g.prototype, "propertyMetadata", 2);
 _([
-    h({})
+  h({})
 ], g.prototype, "theme", 2);
 _([
-    b()
+  b()
 ], g.prototype, "propertyValue", 2);
 _([
-    b()
+  b()
 ], g.prototype, "value", 2);
-
 class U {
-    constructor(e) {
-        if (this._values = [], this._rawValues = {}, e) {
-            const s = e.propertyName, o = e.presets ?? [];
-            this._values = (o || []).map((r) => r.startsWith("--") ? `var(${r})` : r);
-            const i = document.createElement("div");
-            i.style.borderStyle = "solid", i.style.visibility = "hidden", document.body.append(i);
-            try {
-                this._values.forEach((r) => {
-                    i.style.setProperty(s, r);
-                    const a = getComputedStyle(i);
-                    this._rawValues[r] = a.getPropertyValue(s).trim();
-                });
-            } finally {
-                i.remove();
-            }
-        }
+  constructor(e) {
+    if (this._values = [], this._rawValues = {}, e) {
+      const s = e.propertyName, o = e.presets ?? [];
+      this._values = (o || []).map((r) => r.startsWith("--") ? `var(${r})` : r);
+      const i = document.createElement("div");
+      i.style.borderStyle = "solid", i.style.visibility = "hidden", document.body.append(i);
+      try {
+        this._values.forEach((r) => {
+          i.style.setProperty(s, r);
+          const a = getComputedStyle(i);
+          this._rawValues[r] = a.getPropertyValue(s).trim();
+        });
+      } finally {
+        i.remove();
+      }
     }
-
-    get values() {
-        return this._values;
-    }
-
-    get rawValues() {
-        return this._rawValues;
-    }
-
-    tryMapToRawValue(e) {
-        return this._rawValues[e] ?? e;
-    }
-
-    tryMapToPreset(e) {
-        return this.findPreset(e) ?? e;
-    }
-
-    findPreset(e) {
-        const s = e && e.trim();
-        return this.values.find((o) => this._rawValues[o] === s);
-    }
+  }
+  get values() {
+    return this._values;
+  }
+  get rawValues() {
+    return this._rawValues;
+  }
+  tryMapToRawValue(e) {
+    return this._rawValues[e] ?? e;
+  }
+  tryMapToPreset(e) {
+    return this.findPreset(e) ?? e;
+  }
+  findPreset(e) {
+    const s = e && e.trim();
+    return this.values.find((o) => this._rawValues[o] === s);
+  }
 }
-
 class Ce extends CustomEvent {
-    constructor(e) {
-        super("change", {detail: {value: e}});
-    }
+  constructor(e) {
+    super("change", { detail: { value: e } });
+  }
 }
-
 let B = class extends S {
-    constructor() {
-        super(), this.value = "", this.showClearButton = !1;
-    }
-
-    static get styles() {
-        return v`
+  constructor() {
+    super(), this.value = "", this.showClearButton = !1;
+  }
+  static get styles() {
+    return v`
       :host {
         display: inline-block;
         width: 100%;
@@ -542,58 +462,51 @@ let B = class extends S {
         display: block;
       }
     `;
-    }
-
-    update(t) {
-        super.update(t), t.has("showClearButton") && (this.showClearButton ? this.classList.add("show-clear-button") : this.classList.remove("show-clear-button"));
-    }
-
-    render() {
-        return n`
+  }
+  update(t) {
+    super.update(t), t.has("showClearButton") && (this.showClearButton ? this.classList.add("show-clear-button") : this.classList.remove("show-clear-button"));
+  }
+  render() {
+    return n`
       <input class="input" .value=${this.value} @change=${this.handleInputChange} />
       <button @click=${this.handleClearClick}>${qe.cross}</button>
     `;
-    }
-
-    handleInputChange(t) {
-        const e = t.target;
-        this.dispatchEvent(new Ce(e.value));
-    }
-
-    handleClearClick() {
-        this.dispatchEvent(new Ce(""));
-    }
+  }
+  handleInputChange(t) {
+    const e = t.target;
+    this.dispatchEvent(new Ce(e.value));
+  }
+  handleClearClick() {
+    this.dispatchEvent(new Ce(""));
+  }
 };
 _([
-    h({})
+  h({})
 ], B.prototype, "value", 2);
 _([
-    h({})
+  h({})
 ], B.prototype, "showClearButton", 2);
 B = _([
-    f("copilot-theme-text-input")
+  f("copilot-theme-text-input")
 ], B);
 var rt = Object.defineProperty, at = Object.getOwnPropertyDescriptor, X = (t, e, s, o) => {
-    for (var i = o > 1 ? void 0 : o ? at(e, s) : e, r = t.length - 1, a; r >= 0; r--)
-        (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
-    return o && i && rt(e, s, i), i;
+  for (var i = o > 1 ? void 0 : o ? at(e, s) : e, r = t.length - 1, a; r >= 0; r--)
+    (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
+  return o && i && rt(e, s, i), i;
 };
-
 class nt extends CustomEvent {
-    constructor(e) {
-        super("class-name-change", {detail: {value: e}});
-    }
+  constructor(e) {
+    super("class-name-change", { detail: { value: e } });
+  }
 }
-
 let M = class extends S {
-    constructor() {
-        super(), this.editedClassName = "", this.invalid = !1;
-    }
-
-    static get styles() {
-        return [
-            Me,
-            v`
+  constructor() {
+    super(), this.editedClassName = "", this.invalid = !1;
+  }
+  static get styles() {
+    return [
+      Me,
+      v`
         .editor-row {
           padding-top: 0;
         }
@@ -604,15 +517,13 @@ let M = class extends S {
           margin-top: 4px;
         }
       `
-        ];
-    }
-
-    update(t) {
-        super.update(t), t.has("className") && (this.editedClassName = this.className, this.invalid = !1);
-    }
-
-    render() {
-        return n` <div class="editor-row local-class-name">
+    ];
+  }
+  update(t) {
+    super.update(t), t.has("className") && (this.editedClassName = this.className, this.invalid = !1);
+  }
+  render() {
+    return n` <div class="editor-row local-class-name">
       <div class="label">CSS class name</div>
       <div class="editor">
         <copilot-theme-text-input
@@ -622,38 +533,35 @@ let M = class extends S {
         ${this.invalid ? n`<br /><span class="error">Please enter a valid CSS class name</span>` : null}
       </div>
     </div>`;
-    }
-
-    handleInputChange(t) {
-        this.editedClassName = t.detail.value;
-        const e = /^-?[_a-zA-Z]+[_a-zA-Z0-9-]*$/;
-        this.invalid = !this.editedClassName.match(e), !this.invalid && this.editedClassName !== this.className && this.dispatchEvent(new nt(this.editedClassName));
-    }
+  }
+  handleInputChange(t) {
+    this.editedClassName = t.detail.value;
+    const e = /^-?[_a-zA-Z]+[_a-zA-Z0-9-]*$/;
+    this.invalid = !this.editedClassName.match(e), !this.invalid && this.editedClassName !== this.className && this.dispatchEvent(new nt(this.editedClassName));
+  }
 };
 X([
-    h({})
+  h({})
 ], M.prototype, "className", 2);
 X([
-    b()
+  b()
 ], M.prototype, "editedClassName", 2);
 X([
-    b()
+  b()
 ], M.prototype, "invalid", 2);
 M = X([
-    f("copilot-theme-class-name-editor")
+  f("copilot-theme-class-name-editor")
 ], M);
 var lt = Object.defineProperty, ct = Object.getOwnPropertyDescriptor, Y = (t, e, s, o) => {
-    for (var i = o > 1 ? void 0 : o ? ct(e, s) : e, r = t.length - 1, a; r >= 0; r--)
-        (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
-    return o && i && lt(e, s, i), i;
+  for (var i = o > 1 ? void 0 : o ? ct(e, s) : e, r = t.length - 1, a; r >= 0; r--)
+    (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
+  return o && i && lt(e, s, i), i;
 };
-
 class dt extends CustomEvent {
-    constructor(e) {
-        super("scope-change", {detail: {value: e}});
-    }
+  constructor(e) {
+    super("scope-change", { detail: { value: e } });
+  }
 }
-
 Ae(v`
   vaadin-select-overlay[theme~='copilot-theme-scope-selector'] {
     --lumo-primary-color-50pct: rgba(255, 255, 255, 0.5);
@@ -690,12 +598,11 @@ Ae(v`
   }
 `);
 let z = class extends S {
-    constructor() {
-        super(), this.value = u.local;
-    }
-
-    static get styles() {
-        return v`
+  constructor() {
+    super(), this.value = u.local;
+  }
+  static get styles() {
+    return v`
       vaadin-select {
         --lumo-primary-color-50pct: rgba(255, 255, 255, 0.5);
         width: 100px;
@@ -719,26 +626,23 @@ let z = class extends S {
         font-size: 13px;
       }
     `;
-    }
-
-    update(t) {
-        var e;
-        super.update(t), t.has("metadata") && ((e = this.select) == null || e.requestContentUpdate());
-    }
-
-    render() {
-        return n` <vaadin-select
+  }
+  update(t) {
+    var e;
+    super.update(t), t.has("metadata") && ((e = this.select) == null || e.requestContentUpdate());
+  }
+  render() {
+    return n` <vaadin-select
       theme="small copilot-theme-scope-selector"
       .value=${this.value}
       .renderer=${this.selectRenderer.bind(this)}
       @value-changed=${this.handleValueChange}></vaadin-select>`;
-    }
-
-    selectRenderer(t) {
-        var o;
-        const e = ((o = this.metadata) == null ? void 0 : o.displayName) || "Component", s = `${e}s`;
-        Ve(
-            n`
+  }
+  selectRenderer(t) {
+    var o;
+    const e = ((o = this.metadata) == null ? void 0 : o.displayName) || "Component", s = `${e}s`;
+    Ve(
+      n`
         <vaadin-list-box>
           <vaadin-item value=${u.local} label="Local">
             <span class="title">Local</span>
@@ -752,79 +656,75 @@ let z = class extends S {
           </vaadin-item>
         </vaadin-list-box>
       `,
-            t
-        );
-    }
-
-    handleValueChange(t) {
-        const e = t.detail.value;
-        e !== this.value && this.dispatchEvent(new dt(e));
-    }
+      t
+    );
+  }
+  handleValueChange(t) {
+    const e = t.detail.value;
+    e !== this.value && this.dispatchEvent(new dt(e));
+  }
 };
 Y([
-    h({})
+  h({})
 ], z.prototype, "value", 2);
 Y([
-    h({})
+  h({})
 ], z.prototype, "metadata", 2);
 Y([
-    Re("vaadin-select")
+  Re("vaadin-select")
 ], z.prototype, "select", 2);
 z = Y([
-    f("copilot-theme-scope-selector")
+  f("copilot-theme-scope-selector")
 ], z);
 var ht = Object.defineProperty, pt = Object.getOwnPropertyDescriptor, ut = (t, e, s, o) => {
-    for (var i = o > 1 ? void 0 : o ? pt(e, s) : e, r = t.length - 1, a; r >= 0; r--)
-        (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
-    return o && i && ht(e, s, i), i;
+  for (var i = o > 1 ? void 0 : o ? pt(e, s) : e, r = t.length - 1, a; r >= 0; r--)
+    (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
+  return o && i && ht(e, s, i), i;
 };
 let _e = class extends g {
-    static get styles() {
-        return [
-            g.styles,
-            v`
+  static get styles() {
+    return [
+      g.styles,
+      v`
         .editor-row {
           align-items: center;
         }
       `
-        ];
-    }
-
-    handleInputChange(t) {
-        const s = t.target.checked ? this.propertyMetadata.checkedValue : "";
-        this.dispatchChange(s || "");
-    }
-
-    renderEditor() {
-        const t = this.value === this.propertyMetadata.checkedValue;
-        return n` <input type="checkbox" .checked=${t} @change=${this.handleInputChange} /> `;
-    }
+    ];
+  }
+  handleInputChange(t) {
+    const s = t.target.checked ? this.propertyMetadata.checkedValue : "";
+    this.dispatchChange(s || "");
+  }
+  renderEditor() {
+    const t = this.value === this.propertyMetadata.checkedValue;
+    return n` <input type="checkbox" .checked=${t} @change=${this.handleInputChange} /> `;
+  }
 };
 _e = ut([
-    f("copilot-theme-checkbox-property-editor")
+  f("copilot-theme-checkbox-property-editor")
 ], _e);
 var mt = Object.defineProperty, vt = Object.getOwnPropertyDescriptor, gt = (t, e, s, o) => {
-    for (var i = o > 1 ? void 0 : o ? vt(e, s) : e, r = t.length - 1, a; r >= 0; r--)
-        (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
-    return o && i && mt(e, s, i), i;
+  for (var i = o > 1 ? void 0 : o ? vt(e, s) : e, r = t.length - 1, a; r >= 0; r--)
+    (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
+  return o && i && mt(e, s, i), i;
 };
 let $e = class extends g {
-    handleInputChange(t) {
-        this.dispatchChange(t.detail.value);
-    }
-
-    renderEditor() {
-        var t;
-        return n`
+  handleInputChange(t) {
+    this.dispatchChange(t.detail.value);
+  }
+  renderEditor() {
+    var t;
+    return n`
       <copilot-theme-text-input
         .value=${this.value}
         .showClearButton=${((t = this.propertyValue) == null ? void 0 : t.modified) || !1}
         @change=${this.handleInputChange}></copilot-theme-text-input>
     `;
-    }
+  }
 };
 $e = gt([
-    f("copilot-theme-text-property-editor")
+  f("copilot-theme-text-property-editor")
 ], $e);
 /**
  * @license
@@ -832,48 +732,45 @@ $e = gt([
  * SPDX-License-Identifier: BSD-3-Clause
  */
 const ft = He(class extends De {
-    constructor(t) {
-        var e;
-        if (super(t), t.type !== Ue.ATTRIBUTE || t.name !== "class" || ((e = t.strings) == null ? void 0 : e.length) > 2)
-            throw Error("`classMap()` can only be used in the `class` attribute and must be the only part in the attribute.");
+  constructor(t) {
+    var e;
+    if (super(t), t.type !== Ue.ATTRIBUTE || t.name !== "class" || ((e = t.strings) == null ? void 0 : e.length) > 2)
+      throw Error("`classMap()` can only be used in the `class` attribute and must be the only part in the attribute.");
+  }
+  render(t) {
+    return " " + Object.keys(t).filter((e) => t[e]).join(" ") + " ";
+  }
+  update(t, [e]) {
+    var o, i;
+    if (this.it === void 0) {
+      this.it = /* @__PURE__ */ new Set(), t.strings !== void 0 && (this.st = new Set(t.strings.join(" ").split(/\s/).filter((r) => r !== "")));
+      for (const r in e)
+        e[r] && !((o = this.st) != null && o.has(r)) && this.it.add(r);
+      return this.render(e);
     }
-
-    render(t) {
-        return " " + Object.keys(t).filter((e) => t[e]).join(" ") + " ";
+    const s = t.element.classList;
+    for (const r of this.it)
+      r in e || (s.remove(r), this.it.delete(r));
+    for (const r in e) {
+      const a = !!e[r];
+      a === this.it.has(r) || (i = this.st) != null && i.has(r) || (a ? (s.add(r), this.it.add(r)) : (s.remove(r), this.it.delete(r)));
     }
-
-    update(t, [e]) {
-        var o, i;
-        if (this.it === void 0) {
-            this.it = /* @__PURE__ */ new Set(), t.strings !== void 0 && (this.st = new Set(t.strings.join(" ").split(/\s/).filter((r) => r !== "")));
-            for (const r in e)
-                e[r] && !((o = this.st) != null && o.has(r)) && this.it.add(r);
-            return this.render(e);
-        }
-        const s = t.element.classList;
-        for (const r of this.it)
-            r in e || (s.remove(r), this.it.delete(r));
-        for (const r in e) {
-            const a = !!e[r];
-            a === this.it.has(r) || (i = this.st) != null && i.has(r) || (a ? (s.add(r), this.it.add(r)) : (s.remove(r), this.it.delete(r)));
-        }
-        return Be;
-    }
+    return Be;
+  }
 });
 var yt = Object.defineProperty, bt = Object.getOwnPropertyDescriptor, de = (t, e, s, o) => {
-    for (var i = o > 1 ? void 0 : o ? bt(e, s) : e, r = t.length - 1, a; r >= 0; r--)
-        (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
-    return o && i && yt(e, s, i), i;
+  for (var i = o > 1 ? void 0 : o ? bt(e, s) : e, r = t.length - 1, a; r >= 0; r--)
+    (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
+  return o && i && yt(e, s, i), i;
 };
 let F = class extends g {
-    constructor() {
-        super(), this.selectedPresetIndex = -1, this.presets = new U();
-    }
-
-    static get styles() {
-        return [
-            g.styles,
-            v`
+  constructor() {
+    super(), this.selectedPresetIndex = -1, this.presets = new U();
+  }
+  static get styles() {
+    return [
+      g.styles,
+      v`
         :host {
           --preset-count: 3;
           --slider-bg: #fff;
@@ -974,20 +871,18 @@ let F = class extends g {
           --slider-border: #666;
         }
       `
-        ];
-    }
-
-    update(t) {
-        t.has("propertyMetadata") && (this.presets = new U(this.propertyMetadata)), super.update(t);
-    }
-
-    renderEditor() {
-        var s;
-        const t = {
-            "slider-wrapper": !0,
-            "custom-value": this.selectedPresetIndex < 0
-        }, e = this.presets.values.length;
-        return n`
+    ];
+  }
+  update(t) {
+    t.has("propertyMetadata") && (this.presets = new U(this.propertyMetadata)), super.update(t);
+  }
+  renderEditor() {
+    var s;
+    const t = {
+      "slider-wrapper": !0,
+      "custom-value": this.selectedPresetIndex < 0
+    }, e = this.presets.values.length;
+    return n`
       <div class=${ft(t)}>
         ${null}
         <input
@@ -1008,609 +903,545 @@ let F = class extends g {
         .showClearButton=${((s = this.propertyValue) == null ? void 0 : s.modified) || !1}
         @change=${this.handleValueChange}></copilot-theme-text-input>
     `;
-    }
-
-    handleSliderInput(t) {
-        const e = t.target, s = parseInt(e.value), o = this.presets.values[s];
-        this.selectedPresetIndex = s, this.value = this.presets.rawValues[o];
-    }
-
-    handleSliderChange() {
-        this.dispatchChange(this.value);
-    }
-
-    handleValueChange(t) {
-        this.value = t.detail.value, this.updateSliderValue(), this.dispatchChange(this.value);
-    }
-
-    dispatchChange(t) {
-        const e = this.presets.tryMapToPreset(t);
-        super.dispatchChange(e);
-    }
-
-    updateValueFromTheme() {
-        var t;
-        super.updateValueFromTheme(), this.value = this.presets.tryMapToRawValue(((t = this.propertyValue) == null ? void 0 : t.value) || ""), this.updateSliderValue();
-    }
-
-    updateSliderValue() {
-        const t = this.presets.findPreset(this.value);
-        this.selectedPresetIndex = t ? this.presets.values.indexOf(t) : -1;
-    }
+  }
+  handleSliderInput(t) {
+    const e = t.target, s = parseInt(e.value), o = this.presets.values[s];
+    this.selectedPresetIndex = s, this.value = this.presets.rawValues[o];
+  }
+  handleSliderChange() {
+    this.dispatchChange(this.value);
+  }
+  handleValueChange(t) {
+    this.value = t.detail.value, this.updateSliderValue(), this.dispatchChange(this.value);
+  }
+  dispatchChange(t) {
+    const e = this.presets.tryMapToPreset(t);
+    super.dispatchChange(e);
+  }
+  updateValueFromTheme() {
+    var t;
+    super.updateValueFromTheme(), this.value = this.presets.tryMapToRawValue(((t = this.propertyValue) == null ? void 0 : t.value) || ""), this.updateSliderValue();
+  }
+  updateSliderValue() {
+    const t = this.presets.findPreset(this.value);
+    this.selectedPresetIndex = t ? this.presets.values.indexOf(t) : -1;
+  }
 };
 de([
-    b()
+  b()
 ], F.prototype, "selectedPresetIndex", 2);
 de([
-    b()
+  b()
 ], F.prototype, "presets", 2);
 F = de([
-    f("copilot-theme-range-property-editor")
+  f("copilot-theme-range-property-editor")
 ], F);
-const V = (t, e = 0, s = 1) => t > s ? s : t < e ? e : t, m = (t, e = 0, s = Math.pow(10, e)) => Math.round(s * t) / s,
-    ze = ({h: t, s: e, v: s, a: o}) => {
-        const i = (200 - e) * s / 100;
-        return {
-            h: m(t),
-            s: m(i > 0 && i < 200 ? e * s / 100 / (i <= 100 ? i : 200 - i) * 100 : 0),
-            l: m(i / 2),
-            a: m(o, 2)
-        };
-    }, ne = (t) => {
-        const {h: e, s, l: o} = ze(t);
-        return `hsl(${e}, ${s}%, ${o}%)`;
-    }, se = (t) => {
-        const {h: e, s, l: o, a: i} = ze(t);
-        return `hsla(${e}, ${s}%, ${o}%, ${i})`;
-    }, wt = ({h: t, s: e, v: s, a: o}) => {
-        t = t / 360 * 6, e = e / 100, s = s / 100;
-        const i = Math.floor(t), r = s * (1 - e), a = s * (1 - (t - i) * e), l = s * (1 - (1 - t + i) * e), c = i % 6;
-        return {
-            r: m([s, a, r, r, l, s][c] * 255),
-            g: m([l, s, s, a, r, r][c] * 255),
-            b: m([r, r, l, s, s, a][c] * 255),
-            a: m(o, 2)
-        };
-    }, xt = (t) => {
-        const {r: e, g: s, b: o, a: i} = wt(t);
-        return `rgba(${e}, ${s}, ${o}, ${i})`;
-    }, Ct = (t) => {
-        const s = /rgba?\(?\s*(-?\d*\.?\d+)(%)?[,\s]+(-?\d*\.?\d+)(%)?[,\s]+(-?\d*\.?\d+)(%)?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i.exec(t);
-        return s ? _t({
-            r: Number(s[1]) / (s[2] ? 100 / 255 : 1),
-            g: Number(s[3]) / (s[4] ? 100 / 255 : 1),
-            b: Number(s[5]) / (s[6] ? 100 / 255 : 1),
-            a: s[7] === void 0 ? 1 : Number(s[7]) / (s[8] ? 100 : 1)
-        }) : {h: 0, s: 0, v: 0, a: 1};
-    }, _t = ({r: t, g: e, b: s, a: o}) => {
-        const i = Math.max(t, e, s), r = i - Math.min(t, e, s),
-            a = r ? i === t ? (e - s) / r : i === e ? 2 + (s - t) / r : 4 + (t - e) / r : 0;
-        return {
-            h: m(60 * (a < 0 ? a + 6 : a)),
-            s: m(i ? r / i * 100 : 0),
-            v: m(i / 255 * 100),
-            a: o
-        };
-    }, $t = (t, e) => {
-        if (t === e)
-            return !0;
-        for (const s in t)
-            if (t[s] !== e[s])
-                return !1;
-        return !0;
-    }, Et = (t, e) => t.replace(/\s/g, "") === e.replace(/\s/g, ""), Ee = {}, Ie = (t) => {
-        let e = Ee[t];
-        return e || (e = document.createElement("template"), e.innerHTML = t, Ee[t] = e), e;
-    }, he = (t, e, s) => {
-        t.dispatchEvent(new CustomEvent(e, {
-            bubbles: !0,
-            detail: s
-        }));
-    };
+const V = (t, e = 0, s = 1) => t > s ? s : t < e ? e : t, m = (t, e = 0, s = Math.pow(10, e)) => Math.round(s * t) / s, ze = ({ h: t, s: e, v: s, a: o }) => {
+  const i = (200 - e) * s / 100;
+  return {
+    h: m(t),
+    s: m(i > 0 && i < 200 ? e * s / 100 / (i <= 100 ? i : 200 - i) * 100 : 0),
+    l: m(i / 2),
+    a: m(o, 2)
+  };
+}, ne = (t) => {
+  const { h: e, s, l: o } = ze(t);
+  return `hsl(${e}, ${s}%, ${o}%)`;
+}, se = (t) => {
+  const { h: e, s, l: o, a: i } = ze(t);
+  return `hsla(${e}, ${s}%, ${o}%, ${i})`;
+}, wt = ({ h: t, s: e, v: s, a: o }) => {
+  t = t / 360 * 6, e = e / 100, s = s / 100;
+  const i = Math.floor(t), r = s * (1 - e), a = s * (1 - (t - i) * e), l = s * (1 - (1 - t + i) * e), c = i % 6;
+  return {
+    r: m([s, a, r, r, l, s][c] * 255),
+    g: m([l, s, s, a, r, r][c] * 255),
+    b: m([r, r, l, s, s, a][c] * 255),
+    a: m(o, 2)
+  };
+}, xt = (t) => {
+  const { r: e, g: s, b: o, a: i } = wt(t);
+  return `rgba(${e}, ${s}, ${o}, ${i})`;
+}, Ct = (t) => {
+  const s = /rgba?\(?\s*(-?\d*\.?\d+)(%)?[,\s]+(-?\d*\.?\d+)(%)?[,\s]+(-?\d*\.?\d+)(%)?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i.exec(t);
+  return s ? _t({
+    r: Number(s[1]) / (s[2] ? 100 / 255 : 1),
+    g: Number(s[3]) / (s[4] ? 100 / 255 : 1),
+    b: Number(s[5]) / (s[6] ? 100 / 255 : 1),
+    a: s[7] === void 0 ? 1 : Number(s[7]) / (s[8] ? 100 : 1)
+  }) : { h: 0, s: 0, v: 0, a: 1 };
+}, _t = ({ r: t, g: e, b: s, a: o }) => {
+  const i = Math.max(t, e, s), r = i - Math.min(t, e, s), a = r ? i === t ? (e - s) / r : i === e ? 2 + (s - t) / r : 4 + (t - e) / r : 0;
+  return {
+    h: m(60 * (a < 0 ? a + 6 : a)),
+    s: m(i ? r / i * 100 : 0),
+    v: m(i / 255 * 100),
+    a: o
+  };
+}, $t = (t, e) => {
+  if (t === e)
+    return !0;
+  for (const s in t)
+    if (t[s] !== e[s])
+      return !1;
+  return !0;
+}, Et = (t, e) => t.replace(/\s/g, "") === e.replace(/\s/g, ""), Ee = {}, Ie = (t) => {
+  let e = Ee[t];
+  return e || (e = document.createElement("template"), e.innerHTML = t, Ee[t] = e), e;
+}, he = (t, e, s) => {
+  t.dispatchEvent(new CustomEvent(e, {
+    bubbles: !0,
+    detail: s
+  }));
+};
 let O = !1;
 const le = (t) => "touches" in t, kt = (t) => O && !le(t) ? !1 : (O || (O = le(t)), !0), ke = (t, e) => {
-    const s = le(e) ? e.touches[0] : e, o = t.el.getBoundingClientRect();
-    he(t.el, "move", t.getMove({
-        x: V((s.pageX - (o.left + window.pageXOffset)) / o.width),
-        y: V((s.pageY - (o.top + window.pageYOffset)) / o.height)
-    }));
+  const s = le(e) ? e.touches[0] : e, o = t.el.getBoundingClientRect();
+  he(t.el, "move", t.getMove({
+    x: V((s.pageX - (o.left + window.pageXOffset)) / o.width),
+    y: V((s.pageY - (o.top + window.pageYOffset)) / o.height)
+  }));
 }, St = (t, e) => {
-    const s = e.keyCode;
-    s > 40 || t.xy && s < 37 || s < 33 || (e.preventDefault(), he(t.el, "move", t.getMove({
-        x: s === 39 ? 0.01 : s === 37 ? -0.01 : s === 34 ? 0.05 : s === 33 ? -0.05 : s === 35 ? 1 : s === 36 ? -1 : 0,
-        y: s === 40 ? 0.01 : s === 38 ? -0.01 : 0
-    }, !0)));
+  const s = e.keyCode;
+  s > 40 || t.xy && s < 37 || s < 33 || (e.preventDefault(), he(t.el, "move", t.getMove({
+    x: s === 39 ? 0.01 : s === 37 ? -0.01 : s === 34 ? 0.05 : s === 33 ? -0.05 : s === 35 ? 1 : s === 36 ? -1 : 0,
+    y: s === 40 ? 0.01 : s === 38 ? -0.01 : 0
+  }, !0)));
 };
-
 class pe {
-    constructor(e, s, o, i) {
-        const r = Ie(`<div role="slider" tabindex="0" part="${s}" ${o}><div part="${s}-pointer"></div></div>`);
-        e.appendChild(r.content.cloneNode(!0));
-        const a = e.querySelector(`[part=${s}]`);
-        a.addEventListener("mousedown", this), a.addEventListener("touchstart", this), a.addEventListener("keydown", this), this.el = a, this.xy = i, this.nodes = [a.firstChild, a];
+  constructor(e, s, o, i) {
+    const r = Ie(`<div role="slider" tabindex="0" part="${s}" ${o}><div part="${s}-pointer"></div></div>`);
+    e.appendChild(r.content.cloneNode(!0));
+    const a = e.querySelector(`[part=${s}]`);
+    a.addEventListener("mousedown", this), a.addEventListener("touchstart", this), a.addEventListener("keydown", this), this.el = a, this.xy = i, this.nodes = [a.firstChild, a];
+  }
+  set dragging(e) {
+    const s = e ? document.addEventListener : document.removeEventListener;
+    s(O ? "touchmove" : "mousemove", this), s(O ? "touchend" : "mouseup", this);
+  }
+  handleEvent(e) {
+    switch (e.type) {
+      case "mousedown":
+      case "touchstart":
+        if (e.preventDefault(), !kt(e) || !O && e.button != 0)
+          return;
+        this.el.focus(), ke(this, e), this.dragging = !0;
+        break;
+      case "mousemove":
+      case "touchmove":
+        e.preventDefault(), ke(this, e);
+        break;
+      case "mouseup":
+      case "touchend":
+        this.dragging = !1;
+        break;
+      case "keydown":
+        St(this, e);
+        break;
     }
-
-    set dragging(e) {
-        const s = e ? document.addEventListener : document.removeEventListener;
-        s(O ? "touchmove" : "mousemove", this), s(O ? "touchend" : "mouseup", this);
-    }
-
-    handleEvent(e) {
-        switch (e.type) {
-            case "mousedown":
-            case "touchstart":
-                if (e.preventDefault(), !kt(e) || !O && e.button != 0)
-                    return;
-                this.el.focus(), ke(this, e), this.dragging = !0;
-                break;
-            case "mousemove":
-            case "touchmove":
-                e.preventDefault(), ke(this, e);
-                break;
-            case "mouseup":
-            case "touchend":
-                this.dragging = !1;
-                break;
-            case "keydown":
-                St(this, e);
-                break;
-        }
-    }
-
-    style(e) {
-        e.forEach((s, o) => {
-            for (const i in s)
-                this.nodes[o].style.setProperty(i, s[i]);
-        });
-    }
+  }
+  style(e) {
+    e.forEach((s, o) => {
+      for (const i in s)
+        this.nodes[o].style.setProperty(i, s[i]);
+    });
+  }
 }
-
 class Pt extends pe {
-    constructor(e) {
-        super(e, "hue", 'aria-label="Hue" aria-valuemin="0" aria-valuemax="360"', !1);
-    }
-
-    update({h: e}) {
-        this.h = e, this.style([
-            {
-                left: `${e / 360 * 100}%`,
-                color: ne({h: e, s: 100, v: 100, a: 1})
-            }
-        ]), this.el.setAttribute("aria-valuenow", `${m(e)}`);
-    }
-
-    getMove(e, s) {
-        return {h: s ? V(this.h + e.x * 360, 0, 360) : 360 * e.x};
-    }
+  constructor(e) {
+    super(e, "hue", 'aria-label="Hue" aria-valuemin="0" aria-valuemax="360"', !1);
+  }
+  update({ h: e }) {
+    this.h = e, this.style([
+      {
+        left: `${e / 360 * 100}%`,
+        color: ne({ h: e, s: 100, v: 100, a: 1 })
+      }
+    ]), this.el.setAttribute("aria-valuenow", `${m(e)}`);
+  }
+  getMove(e, s) {
+    return { h: s ? V(this.h + e.x * 360, 0, 360) : 360 * e.x };
+  }
 }
-
 class Nt extends pe {
-    constructor(e) {
-        super(e, "saturation", 'aria-label="Color"', !0);
-    }
-
-    update(e) {
-        this.hsva = e, this.style([
-            {
-                top: `${100 - e.v}%`,
-                left: `${e.s}%`,
-                color: ne(e)
-            },
-            {
-                "background-color": ne({h: e.h, s: 100, v: 100, a: 1})
-            }
-        ]), this.el.setAttribute("aria-valuetext", `Saturation ${m(e.s)}%, Brightness ${m(e.v)}%`);
-    }
-
-    getMove(e, s) {
-        return {
-            s: s ? V(this.hsva.s + e.x * 100, 0, 100) : e.x * 100,
-            v: s ? V(this.hsva.v - e.y * 100, 0, 100) : Math.round(100 - e.y * 100)
-        };
-    }
+  constructor(e) {
+    super(e, "saturation", 'aria-label="Color"', !0);
+  }
+  update(e) {
+    this.hsva = e, this.style([
+      {
+        top: `${100 - e.v}%`,
+        left: `${e.s}%`,
+        color: ne(e)
+      },
+      {
+        "background-color": ne({ h: e.h, s: 100, v: 100, a: 1 })
+      }
+    ]), this.el.setAttribute("aria-valuetext", `Saturation ${m(e.s)}%, Brightness ${m(e.v)}%`);
+  }
+  getMove(e, s) {
+    return {
+      s: s ? V(this.hsva.s + e.x * 100, 0, 100) : e.x * 100,
+      v: s ? V(this.hsva.v - e.y * 100, 0, 100) : Math.round(100 - e.y * 100)
+    };
+  }
 }
-
-const Tt = ':host{display:flex;flex-direction:column;position:relative;width:200px;height:200px;user-select:none;-webkit-user-select:none;cursor:default}:host([hidden]){display:none!important}[role=slider]{position:relative;touch-action:none;user-select:none;-webkit-user-select:none;outline:0}[role=slider]:last-child{border-radius:0 0 8px 8px}[part$=pointer]{position:absolute;z-index:1;box-sizing:border-box;width:28px;height:28px;display:flex;place-content:center center;transform:translate(-50%,-50%);background-color:#fff;border:2px solid #fff;border-radius:50%;box-shadow:0 2px 4px rgba(0,0,0,.2)}[part$=pointer]::after{content:"";width:100%;height:100%;border-radius:inherit;background-color:currentColor}[role=slider]:focus [part$=pointer]{transform:translate(-50%,-50%) scale(1.1)}',
-    Ot = "[part=hue]{flex:0 0 24px;background:linear-gradient(to right,red 0,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,red 100%)}[part=hue-pointer]{top:50%;z-index:2}",
-    Rt = "[part=saturation]{flex-grow:1;border-color:transparent;border-bottom:12px solid #000;border-radius:8px 8px 0 0;background-image:linear-gradient(to top,#000,transparent),linear-gradient(to right,#fff,rgba(255,255,255,0));box-shadow:inset 0 0 0 1px rgba(0,0,0,.05)}[part=saturation-pointer]{z-index:3}",
-    q = Symbol("same"), oe = Symbol("color"), Se = Symbol("hsva"), ie = Symbol("update"), Pe = Symbol("parts"),
-    W = Symbol("css"), G = Symbol("sliders");
+const Tt = ':host{display:flex;flex-direction:column;position:relative;width:200px;height:200px;user-select:none;-webkit-user-select:none;cursor:default}:host([hidden]){display:none!important}[role=slider]{position:relative;touch-action:none;user-select:none;-webkit-user-select:none;outline:0}[role=slider]:last-child{border-radius:0 0 8px 8px}[part$=pointer]{position:absolute;z-index:1;box-sizing:border-box;width:28px;height:28px;display:flex;place-content:center center;transform:translate(-50%,-50%);background-color:#fff;border:2px solid #fff;border-radius:50%;box-shadow:0 2px 4px rgba(0,0,0,.2)}[part$=pointer]::after{content:"";width:100%;height:100%;border-radius:inherit;background-color:currentColor}[role=slider]:focus [part$=pointer]{transform:translate(-50%,-50%) scale(1.1)}', Ot = "[part=hue]{flex:0 0 24px;background:linear-gradient(to right,red 0,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,red 100%)}[part=hue-pointer]{top:50%;z-index:2}", Rt = "[part=saturation]{flex-grow:1;border-color:transparent;border-bottom:12px solid #000;border-radius:8px 8px 0 0;background-image:linear-gradient(to top,#000,transparent),linear-gradient(to right,#fff,rgba(255,255,255,0));box-shadow:inset 0 0 0 1px rgba(0,0,0,.05)}[part=saturation-pointer]{z-index:3}", q = Symbol("same"), oe = Symbol("color"), Se = Symbol("hsva"), ie = Symbol("update"), Pe = Symbol("parts"), W = Symbol("css"), G = Symbol("sliders");
 let Vt = class extends HTMLElement {
-    static get observedAttributes() {
-        return ["color"];
+  static get observedAttributes() {
+    return ["color"];
+  }
+  get [W]() {
+    return [Tt, Ot, Rt];
+  }
+  get [G]() {
+    return [Nt, Pt];
+  }
+  get color() {
+    return this[oe];
+  }
+  set color(e) {
+    if (!this[q](e)) {
+      const s = this.colorModel.toHsva(e);
+      this[ie](s), this[oe] = e;
     }
-
-    get [W]() {
-        return [Tt, Ot, Rt];
-    }
-
-    get [G]() {
-        return [Nt, Pt];
-    }
-
-    get color() {
-        return this[oe];
-    }
-
-    set color(e) {
-        if (!this[q](e)) {
-            const s = this.colorModel.toHsva(e);
-            this[ie](s), this[oe] = e;
-        }
-    }
-
-    constructor() {
-        super();
-        const e = Ie(`<style>${this[W].join("")}</style>`), s = this.attachShadow({mode: "open"});
-        s.appendChild(e.content.cloneNode(!0)), s.addEventListener("move", this), this[Pe] = this[G].map((o) => new o(s));
-    }
-
-    connectedCallback() {
-        if (this.hasOwnProperty("color")) {
-            const e = this.color;
-            delete this.color, this.color = e;
-        } else
-            this.color || (this.color = this.colorModel.defaultColor);
-    }
-
-    attributeChangedCallback(e, s, o) {
-        const i = this.colorModel.fromAttr(o);
-        this[q](i) || (this.color = i);
-    }
-
-    handleEvent(e) {
-        const s = this[Se], o = {...s, ...e.detail};
-        this[ie](o);
-        let i;
-        !$t(o, s) && !this[q](i = this.colorModel.fromHsva(o)) && (this[oe] = i, he(this, "color-changed", {value: i}));
-    }
-
-    [q](e) {
-        return this.color && this.colorModel.equal(e, this.color);
-    }
-
-    [ie](e) {
-        this[Se] = e, this[Pe].forEach((s) => s.update(e));
-    }
+  }
+  constructor() {
+    super();
+    const e = Ie(`<style>${this[W].join("")}</style>`), s = this.attachShadow({ mode: "open" });
+    s.appendChild(e.content.cloneNode(!0)), s.addEventListener("move", this), this[Pe] = this[G].map((o) => new o(s));
+  }
+  connectedCallback() {
+    if (this.hasOwnProperty("color")) {
+      const e = this.color;
+      delete this.color, this.color = e;
+    } else
+      this.color || (this.color = this.colorModel.defaultColor);
+  }
+  attributeChangedCallback(e, s, o) {
+    const i = this.colorModel.fromAttr(o);
+    this[q](i) || (this.color = i);
+  }
+  handleEvent(e) {
+    const s = this[Se], o = { ...s, ...e.detail };
+    this[ie](o);
+    let i;
+    !$t(o, s) && !this[q](i = this.colorModel.fromHsva(o)) && (this[oe] = i, he(this, "color-changed", { value: i }));
+  }
+  [q](e) {
+    return this.color && this.colorModel.equal(e, this.color);
+  }
+  [ie](e) {
+    this[Se] = e, this[Pe].forEach((s) => s.update(e));
+  }
 };
-
 class At extends pe {
-    constructor(e) {
-        super(e, "alpha", 'aria-label="Alpha" aria-valuemin="0" aria-valuemax="1"', !1);
-    }
-
-    update(e) {
-        this.hsva = e;
-        const s = se({...e, a: 0}), o = se({...e, a: 1}), i = e.a * 100;
-        this.style([
-            {
-                left: `${i}%`,
-                color: se(e)
-            },
-            {
-                "--gradient": `linear-gradient(90deg, ${s}, ${o}`
-            }
-        ]);
-        const r = m(i);
-        this.el.setAttribute("aria-valuenow", `${r}`), this.el.setAttribute("aria-valuetext", `${r}%`);
-    }
-
-    getMove(e, s) {
-        return {a: s ? V(this.hsva.a + e.x) : e.x};
-    }
+  constructor(e) {
+    super(e, "alpha", 'aria-label="Alpha" aria-valuemin="0" aria-valuemax="1"', !1);
+  }
+  update(e) {
+    this.hsva = e;
+    const s = se({ ...e, a: 0 }), o = se({ ...e, a: 1 }), i = e.a * 100;
+    this.style([
+      {
+        left: `${i}%`,
+        color: se(e)
+      },
+      {
+        "--gradient": `linear-gradient(90deg, ${s}, ${o}`
+      }
+    ]);
+    const r = m(i);
+    this.el.setAttribute("aria-valuenow", `${r}`), this.el.setAttribute("aria-valuetext", `${r}%`);
+  }
+  getMove(e, s) {
+    return { a: s ? V(this.hsva.a + e.x) : e.x };
+  }
 }
-
 const Mt = `[part=alpha]{flex:0 0 24px}[part=alpha]::after{display:block;content:"";position:absolute;top:0;left:0;right:0;bottom:0;border-radius:inherit;background-image:var(--gradient);box-shadow:inset 0 0 0 1px rgba(0,0,0,.05)}[part^=alpha]{background-color:#fff;background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill-opacity=".05"><rect x="8" width="8" height="8"/><rect y="8" width="8" height="8"/></svg>')}[part=alpha-pointer]{top:50%}`;
-
 class zt extends Vt {
-    get [W]() {
-        return [...super[W], Mt];
-    }
-
-    get [G]() {
-        return [...super[G], At];
-    }
+  get [W]() {
+    return [...super[W], Mt];
+  }
+  get [G]() {
+    return [...super[G], At];
+  }
 }
-
 const It = {
-    defaultColor: "rgba(0, 0, 0, 1)",
-    toHsva: Ct,
-    fromHsva: xt,
-    equal: Et,
-    fromAttr: (t) => t
+  defaultColor: "rgba(0, 0, 0, 1)",
+  toHsva: Ct,
+  fromHsva: xt,
+  equal: Et,
+  fromAttr: (t) => t
 };
-
 class Lt extends zt {
-    get colorModel() {
-        return It;
-    }
+  get colorModel() {
+    return It;
+  }
 }
-
 /**
  * @license
  * Copyright (c) 2017 - 2023 Vaadin Ltd.
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 function jt(t) {
-    const e = [];
-    for (; t;) {
-        if (t.nodeType === Node.DOCUMENT_NODE) {
-            e.push(t);
-            break;
-        }
-        if (t.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
-            e.push(t), t = t.host;
-            continue;
-        }
-        if (t.assignedSlot) {
-            t = t.assignedSlot;
-            continue;
-        }
-        t = t.parentNode;
+  const e = [];
+  for (; t; ) {
+    if (t.nodeType === Node.DOCUMENT_NODE) {
+      e.push(t);
+      break;
     }
-    return e;
+    if (t.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+      e.push(t), t = t.host;
+      continue;
+    }
+    if (t.assignedSlot) {
+      t = t.assignedSlot;
+      continue;
+    }
+    t = t.parentNode;
+  }
+  return e;
 }
-
 const re = {
-    start: "top",
-    end: "bottom"
+  start: "top",
+  end: "bottom"
 }, ae = {
-    start: "left",
-    end: "right"
+  start: "left",
+  end: "right"
 }, Ne = new ResizeObserver((t) => {
-    setTimeout(() => {
-        t.forEach((e) => {
-            e.target.__overlay && e.target.__overlay._updatePosition();
-        });
+  setTimeout(() => {
+    t.forEach((e) => {
+      e.target.__overlay && e.target.__overlay._updatePosition();
     });
+  });
 }), qt = (t) => class extends t {
-    static get properties() {
-        return {
-            /**
-             * The element next to which this overlay should be aligned.
-             * The position of the overlay relative to the positionTarget can be adjusted
-             * with properties `horizontalAlign`, `verticalAlign`, `noHorizontalOverlap`
-             * and `noVerticalOverlap`.
-             */
-            positionTarget: {
-                type: Object,
-                value: null
-            },
-            /**
-             * When `positionTarget` is set, this property defines whether to align the overlay's
-             * left or right side to the target element by default.
-             * Possible values are `start` and `end`.
-             * RTL is taken into account when interpreting the value.
-             * The overlay is automatically flipped to the opposite side when it doesn't fit into
-             * the default side defined by this property.
-             *
-             * @attr {start|end} horizontal-align
-             */
-            horizontalAlign: {
-                type: String,
-                value: "start"
-            },
-            /**
-             * When `positionTarget` is set, this property defines whether to align the overlay's
-             * top or bottom side to the target element by default.
-             * Possible values are `top` and `bottom`.
-             * The overlay is automatically flipped to the opposite side when it doesn't fit into
-             * the default side defined by this property.
-             *
-             * @attr {top|bottom} vertical-align
-             */
-            verticalAlign: {
-                type: String,
-                value: "top"
-            },
-            /**
-             * When `positionTarget` is set, this property defines whether the overlay should overlap
-             * the target element in the x-axis, or be positioned right next to it.
-             *
-             * @attr {boolean} no-horizontal-overlap
-             */
-            noHorizontalOverlap: {
-                type: Boolean,
-                value: !1
-            },
-            /**
-             * When `positionTarget` is set, this property defines whether the overlay should overlap
-             * the target element in the y-axis, or be positioned right above/below it.
-             *
-             * @attr {boolean} no-vertical-overlap
-             */
-            noVerticalOverlap: {
-                type: Boolean,
-                value: !1
-            },
-            /**
-             * If the overlay content has no intrinsic height, this property can be used to set
-             * the minimum vertical space (in pixels) required by the overlay. Setting a value to
-             * the property effectively disables the content measurement in favor of using this
-             * fixed value for determining the open direction.
-             *
-             * @attr {number} required-vertical-space
-             */
-            requiredVerticalSpace: {
-                type: Number,
-                value: 0
-            }
-        };
+  static get properties() {
+    return {
+      /**
+       * The element next to which this overlay should be aligned.
+       * The position of the overlay relative to the positionTarget can be adjusted
+       * with properties `horizontalAlign`, `verticalAlign`, `noHorizontalOverlap`
+       * and `noVerticalOverlap`.
+       */
+      positionTarget: {
+        type: Object,
+        value: null
+      },
+      /**
+       * When `positionTarget` is set, this property defines whether to align the overlay's
+       * left or right side to the target element by default.
+       * Possible values are `start` and `end`.
+       * RTL is taken into account when interpreting the value.
+       * The overlay is automatically flipped to the opposite side when it doesn't fit into
+       * the default side defined by this property.
+       *
+       * @attr {start|end} horizontal-align
+       */
+      horizontalAlign: {
+        type: String,
+        value: "start"
+      },
+      /**
+       * When `positionTarget` is set, this property defines whether to align the overlay's
+       * top or bottom side to the target element by default.
+       * Possible values are `top` and `bottom`.
+       * The overlay is automatically flipped to the opposite side when it doesn't fit into
+       * the default side defined by this property.
+       *
+       * @attr {top|bottom} vertical-align
+       */
+      verticalAlign: {
+        type: String,
+        value: "top"
+      },
+      /**
+       * When `positionTarget` is set, this property defines whether the overlay should overlap
+       * the target element in the x-axis, or be positioned right next to it.
+       *
+       * @attr {boolean} no-horizontal-overlap
+       */
+      noHorizontalOverlap: {
+        type: Boolean,
+        value: !1
+      },
+      /**
+       * When `positionTarget` is set, this property defines whether the overlay should overlap
+       * the target element in the y-axis, or be positioned right above/below it.
+       *
+       * @attr {boolean} no-vertical-overlap
+       */
+      noVerticalOverlap: {
+        type: Boolean,
+        value: !1
+      },
+      /**
+       * If the overlay content has no intrinsic height, this property can be used to set
+       * the minimum vertical space (in pixels) required by the overlay. Setting a value to
+       * the property effectively disables the content measurement in favor of using this
+       * fixed value for determining the open direction.
+       *
+       * @attr {number} required-vertical-space
+       */
+      requiredVerticalSpace: {
+        type: Number,
+        value: 0
+      }
+    };
+  }
+  static get observers() {
+    return [
+      "__positionSettingsChanged(horizontalAlign, verticalAlign, noHorizontalOverlap, noVerticalOverlap, requiredVerticalSpace)",
+      "__overlayOpenedChanged(opened, positionTarget)"
+    ];
+  }
+  constructor() {
+    super(), this.__onScroll = this.__onScroll.bind(this), this._updatePosition = this._updatePosition.bind(this);
+  }
+  /** @protected */
+  connectedCallback() {
+    super.connectedCallback(), this.opened && this.__addUpdatePositionEventListeners();
+  }
+  /** @protected */
+  disconnectedCallback() {
+    super.disconnectedCallback(), this.__removeUpdatePositionEventListeners();
+  }
+  /** @private */
+  __addUpdatePositionEventListeners() {
+    window.addEventListener("resize", this._updatePosition), this.__positionTargetAncestorRootNodes = jt(this.positionTarget), this.__positionTargetAncestorRootNodes.forEach((s) => {
+      s.addEventListener("scroll", this.__onScroll, !0);
+    });
+  }
+  /** @private */
+  __removeUpdatePositionEventListeners() {
+    window.removeEventListener("resize", this._updatePosition), this.__positionTargetAncestorRootNodes && (this.__positionTargetAncestorRootNodes.forEach((s) => {
+      s.removeEventListener("scroll", this.__onScroll, !0);
+    }), this.__positionTargetAncestorRootNodes = null);
+  }
+  /** @private */
+  __overlayOpenedChanged(s, o) {
+    if (this.__removeUpdatePositionEventListeners(), o && (o.__overlay = null, Ne.unobserve(o), s && (this.__addUpdatePositionEventListeners(), o.__overlay = this, Ne.observe(o))), s) {
+      const i = getComputedStyle(this);
+      this.__margins || (this.__margins = {}, ["top", "bottom", "left", "right"].forEach((r) => {
+        this.__margins[r] = parseInt(i[r], 10);
+      })), this.setAttribute("dir", i.direction), this._updatePosition(), requestAnimationFrame(() => this._updatePosition());
     }
-
-    static get observers() {
-        return [
-            "__positionSettingsChanged(horizontalAlign, verticalAlign, noHorizontalOverlap, noVerticalOverlap, requiredVerticalSpace)",
-            "__overlayOpenedChanged(opened, positionTarget)"
-        ];
-    }
-
-    constructor() {
-        super(), this.__onScroll = this.__onScroll.bind(this), this._updatePosition = this._updatePosition.bind(this);
-    }
-
-    /** @protected */
-    connectedCallback() {
-        super.connectedCallback(), this.opened && this.__addUpdatePositionEventListeners();
-    }
-
-    /** @protected */
-    disconnectedCallback() {
-        super.disconnectedCallback(), this.__removeUpdatePositionEventListeners();
-    }
-
-    /** @private */
-    __addUpdatePositionEventListeners() {
-        window.addEventListener("resize", this._updatePosition), this.__positionTargetAncestorRootNodes = jt(this.positionTarget), this.__positionTargetAncestorRootNodes.forEach((s) => {
-            s.addEventListener("scroll", this.__onScroll, !0);
-        });
-    }
-
-    /** @private */
-    __removeUpdatePositionEventListeners() {
-        window.removeEventListener("resize", this._updatePosition), this.__positionTargetAncestorRootNodes && (this.__positionTargetAncestorRootNodes.forEach((s) => {
-            s.removeEventListener("scroll", this.__onScroll, !0);
-        }), this.__positionTargetAncestorRootNodes = null);
-    }
-
-    /** @private */
-    __overlayOpenedChanged(s, o) {
-        if (this.__removeUpdatePositionEventListeners(), o && (o.__overlay = null, Ne.unobserve(o), s && (this.__addUpdatePositionEventListeners(), o.__overlay = this, Ne.observe(o))), s) {
-            const i = getComputedStyle(this);
-            this.__margins || (this.__margins = {}, ["top", "bottom", "left", "right"].forEach((r) => {
-                this.__margins[r] = parseInt(i[r], 10);
-            })), this.setAttribute("dir", i.direction), this._updatePosition(), requestAnimationFrame(() => this._updatePosition());
+  }
+  __positionSettingsChanged() {
+    this._updatePosition();
+  }
+  /** @private */
+  __onScroll(s) {
+    this.contains(s.target) || this._updatePosition();
+  }
+  _updatePosition() {
+    if (!this.positionTarget || !this.opened)
+      return;
+    const s = this.positionTarget.getBoundingClientRect(), o = this.__shouldAlignStartVertically(s);
+    this.style.justifyContent = o ? "flex-start" : "flex-end";
+    const i = this.__isRTL, r = this.__shouldAlignStartHorizontally(s, i), a = !i && r || i && !r;
+    this.style.alignItems = a ? "flex-start" : "flex-end";
+    const l = this.getBoundingClientRect(), c = this.__calculatePositionInOneDimension(
+      s,
+      l,
+      this.noVerticalOverlap,
+      re,
+      this,
+      o
+    ), d = this.__calculatePositionInOneDimension(
+      s,
+      l,
+      this.noHorizontalOverlap,
+      ae,
+      this,
+      r
+    );
+    Object.assign(this.style, c, d), this.toggleAttribute("bottom-aligned", !o), this.toggleAttribute("top-aligned", o), this.toggleAttribute("end-aligned", !a), this.toggleAttribute("start-aligned", a);
+  }
+  __shouldAlignStartHorizontally(s, o) {
+    const i = Math.max(this.__oldContentWidth || 0, this.$.overlay.offsetWidth);
+    this.__oldContentWidth = this.$.overlay.offsetWidth;
+    const r = Math.min(window.innerWidth, document.documentElement.clientWidth), a = !o && this.horizontalAlign === "start" || o && this.horizontalAlign === "end";
+    return this.__shouldAlignStart(
+      s,
+      i,
+      r,
+      this.__margins,
+      a,
+      this.noHorizontalOverlap,
+      ae
+    );
+  }
+  __shouldAlignStartVertically(s) {
+    const o = this.requiredVerticalSpace || Math.max(this.__oldContentHeight || 0, this.$.overlay.offsetHeight);
+    this.__oldContentHeight = this.$.overlay.offsetHeight;
+    const i = Math.min(window.innerHeight, document.documentElement.clientHeight), r = this.verticalAlign === "top";
+    return this.__shouldAlignStart(
+      s,
+      o,
+      i,
+      this.__margins,
+      r,
+      this.noVerticalOverlap,
+      re
+    );
+  }
+  // eslint-disable-next-line max-params
+  __shouldAlignStart(s, o, i, r, a, l, c) {
+    const d = i - s[l ? c.end : c.start] - r[c.end], w = s[l ? c.start : c.end] - r[c.start], $ = a ? d : w, k = $ > (a ? w : d) || $ > o;
+    return a === k;
+  }
+  /**
+   * Returns an adjusted value after resizing the browser window,
+   * to avoid wrong calculations when e.g. previously set `bottom`
+   * CSS property value is larger than the updated viewport height.
+   * See https://github.com/vaadin/web-components/issues/4604
+   */
+  __adjustBottomProperty(s, o, i) {
+    let r;
+    if (s === o.end) {
+      if (o.end === re.end) {
+        const a = Math.min(window.innerHeight, document.documentElement.clientHeight);
+        if (i > a && this.__oldViewportHeight) {
+          const l = this.__oldViewportHeight - a;
+          r = i - l;
         }
-    }
-
-    __positionSettingsChanged() {
-        this._updatePosition();
-    }
-
-    /** @private */
-    __onScroll(s) {
-        this.contains(s.target) || this._updatePosition();
-    }
-
-    _updatePosition() {
-        if (!this.positionTarget || !this.opened)
-            return;
-        const s = this.positionTarget.getBoundingClientRect(), o = this.__shouldAlignStartVertically(s);
-        this.style.justifyContent = o ? "flex-start" : "flex-end";
-        const i = this.__isRTL, r = this.__shouldAlignStartHorizontally(s, i), a = !i && r || i && !r;
-        this.style.alignItems = a ? "flex-start" : "flex-end";
-        const l = this.getBoundingClientRect(), c = this.__calculatePositionInOneDimension(
-            s,
-            l,
-            this.noVerticalOverlap,
-            re,
-            this,
-            o
-        ), d = this.__calculatePositionInOneDimension(
-            s,
-            l,
-            this.noHorizontalOverlap,
-            ae,
-            this,
-            r
-        );
-        Object.assign(this.style, c, d), this.toggleAttribute("bottom-aligned", !o), this.toggleAttribute("top-aligned", o), this.toggleAttribute("end-aligned", !a), this.toggleAttribute("start-aligned", a);
-    }
-
-    __shouldAlignStartHorizontally(s, o) {
-        const i = Math.max(this.__oldContentWidth || 0, this.$.overlay.offsetWidth);
-        this.__oldContentWidth = this.$.overlay.offsetWidth;
-        const r = Math.min(window.innerWidth, document.documentElement.clientWidth),
-            a = !o && this.horizontalAlign === "start" || o && this.horizontalAlign === "end";
-        return this.__shouldAlignStart(
-            s,
-            i,
-            r,
-            this.__margins,
-            a,
-            this.noHorizontalOverlap,
-            ae
-        );
-    }
-
-    __shouldAlignStartVertically(s) {
-        const o = this.requiredVerticalSpace || Math.max(this.__oldContentHeight || 0, this.$.overlay.offsetHeight);
-        this.__oldContentHeight = this.$.overlay.offsetHeight;
-        const i = Math.min(window.innerHeight, document.documentElement.clientHeight), r = this.verticalAlign === "top";
-        return this.__shouldAlignStart(
-            s,
-            o,
-            i,
-            this.__margins,
-            r,
-            this.noVerticalOverlap,
-            re
-        );
-    }
-
-    // eslint-disable-next-line max-params
-    __shouldAlignStart(s, o, i, r, a, l, c) {
-        const d = i - s[l ? c.end : c.start] - r[c.end], w = s[l ? c.start : c.end] - r[c.start], $ = a ? d : w,
-            k = $ > (a ? w : d) || $ > o;
-        return a === k;
-    }
-
-    /**
-     * Returns an adjusted value after resizing the browser window,
-     * to avoid wrong calculations when e.g. previously set `bottom`
-     * CSS property value is larger than the updated viewport height.
-     * See https://github.com/vaadin/web-components/issues/4604
-     */
-    __adjustBottomProperty(s, o, i) {
-        let r;
-        if (s === o.end) {
-            if (o.end === re.end) {
-                const a = Math.min(window.innerHeight, document.documentElement.clientHeight);
-                if (i > a && this.__oldViewportHeight) {
-                    const l = this.__oldViewportHeight - a;
-                    r = i - l;
-                }
-                this.__oldViewportHeight = a;
-            }
-            if (o.end === ae.end) {
-                const a = Math.min(window.innerWidth, document.documentElement.clientWidth);
-                if (i > a && this.__oldViewportWidth) {
-                    const l = this.__oldViewportWidth - a;
-                    r = i - l;
-                }
-                this.__oldViewportWidth = a;
-            }
+        this.__oldViewportHeight = a;
+      }
+      if (o.end === ae.end) {
+        const a = Math.min(window.innerWidth, document.documentElement.clientWidth);
+        if (i > a && this.__oldViewportWidth) {
+          const l = this.__oldViewportWidth - a;
+          r = i - l;
         }
-        return r;
+        this.__oldViewportWidth = a;
+      }
     }
-
-    /**
-     * Returns an object with CSS position properties to set,
-     * e.g. { top: "100px" }
-     */
-    // eslint-disable-next-line max-params
-    __calculatePositionInOneDimension(s, o, i, r, a, l) {
-        const c = l ? r.start : r.end, d = l ? r.end : r.start, w = parseFloat(a.style[c] || getComputedStyle(a)[c]),
-            $ = this.__adjustBottomProperty(c, r, w), E = o[l ? r.start : r.end] - s[i === l ? r.end : r.start],
-            k = $ ? `${$}px` : `${w + E * (l ? -1 : 1)}px`;
-        return {
-            [c]: k,
-            [d]: ""
-        };
-    }
+    return r;
+  }
+  /**
+   * Returns an object with CSS position properties to set,
+   * e.g. { top: "100px" }
+   */
+  // eslint-disable-next-line max-params
+  __calculatePositionInOneDimension(s, o, i, r, a, l) {
+    const c = l ? r.start : r.end, d = l ? r.end : r.start, w = parseFloat(a.style[c] || getComputedStyle(a)[c]), $ = this.__adjustBottomProperty(c, r, w), E = o[l ? r.start : r.end] - s[i === l ? r.end : r.start], k = $ ? `${$}px` : `${w + E * (l ? -1 : 1)}px`;
+    return {
+      [c]: k,
+      [d]: ""
+    };
+  }
 };
 var Ht = Object.defineProperty, Dt = Object.getOwnPropertyDescriptor, P = (t, e, s, o) => {
-    for (var i = o > 1 ? void 0 : o ? Dt(e, s) : e, r = t.length - 1, a; r >= 0; r--)
-        (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
-    return o && i && Ht(e, s, i), i;
+  for (var i = o > 1 ? void 0 : o ? Dt(e, s) : e, r = t.length - 1, a; r >= 0; r--)
+    (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
+  return o && i && Ht(e, s, i), i;
 };
-
 class Ut extends CustomEvent {
-    constructor(e) {
-        super("color-picker-change", {detail: {value: e}});
-    }
+  constructor(e) {
+    super("color-picker-change", { detail: { value: e } });
+  }
 }
-
 const Le = v`
   :host {
     --preview-size: 24px;
@@ -1658,87 +1489,78 @@ const Le = v`
   }
 `;
 let I = class extends S {
-    constructor() {
-        super(...arguments), this.commitValue = !1;
-    }
-
-    static get styles() {
-        return [
-            Le,
-            v`
+  constructor() {
+    super(...arguments), this.commitValue = !1;
+  }
+  static get styles() {
+    return [
+      Le,
+      v`
         #toggle {
           display: block;
         }
       `
-        ];
-    }
-
-    update(t) {
-        super.update(t), t.has("value") && this.overlay && this.overlay.requestContentUpdate();
-    }
-
-    firstUpdated() {
-        this.overlay = document.createElement("copilot-color-picker-overlay"), this.overlay.renderer = this.renderOverlayContent.bind(this), this.overlay.owner = this, this.overlay.positionTarget = this.toggle, this.overlay.noVerticalOverlap = !0, this.overlay.addEventListener("vaadin-overlay-escape-press", this.handleOverlayEscape.bind(this)), this.overlay.addEventListener("vaadin-overlay-close", this.handleOverlayClose.bind(this)), this.append(this.overlay);
-    }
-
-    render() {
-        const t = this.value || "rgba(0, 0, 0, 0)";
-        return n` <button
+    ];
+  }
+  update(t) {
+    super.update(t), t.has("value") && this.overlay && this.overlay.requestContentUpdate();
+  }
+  firstUpdated() {
+    this.overlay = document.createElement("copilot-color-picker-overlay"), this.overlay.renderer = this.renderOverlayContent.bind(this), this.overlay.owner = this, this.overlay.positionTarget = this.toggle, this.overlay.noVerticalOverlap = !0, this.overlay.addEventListener("vaadin-overlay-escape-press", this.handleOverlayEscape.bind(this)), this.overlay.addEventListener("vaadin-overlay-close", this.handleOverlayClose.bind(this)), this.append(this.overlay);
+  }
+  render() {
+    const t = this.value || "rgba(0, 0, 0, 0)";
+    return n` <button
       id="toggle"
       class="preview"
       style="--preview-color: ${t}"
       @click=${this.open}></button>`;
-    }
-
-    open() {
-        this.commitValue = !1, this.overlay.opened = !0, this.overlay.style.zIndex = "1000000";
-        const t = this.overlay.shadowRoot.querySelector('[part="overlay"]');
-        t.style.background = "#333";
-    }
-
-    renderOverlayContent(t) {
-        const s = getComputedStyle(this.toggle, "::after").getPropertyValue("background-color");
-        Ve(
-            n` <div>
+  }
+  open() {
+    this.commitValue = !1, this.overlay.opened = !0, this.overlay.style.zIndex = "1000000";
+    const t = this.overlay.shadowRoot.querySelector('[part="overlay"]');
+    t.style.background = "#333";
+  }
+  renderOverlayContent(t) {
+    const s = getComputedStyle(this.toggle, "::after").getPropertyValue("background-color");
+    Ve(
+      n` <div>
         <copilot-color-picker-overlay-content
           .value=${s}
           .presets=${this.presets}
           @color-changed=${this.handleColorChange.bind(this)}></copilot-color-picker-overlay-content>
       </div>`,
-            t
-        );
-    }
-
-    handleColorChange(t) {
-        this.commitValue = !0, this.dispatchEvent(new Ut(t.detail.value)), t.detail.close && (this.overlay.opened = !1, this.handleOverlayClose());
-    }
-
-    handleOverlayEscape() {
-        this.commitValue = !1;
-    }
-
-    handleOverlayClose() {
-        const t = this.commitValue ? "color-picker-commit" : "color-picker-cancel";
-        this.dispatchEvent(new CustomEvent(t));
-    }
+      t
+    );
+  }
+  handleColorChange(t) {
+    this.commitValue = !0, this.dispatchEvent(new Ut(t.detail.value)), t.detail.close && (this.overlay.opened = !1, this.handleOverlayClose());
+  }
+  handleOverlayEscape() {
+    this.commitValue = !1;
+  }
+  handleOverlayClose() {
+    const t = this.commitValue ? "color-picker-commit" : "color-picker-cancel";
+    this.dispatchEvent(new CustomEvent(t));
+  }
 };
 P([
-    h({})
+  h({})
 ], I.prototype, "value", 2);
 P([
-    h({})
+  h({})
 ], I.prototype, "presets", 2);
 P([
-    Re("#toggle")
+  Re("#toggle")
 ], I.prototype, "toggle", 2);
 I = P([
-    f("copilot-color-picker")
+  f("copilot-color-picker")
 ], I);
 let K = class extends S {
-    static get styles() {
-        return [
-            Le,
-            v`
+  static get styles() {
+    return [
+      Le,
+      v`
         :host {
           display: block;
           padding: 12px;
@@ -1775,69 +1597,62 @@ let K = class extends S {
           margin-top: 16px;
         }
       `
-        ];
-    }
-
-    render() {
-        return n` <div>
+    ];
+  }
+  render() {
+    return n` <div>
       <copilot-rgba-string-color-picker
         class="picker"
         .color=${this.value}
         @color-changed=${this.handlePickerChange}></copilot-rgba-string-color-picker>
       ${this.renderSwatches()}
     </div>`;
-    }
-
-    renderSwatches() {
-        if (!this.presets || this.presets.length === 0)
-            return;
-        const t = this.presets.map((e) => n` <button
+  }
+  renderSwatches() {
+    if (!this.presets || this.presets.length === 0)
+      return;
+    const t = this.presets.map((e) => n` <button
         class="preview"
         style="--preview-color: ${e}"
         @click=${() => this.selectPreset(e)}></button>`);
-        return n` <div class="swatches">${t}</div>`;
-    }
-
-    handlePickerChange(t) {
-        this.dispatchEvent(new CustomEvent("color-changed", {detail: {value: t.detail.value}}));
-    }
-
-    selectPreset(t) {
-        this.dispatchEvent(new CustomEvent("color-changed", {detail: {value: t, close: !0}}));
-    }
+    return n` <div class="swatches">${t}</div>`;
+  }
+  handlePickerChange(t) {
+    this.dispatchEvent(new CustomEvent("color-changed", { detail: { value: t.detail.value } }));
+  }
+  selectPreset(t) {
+    this.dispatchEvent(new CustomEvent("color-changed", { detail: { value: t, close: !0 } }));
+  }
 };
 P([
-    h({})
+  h({})
 ], K.prototype, "value", 2);
 P([
-    h({})
+  h({})
 ], K.prototype, "presets", 2);
 K = P([
-    f("copilot-color-picker-overlay-content")
+  f("copilot-color-picker-overlay-content")
 ], K);
 customElements.whenDefined("vaadin-overlay").then(() => {
-    const t = customElements.get("vaadin-overlay");
-
-    class e extends qt(t) {
-    }
-
-    customElements.define("copilot-color-picker-overlay", e);
+  const t = customElements.get("vaadin-overlay");
+  class e extends qt(t) {
+  }
+  customElements.define("copilot-color-picker-overlay", e);
 });
 customElements.define("copilot-rgba-string-color-picker", Lt);
 var Bt = Object.defineProperty, Ft = Object.getOwnPropertyDescriptor, Wt = (t, e, s, o) => {
-    for (var i = o > 1 ? void 0 : o ? Ft(e, s) : e, r = t.length - 1, a; r >= 0; r--)
-        (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
-    return o && i && Bt(e, s, i), i;
+  for (var i = o > 1 ? void 0 : o ? Ft(e, s) : e, r = t.length - 1, a; r >= 0; r--)
+    (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
+  return o && i && Bt(e, s, i), i;
 };
 let Te = class extends g {
-    constructor() {
-        super(...arguments), this.presets = new U();
-    }
-
-    static get styles() {
-        return [
-            g.styles,
-            v`
+  constructor() {
+    super(...arguments), this.presets = new U();
+  }
+  static get styles() {
+    return [
+      g.styles,
+      v`
         .editor-row {
           align-items: center;
         }
@@ -1848,16 +1663,14 @@ let Te = class extends g {
           gap: 0.5rem;
         }
       `
-        ];
-    }
-
-    update(t) {
-        t.has("propertyMetadata") && (this.presets = new U(this.propertyMetadata)), super.update(t);
-    }
-
-    renderEditor() {
-        var t;
-        return n`
+    ];
+  }
+  update(t) {
+    t.has("propertyMetadata") && (this.presets = new U(this.propertyMetadata)), super.update(t);
+  }
+  renderEditor() {
+    var t;
+    return n`
       <copilot-color-picker
         .value=${this.value}
         .presets=${this.presets.values}
@@ -1869,52 +1682,44 @@ let Te = class extends g {
         .showClearButton=${((t = this.propertyValue) == null ? void 0 : t.modified) || !1}
         @change=${this.handleInputChange}></copilot-theme-text-input>
     `;
-    }
-
-    handleInputChange(t) {
-        this.value = t.detail.value, this.dispatchChange(this.value);
-    }
-
-    handleColorPickerChange(t) {
-        this.value = t.detail.value, this.dispatchChange(this.value);
-    }
-
-    handleColorPickerCommit() {
-        this.originalValue = this.value, this.dispatchChange(this.value);
-    }
-
-    handleColorPickerCancel() {
-        this.value = this.originalValue, this.dispatchChange(this.value);
-    }
-
-    dispatchChange(t) {
-        const e = this.presets.tryMapToPreset(t);
-        super.dispatchChange(e);
-    }
-
-    updateValueFromTheme() {
-        var t;
-        super.updateValueFromTheme(), this.value = this.presets.tryMapToRawValue(((t = this.propertyValue) == null ? void 0 : t.value) || "");
-    }
+  }
+  handleInputChange(t) {
+    this.value = t.detail.value, this.dispatchChange(this.value);
+  }
+  handleColorPickerChange(t) {
+    this.value = t.detail.value, this.dispatchChange(this.value);
+  }
+  handleColorPickerCommit() {
+    this.originalValue = this.value, this.dispatchChange(this.value);
+  }
+  handleColorPickerCancel() {
+    this.value = this.originalValue, this.dispatchChange(this.value);
+  }
+  dispatchChange(t) {
+    const e = this.presets.tryMapToPreset(t);
+    super.dispatchChange(e);
+  }
+  updateValueFromTheme() {
+    var t;
+    super.updateValueFromTheme(), this.value = this.presets.tryMapToRawValue(((t = this.propertyValue) == null ? void 0 : t.value) || "");
+  }
 };
 Te = Wt([
-    f("copilot-theme-color-property-editor")
+  f("copilot-theme-color-property-editor")
 ], Te);
 var Gt = Object.defineProperty, Kt = Object.getOwnPropertyDescriptor, ue = (t, e, s, o) => {
-    for (var i = o > 1 ? void 0 : o ? Kt(e, s) : e, r = t.length - 1, a; r >= 0; r--)
-        (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
-    return o && i && Gt(e, s, i), i;
+  for (var i = o > 1 ? void 0 : o ? Kt(e, s) : e, r = t.length - 1, a; r >= 0; r--)
+    (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
+  return o && i && Gt(e, s, i), i;
 };
-
 class Zt extends CustomEvent {
-    constructor(e) {
-        super("open-css", {detail: {element: e}});
-    }
+  constructor(e) {
+    super("open-css", { detail: { element: e } });
+  }
 }
-
 let Z = class extends S {
-    static get styles() {
-        return v`
+  static get styles() {
+    return v`
       .section .header {
         display: flex;
         align-items: baseline;
@@ -1946,16 +1751,14 @@ let Z = class extends S {
         color: var(--dev-tools-text-color-emphasis);
       }
     `;
-    }
-
-    render() {
-        const t = this.metadata.elements.map((e) => this.renderSection(e));
-        return n` <div>${t}</div> `;
-    }
-
-    renderSection(t) {
-        const e = t.properties.map((s) => this.renderPropertyEditor(t, s));
-        return n`
+  }
+  render() {
+    const t = this.metadata.elements.map((e) => this.renderSection(e));
+    return n` <div>${t}</div> `;
+  }
+  renderSection(t) {
+    const e = t.properties.map((s) => this.renderPropertyEditor(t, s));
+    return n`
       <div class="section" data-testid=${t == null ? void 0 : t.displayName}>
         <div class="header">
           <span> ${t.displayName} </span>
@@ -1964,28 +1767,26 @@ let Z = class extends S {
         <div class="property-list">${e}</div>
       </div>
     `;
+  }
+  handleOpenCss(t) {
+    this.dispatchEvent(new Zt(t));
+  }
+  renderPropertyEditor(t, e) {
+    let s;
+    switch (e.editorType) {
+      case Q.checkbox:
+        s = L`copilot-theme-checkbox-property-editor`;
+        break;
+      case Q.range:
+        s = L`copilot-theme-range-property-editor`;
+        break;
+      case Q.color:
+        s = L`copilot-theme-color-property-editor`;
+        break;
+      default:
+        s = L`copilot-theme-text-property-editor`;
     }
-
-    handleOpenCss(t) {
-        this.dispatchEvent(new Zt(t));
-    }
-
-    renderPropertyEditor(t, e) {
-        let s;
-        switch (e.editorType) {
-            case Q.checkbox:
-                s = L`copilot-theme-checkbox-property-editor`;
-                break;
-            case Q.range:
-                s = L`copilot-theme-range-property-editor`;
-                break;
-            case Q.color:
-                s = L`copilot-theme-color-property-editor`;
-                break;
-            default:
-                s = L`copilot-theme-text-property-editor`;
-        }
-        return Fe` <${s}
+    return Fe` <${s}
           class="property-editor"
           .elementMetadata=${t}
           .propertyMetadata=${e}
@@ -1993,16 +1794,16 @@ let Z = class extends S {
           data-testid=${e.propertyName}
         >
         </${s}>`;
-    }
+  }
 };
 ue([
-    h({})
+  h({})
 ], Z.prototype, "metadata", 2);
 ue([
-    h({})
+  h({})
 ], Z.prototype, "theme", 2);
 Z = ue([
-    f("copilot-theme-property-list")
+  f("copilot-theme-property-list")
 ], Z);
 const y = () => window.Vaadin.copilotPlugins._internals;
 /*!
@@ -2012,29 +1813,28 @@ const y = () => window.Vaadin.copilotPlugins._internals;
  * Released under the MIT License.
  */
 var Jt = (t, e) => {
-    if (typeof t != "string")
-        throw new TypeError("expected a string");
-    return t.trim().replace(/([a-z])([A-Z])/g, "$1-$2").replace(/\W/g, (s) => /[À-ž]/.test(s) ? s : "-").replace(/^-+|-+$/g, "").replace(/-{2,}/g, (s) => e && e.condense ? "-" : s).toLowerCase();
+  if (typeof t != "string")
+    throw new TypeError("expected a string");
+  return t.trim().replace(/([a-z])([A-Z])/g, "$1-$2").replace(/\W/g, (s) => /[À-ž]/.test(s) ? s : "-").replace(/^-+|-+$/g, "").replace(/-{2,}/g, (s) => e && e.condense ? "-" : s).toLowerCase();
 };
 const Xt = /* @__PURE__ */ We(Jt), Yt = (t) => {
-    var e, s;
-    return (s = (e = t.split("\\").pop()) == null ? void 0 : e.split("/").pop()) == null ? void 0 : s.split(".")[0];
+  var e, s;
+  return (s = (e = t.split("\\").pop()) == null ? void 0 : e.split("/").pop()) == null ? void 0 : s.split(".")[0];
 }, Qt = (t) => {
-    var e;
-    return (e = Yt(t)) == null ? void 0 : e.replace(/\.[^/.]+$/, "");
+  var e;
+  return (e = Yt(t)) == null ? void 0 : e.replace(/\.[^/.]+$/, "");
 };
 var es = Object.defineProperty, ts = Object.getOwnPropertyDescriptor, N = (t, e, s, o) => {
-    for (var i = o > 1 ? void 0 : o ? ts(e, s) : e, r = t.length - 1, a; r >= 0; r--)
-        (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
-    return o && i && es(e, s, i), i;
+  for (var i = o > 1 ? void 0 : o ? ts(e, s) : e, r = t.length - 1, a; r >= 0; r--)
+    (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
+  return o && i && es(e, s, i), i;
 };
 let C = class extends Ge {
-    constructor() {
-        super(), this.baseTheme = null, this.editedTheme = null, this.expanded = !1, this.themeEditorState = D.enabled, this.effectiveTheme = null;
-    }
-
-    static get styles() {
-        return v`
+  constructor() {
+    super(), this.baseTheme = null, this.editedTheme = null, this.expanded = !1, this.themeEditorState = D.enabled, this.effectiveTheme = null;
+  }
+  static get styles() {
+    return v`
       :host {
         animation: fade-in var(--dev-tools-transition-duration) ease-in;
         --theme-editor-section-horizontal-padding: 0.75rem;
@@ -2161,55 +1961,46 @@ let C = class extends Ge {
         color: var(--dev-tools-text-color-emphasis);
       }
     `;
+  }
+  connectedCallback() {
+    super.connectedCallback(), this.reaction(
+      () => y().copilotUiState.getSelections,
+      () => {
+        this.refreshPicked(), this.requestUpdate();
+      }
+    ), this.refreshPicked();
+  }
+  async refreshPicked() {
+    var s;
+    if (y().copilotUiState.getSelections.length !== 1) {
+      this.context = null;
+      return;
     }
-
-    connectedCallback() {
-        super.connectedCallback(), this.reaction(
-            () => y().copilotUiState.getSelections,
-            () => {
-                this.refreshPicked(), this.requestUpdate();
-            }
-        ), this.refreshPicked();
+    const t = y().copilotUiState.getSelections[0];
+    if (!t.metadata) {
+      this.context = { scope: ((s = this.context) == null ? void 0 : s.scope) ?? u.local, selectedElement: t }, this.baseTheme = null, this.editedTheme = null, this.effectiveTheme = null;
+      return;
     }
-
-    async refreshPicked() {
-        var s;
-        if (y().copilotUiState.getSelections.length !== 1) {
-            this.context = null;
-            return;
-        }
-        const t = y().copilotUiState.getSelections[0];
-        if (!t.metadata) {
-            this.context = {
-                scope: ((s = this.context) == null ? void 0 : s.scope) ?? u.local,
-                selectedElement: t
-            }, this.baseTheme = null, this.editedTheme = null, this.effectiveTheme = null;
-            return;
-        }
-        await this.refreshComponentAndTheme(t);
-    }
-
-    firstUpdated() {
-        this.history = new tt(this.api), this.historyActions = this.history.allowedActions, this.undoRedoListener = (t) => {
-            var s, o;
-            const e = t.key === "Z" || t.key === "z";
-            e && (t.ctrlKey || t.metaKey) && t.shiftKey ? (s = this.historyActions) != null && s.allowRedo && this.handleRedo() : e && (t.ctrlKey || t.metaKey) && (o = this.historyActions) != null && o.allowUndo && this.handleUndo();
-        }, document.addEventListener("vaadin-theme-updated", () => {
-            A.clear(), this.refreshTheme();
-        }), document.addEventListener("keydown", this.undoRedoListener), this.dispatchEvent(new CustomEvent("before-open"));
-    }
-
-    update(t) {
-        super.update(t);
-    }
-
-    disconnectedCallback() {
-        super.disconnectedCallback(), document.removeEventListener("keydown", this.undoRedoListener), this.dispatchEvent(new CustomEvent("after-close"));
-    }
-
-    render() {
-        var t, e, s, o;
-        return this.themeEditorState === D.missing_theme ? this.renderMissingThemeNotice() : n`
+    await this.refreshComponentAndTheme(t);
+  }
+  firstUpdated() {
+    this.history = new tt(this.api), this.historyActions = this.history.allowedActions, this.undoRedoListener = (t) => {
+      var s, o;
+      const e = t.key === "Z" || t.key === "z";
+      e && (t.ctrlKey || t.metaKey) && t.shiftKey ? (s = this.historyActions) != null && s.allowRedo && this.handleRedo() : e && (t.ctrlKey || t.metaKey) && (o = this.historyActions) != null && o.allowUndo && this.handleUndo();
+    }, document.addEventListener("vaadin-theme-updated", () => {
+      A.clear(), this.refreshTheme();
+    }), document.addEventListener("keydown", this.undoRedoListener), this.dispatchEvent(new CustomEvent("before-open"));
+  }
+  update(t) {
+    super.update(t);
+  }
+  disconnectedCallback() {
+    super.disconnectedCallback(), document.removeEventListener("keydown", this.undoRedoListener), this.dispatchEvent(new CustomEvent("after-close"));
+  }
+  render() {
+    var t, e, s, o;
+    return this.themeEditorState === D.missing_theme ? this.renderMissingThemeNotice() : n`
       <div class="header">
         <div class="picker-row">
           ${this.renderPicker()}
@@ -2238,10 +2029,9 @@ let C = class extends Ge {
       </div>
       ${this.renderPropertyList()}
     `;
-    }
-
-    renderMissingThemeNotice() {
-        return n`
+  }
+  renderMissingThemeNotice() {
+    return n`
       <div class="notice">
         It looks like you have not set up an application theme yet. Theme editor requires an existing theme to work
         with. Please check our
@@ -2249,22 +2039,21 @@ let C = class extends Ge {
         on how to set up an application theme.
       </div>
     `;
-    }
-
-    renderPropertyList() {
-        var s;
-        if (!this.context)
-            return null;
-        if (!((s = this.context.selectedElement) != null && s.metadata)) {
-            const o = this.context.selectedElement.element.localName;
-            return n`
+  }
+  renderPropertyList() {
+    var s;
+    if (!this.context)
+      return null;
+    if (!((s = this.context.selectedElement) != null && s.metadata)) {
+      const o = this.context.selectedElement.element.localName;
+      return n`
         <div class="notice">Styling <code>&lt;${o}&gt;</code> components is not supported at the moment.</div>
       `;
-        }
-        const t = this.context.selectedElement.metadata;
-        if (this.context.scope === u.local && !this.context.accessible) {
-            const o = t.displayName;
-            return n`
+    }
+    const t = this.context.selectedElement.metadata;
+    if (this.context.scope === u.local && !this.context.accessible) {
+      const o = t.displayName;
+      return n`
         ${t.notAccessibleDescription && this.context.scope === u.local ? n`<div class="notice hint" style="padding-bottom: 0;">
               <vaadin-icon icon="vaadin:lightbulb"></vaadin-icon>
               <div>${t.notAccessibleDescription}</div>
@@ -2279,8 +2068,8 @@ let C = class extends Ge {
           the scope dropdown above.
         </div>
       `;
-        }
-        return n` ${t.description && this.context.scope === u.local ? n`<div class="notice hint">
+    }
+    return n` ${t.description && this.context.scope === u.local ? n`<div class="notice hint">
             <vaadin-icon icon="vaadin:lightbulb"></vaadin-icon>
             <div>${t.description}</div>
           </div>` : ""}
@@ -2290,357 +2079,322 @@ let C = class extends Ge {
         .theme=${this.effectiveTheme}
         @theme-property-value-change=${this.handlePropertyChange}
         @open-css=${this.handleOpenCss}></copilot-theme-property-list>`;
+  }
+  handleShowComponent() {
+    if (!this.context)
+      return;
+    if (ee()) {
+      const e = y().getFlowComponent(this.context.selectedElement.element), s = {
+        nodeId: e.nodeId,
+        uiId: e.uiId,
+        element: e.element
+      };
+      y().copilotEventBus.send("showComponentCreateLocation", s);
+      return;
     }
-
-    handleShowComponent() {
-        if (!this.context)
-            return;
-        if (ee()) {
-            const e = y().getFlowComponent(this.context.selectedElement.element), s = {
-                nodeId: e.nodeId,
-                uiId: e.uiId,
-                element: e.element
-            };
-            y().copilotEventBus.send("showComponentCreateLocation", s);
-            return;
-        }
-        const t = Ke(this.context.selectedElement.element);
-        y().copilotEventBus.send(`${Ze}show-component`, {
-            ...t
-        });
-    }
-
-    async handleOpenCss(t) {
-        if (!this.context)
-            return;
-        await this.ensureLocalClassName();
-        const e = {
-            themeScope: this.context.scope,
-            localClassName: this.context.localClassName
-        }, s = R(t.detail.element, e);
-        await this.api.openCss(s);
-    }
-
-    renderPicker() {
-        var e, s;
-        let t;
-        if ((s = (e = this.context) == null ? void 0 : e.selectedElement) != null && s.metadata) {
-            const o = this.context.selectedElement.metadata,
-                i = this.context.scope === u.local ? o.displayName : `All ${o.displayName}s`,
-                r = n`<span class="component-type">${i}</span>`,
-                a = this.context.scope === u.local ? Qe(this.context.selectedElement) : null,
-                l = a ? n` <span class="instance-name-quote">"</span><span class="instance-name">${a}</span
+    const t = Ke(this.context.selectedElement.element);
+    y().copilotEventBus.send(`${Ze}show-component`, {
+      ...t
+    });
+  }
+  async handleOpenCss(t) {
+    if (!this.context)
+      return;
+    await this.ensureLocalClassName();
+    const e = {
+      themeScope: this.context.scope,
+      localClassName: this.context.localClassName
+    }, s = R(t.detail.element, e);
+    await this.api.openCss(s);
+  }
+  renderPicker() {
+    var e, s;
+    let t;
+    if ((s = (e = this.context) == null ? void 0 : e.selectedElement) != null && s.metadata) {
+      const o = this.context.selectedElement.metadata, i = this.context.scope === u.local ? o.displayName : `All ${o.displayName}s`, r = n`<span class="component-type">${i}</span>`, a = this.context.scope === u.local ? Qe(this.context.selectedElement) : null, l = a ? n` <span class="instance-name-quote">"</span><span class="instance-name">${a}</span
             ><span class="instance-name-quote">"</span>` : null;
-            t = n`${r} ${l}`;
-        } else
-            t = n`<span class="no-selection">Pick a single element to get started</span>`;
-        return n` <div class="picker">${t}</div> `;
-    }
-
-    renderLocalClassNameEditor() {
-        var s;
-        const t = ((s = this.context) == null ? void 0 : s.scope) === u.local && this.context.accessible;
-        if (!this.context || !t)
-            return null;
-        const e = this.context.localClassName || this.context.suggestedClassName;
-        return n` <copilot-theme-class-name-editor
+      t = n`${r} ${l}`;
+    } else
+      t = n`<span class="no-selection">Pick a single element to get started</span>`;
+    return n` <div class="picker">${t}</div> `;
+  }
+  renderLocalClassNameEditor() {
+    var s;
+    const t = ((s = this.context) == null ? void 0 : s.scope) === u.local && this.context.accessible;
+    if (!this.context || !t)
+      return null;
+    const e = this.context.localClassName || this.context.suggestedClassName;
+    return n` <copilot-theme-class-name-editor
       .className=${e}
       @class-name-change=${this.handleClassNameChange}>
     </copilot-theme-class-name-editor>`;
+  }
+  async handleClassNameChange(t) {
+    if (!this.context)
+      return;
+    const e = this.context.localClassName, s = t.detail.value;
+    if (e) {
+      const o = this.context.selectedElement.element;
+      this.context.localClassName = s, await this.updateClassName(o, s, e);
+    } else
+      this.context = {
+        ...this.context,
+        suggestedClassName: s
+      };
+  }
+  handleScopeChange(t) {
+    this.context && this.refreshTheme({
+      ...this.context,
+      scope: t.detail.value
+    });
+  }
+  async handlePropertyChange(t) {
+    if (!this.context || !this.baseTheme || !this.editedTheme)
+      return;
+    const { element: e, property: s, value: o } = t.detail;
+    this.editedTheme.updatePropertyValue(e.selector, s.propertyName, o, !0), this.effectiveTheme = x.combine(this.baseTheme, this.editedTheme), await this.ensureLocalClassName();
+    const i = {
+      themeScope: this.context.scope,
+      localClassName: this.context.localClassName
+    }, r = Je(e, i, s.propertyName, o);
+    try {
+      const a = await this.api.setCssRules([r]);
+      this.historyActions = this.history.push(a.requestId);
+      const l = Xe(r);
+      A.add(l);
+    } catch (a) {
+      H("Failed to update property value", a);
     }
-
-    async handleClassNameChange(t) {
-        if (!this.context)
-            return;
-        const e = this.context.localClassName, s = t.detail.value;
-        if (e) {
-            const o = this.context.selectedElement.element;
-            this.context.localClassName = s, await this.updateClassName(o, s, e);
-        } else
-            this.context = {
-                ...this.context,
-                suggestedClassName: s
-            };
+  }
+  async handleUndo() {
+    this.historyActions = await this.history.undo(), await this.refreshComponentAndTheme();
+  }
+  async handleRedo() {
+    this.historyActions = await this.history.redo(), await this.refreshComponentAndTheme();
+  }
+  async ensureLocalClassName() {
+    if (!this.context || this.context.scope === u.global || this.context.localClassName)
+      return;
+    if (!this.context.localClassName && !this.context.suggestedClassName)
+      throw new Error(
+        "Cannot assign local class name for the component because it does not have a suggested class name"
+      );
+    const t = this.context.selectedElement.element, e = this.context.suggestedClassName;
+    this.context.localClassName = e, await this.updateClassName(t, e);
+  }
+  async refreshComponentAndTheme(t) {
+    var s;
+    if (!t)
+      return;
+    let e;
+    if (ee()) {
+      const o = y().getFlowComponent(t.element);
+      if (!o)
+        return;
+      e = await this.api.loadComponentMetadata(o), A.previewLocalClassName(t.element, e.className);
+    } else
+      e = {
+        accessible: !0,
+        className: t.element.className,
+        suggestedClassName: this.suggestClassName(t)
+      };
+    await this.refreshTheme({
+      scope: ((s = this.context) == null ? void 0 : s.scope) || u.local,
+      localClassName: e.className,
+      suggestedClassName: e.suggestedClassName,
+      accessible: e.accessible,
+      selectedElement: t
+    });
+  }
+  async refreshTheme(t) {
+    var a;
+    const e = t || this.context;
+    if (!((a = e == null ? void 0 : e.selectedElement) != null && a.metadata))
+      return;
+    if (e.scope === u.local && !e.accessible) {
+      this.context = e, this.baseTheme = null, this.editedTheme = null, this.effectiveTheme = null;
+      return;
     }
-
-    handleScopeChange(t) {
-        this.context && this.refreshTheme({
-            ...this.context,
-            scope: t.detail.value
-        });
+    let o = new x(e.selectedElement.metadata);
+    if (!(e.scope === u.local && !e.localClassName)) {
+      const l = {
+        themeScope: e.scope,
+        localClassName: e.localClassName
+      }, c = e.selectedElement.metadata.elements.map(
+        (w) => R(w, l)
+      ), d = await this.api.loadRules(c);
+      o = x.fromServerRules(
+        e.selectedElement.metadata,
+        l,
+        d.rules
+      );
     }
-
-    async handlePropertyChange(t) {
-        if (!this.context || !this.baseTheme || !this.editedTheme)
-            return;
-        const {element: e, property: s, value: o} = t.detail;
-        this.editedTheme.updatePropertyValue(e.selector, s.propertyName, o, !0), this.effectiveTheme = x.combine(this.baseTheme, this.editedTheme), await this.ensureLocalClassName();
-        const i = {
-            themeScope: this.context.scope,
-            localClassName: this.context.localClassName
-        }, r = Je(e, i, s.propertyName, o);
-        try {
-            const a = await this.api.setCssRules([r]);
-            this.historyActions = this.history.push(a.requestId);
-            const l = Xe(r);
-            A.add(l);
-        } catch (a) {
-            H("Failed to update property value", a);
-        }
+    const r = await Ye(e.selectedElement.metadata);
+    this.context = e, this.baseTheme = r, this.editedTheme = o, this.effectiveTheme = x.combine(r, this.editedTheme);
+  }
+  suggestClassName(t) {
+    var s;
+    const e = (s = y().getElementSourceInfo(t.element)) == null ? void 0 : s.fileName;
+    return Xt((e ? Qt(e) : "") + t.displayName, { condense: !0 });
+  }
+  async updateClassName(t, e, s) {
+    if (ee()) {
+      const o = y().getFlowComponent(t), i = await this.api.setLocalClassName(o, e);
+      this.historyActions = this.history.push(
+        i.requestId,
+        () => A.previewLocalClassName(t, e),
+        () => A.previewLocalClassName(t, s)
+      );
+      return;
     }
-
-    async handleUndo() {
-        this.historyActions = await this.history.undo(), await this.refreshComponentAndTheme();
-    }
-
-    async handleRedo() {
-        this.historyActions = await this.history.redo(), await this.refreshComponentAndTheme();
-    }
-
-    async ensureLocalClassName() {
-        if (!this.context || this.context.scope === u.global || this.context.localClassName)
-            return;
-        if (!this.context.localClassName && !this.context.suggestedClassName)
-            throw new Error(
-                "Cannot assign local class name for the component because it does not have a suggested class name"
-            );
-        const t = this.context.selectedElement.element, e = this.context.suggestedClassName;
-        this.context.localClassName = e, await this.updateClassName(t, e);
-    }
-
-    async refreshComponentAndTheme(t) {
-        var s;
-        if (!t)
-            return;
-        let e;
-        if (ee()) {
-            const o = y().getFlowComponent(t.element);
-            if (!o)
-                return;
-            e = await this.api.loadComponentMetadata(o), A.previewLocalClassName(t.element, e.className);
-        } else
-            e = {
-                accessible: !0,
-                className: t.element.className,
-                suggestedClassName: this.suggestClassName(t)
-            };
-        await this.refreshTheme({
-            scope: ((s = this.context) == null ? void 0 : s.scope) || u.local,
-            localClassName: e.className,
-            suggestedClassName: e.suggestedClassName,
-            accessible: e.accessible,
-            selectedElement: t
-        });
-    }
-
-    async refreshTheme(t) {
-        var a;
-        const e = t || this.context;
-        if (!((a = e == null ? void 0 : e.selectedElement) != null && a.metadata))
-            return;
-        if (e.scope === u.local && !e.accessible) {
-            this.context = e, this.baseTheme = null, this.editedTheme = null, this.effectiveTheme = null;
-            return;
-        }
-        let o = new x(e.selectedElement.metadata);
-        if (!(e.scope === u.local && !e.localClassName)) {
-            const l = {
-                themeScope: e.scope,
-                localClassName: e.localClassName
-            }, c = e.selectedElement.metadata.elements.map(
-                (w) => R(w, l)
-            ), d = await this.api.loadRules(c);
-            o = x.fromServerRules(
-                e.selectedElement.metadata,
-                l,
-                d.rules
-            );
-        }
-        const r = await Ye(e.selectedElement.metadata);
-        this.context = e, this.baseTheme = r, this.editedTheme = o, this.effectiveTheme = x.combine(r, this.editedTheme);
-    }
-
-    suggestClassName(t) {
-        var s;
-        const e = (s = y().getElementSourceInfo(t.element)) == null ? void 0 : s.fileName;
-        return Xt((e ? Qt(e) : "") + t.displayName, {condense: !0});
-    }
-
-    async updateClassName(t, e, s) {
-        if (ee()) {
-            const o = y().getFlowComponent(t), i = await this.api.setLocalClassName(o, e);
-            this.historyActions = this.history.push(
-                i.requestId,
-                () => A.previewLocalClassName(t, e),
-                () => A.previewLocalClassName(t, s)
-            );
-            return;
-        }
-        s ? e = t.className.replace(s, e) : t.className && (e = `${t.className} ${e}`), await y().setElementAttributeValue(t, "className", e), await this.api.setLocalClassNameReact(t.localName, e, s), t.className = e;
-    }
+    s ? e = t.className.replace(s, e) : t.className && (e = `${t.className} ${e}`), await y().setElementAttributeValue(t, "className", e), await this.api.setLocalClassNameReact(t.localName, e, s), t.className = e;
+  }
 };
 N([
-    h({})
+  h({})
 ], C.prototype, "expanded", 2);
 N([
-    h({})
+  h({})
 ], C.prototype, "themeEditorState", 2);
 N([
-    h()
+  h()
 ], C.prototype, "api", 2);
 N([
-    b()
+  b()
 ], C.prototype, "historyActions", 2);
 N([
-    b()
+  b()
 ], C.prototype, "context", 2);
 N([
-    b()
+  b()
 ], C.prototype, "effectiveTheme", 2);
 C = N([
-    f("copilot-theme-editor")
+  f("copilot-theme-editor")
 ], C);
 var ce = /* @__PURE__ */ ((t) => (t.state = "copilot-theme-editor-state", t.response = "copilot-theme-editor-response", t.loadComponentMetadata = "copilot-theme-editor-metadata", t.setLocalClassName = "copilot-theme-editor-local-class-name", t.setCssRules = "copilot-theme-editor-rules", t.loadRules = "copilot-theme-editor-load-rules", t.history = "copilot-theme-editor-history", t.openCss = "copilot-theme-editor-open-css", t))(ce || {});
-
 class ss {
-    constructor() {
-        this.pendingRequests = {}, this.requestCounter = 0;
+  constructor() {
+    this.pendingRequests = {}, this.requestCounter = 0;
+  }
+  sendRequest(e, s) {
+    const o = (this.requestCounter++).toString(), i = s.uiId ?? this.getGlobalUiId();
+    return new Promise((r, a) => {
+      y().copilotEventBus.send(e, {
+        ...s,
+        requestId: o,
+        uiId: i
+      }), this.pendingRequests[o] = {
+        resolve: r,
+        reject: a
+      };
+    });
+  }
+  handleResponse(e) {
+    const s = this.pendingRequests[e.requestId];
+    if (!s) {
+      console.warn("Received response for unknown request");
+      return;
     }
-
-    sendRequest(e, s) {
-        const o = (this.requestCounter++).toString(), i = s.uiId ?? this.getGlobalUiId();
-        return new Promise((r, a) => {
-            y().copilotEventBus.send(e, {
-                ...s,
-                requestId: o,
-                uiId: i
-            }), this.pendingRequests[o] = {
-                resolve: r,
-                reject: a
-            };
-        });
-    }
-
-    handleResponse(e) {
-        const s = this.pendingRequests[e.requestId];
-        if (!s) {
-            console.warn("Received response for unknown request");
-            return;
+    delete this.pendingRequests[e.requestId], e.code === "ok" ? s.resolve(e) : s.reject(e);
+  }
+  loadComponentMetadata(e) {
+    return this.sendRequest("copilot-theme-editor-metadata", { nodeId: e.nodeId });
+  }
+  setLocalClassName(e, s) {
+    return this.sendRequest("copilot-theme-editor-local-class-name", { nodeId: e.nodeId, className: s });
+  }
+  setLocalClassNameReact(e, s, o) {
+    return this.sendRequest("copilot-theme-editor-local-class-name", { tagName: e, oldClassName: o, className: s });
+  }
+  setCssRules(e) {
+    return this.sendRequest("copilot-theme-editor-rules", { rules: e });
+  }
+  loadRules(e) {
+    return this.sendRequest("copilot-theme-editor-load-rules", { selectors: e });
+  }
+  undo(e) {
+    return this.sendRequest("copilot-theme-editor-history", { undo: e });
+  }
+  redo(e) {
+    return this.sendRequest("copilot-theme-editor-history", { redo: e });
+  }
+  openCss(e) {
+    return this.sendRequest("copilot-theme-editor-open-css", { selector: e });
+  }
+  getGlobalUiId() {
+    if (this.globalUiId === void 0) {
+      const e = window.Vaadin;
+      if (e && e.Flow) {
+        const { clients: s } = e.Flow, o = Object.keys(s);
+        for (const i of o) {
+          const r = s[i];
+          if (r.getNodeId) {
+            this.globalUiId = r.getUIId();
+            break;
+          }
         }
-        delete this.pendingRequests[e.requestId], e.code === "ok" ? s.resolve(e) : s.reject(e);
+      }
     }
-
-    loadComponentMetadata(e) {
-        return this.sendRequest("copilot-theme-editor-metadata", {nodeId: e.nodeId});
-    }
-
-    setLocalClassName(e, s) {
-        return this.sendRequest("copilot-theme-editor-local-class-name", {nodeId: e.nodeId, className: s});
-    }
-
-    setLocalClassNameReact(e, s, o) {
-        return this.sendRequest("copilot-theme-editor-local-class-name", {tagName: e, oldClassName: o, className: s});
-    }
-
-    setCssRules(e) {
-        return this.sendRequest("copilot-theme-editor-rules", {rules: e});
-    }
-
-    loadRules(e) {
-        return this.sendRequest("copilot-theme-editor-load-rules", {selectors: e});
-    }
-
-    undo(e) {
-        return this.sendRequest("copilot-theme-editor-history", {undo: e});
-    }
-
-    redo(e) {
-        return this.sendRequest("copilot-theme-editor-history", {redo: e});
-    }
-
-    openCss(e) {
-        return this.sendRequest("copilot-theme-editor-open-css", {selector: e});
-    }
-
-    getGlobalUiId() {
-        if (this.globalUiId === void 0) {
-            const e = window.Vaadin;
-            if (e && e.Flow) {
-                const {clients: s} = e.Flow, o = Object.keys(s);
-                for (const i of o) {
-                    const r = s[i];
-                    if (r.getNodeId) {
-                        this.globalUiId = r.getUIId();
-                        break;
-                    }
-                }
-            }
-        }
-        return this.globalUiId ?? -1;
-    }
+    return this.globalUiId ?? -1;
+  }
 }
-
 var os = Object.defineProperty, is = Object.getOwnPropertyDescriptor, me = (t, e, s, o) => {
-    for (var i = o > 1 ? void 0 : o ? is(e, s) : e, r = t.length - 1, a; r >= 0; r--)
-        (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
-    return o && i && os(e, s, i), i;
+  for (var i = o > 1 ? void 0 : o ? is(e, s) : e, r = t.length - 1, a; r >= 0; r--)
+    (a = t[r]) && (i = (o ? a(e, s, i) : a(i)) || i);
+  return o && i && os(e, s, i), i;
 };
 const Oe = window.Vaadin.devTools;
 let J = class extends je {
-    constructor() {
-        super(), this.api = new ss(), this.handleStateEvent = (t) => {
-            this.themeEditorState = t.data.state;
-        }, this.handleServerEvent = (t) => {
-            this.api.handleResponse(t.data);
-        }, this.expanded = !0, this.themeEditorState = D.disabled;
-    }
-
-    connectedCallback() {
-        super.connectedCallback(), this.onCommand(ce.state, this.handleStateEvent), this.onCommand(ce.response, this.handleServerEvent);
-    }
-
-    render() {
-        return n` <copilot-theme-editor
+  constructor() {
+    super(), this.api = new ss(), this.handleStateEvent = (t) => {
+      this.themeEditorState = t.data.state;
+    }, this.handleServerEvent = (t) => {
+      this.api.handleResponse(t.data);
+    }, this.expanded = !0, this.themeEditorState = D.disabled;
+  }
+  connectedCallback() {
+    super.connectedCallback(), this.onCommand(ce.state, this.handleStateEvent), this.onCommand(ce.response, this.handleServerEvent);
+  }
+  render() {
+    return n` <copilot-theme-editor
       .expanded=${this.expanded}
       .themeEditorState=${this.themeEditorState}
       .api=${this.api}
       @before-open=${this.disableJavaLiveReload}
       @after-close=${this.enableJavaLiveReload}></copilot-theme-editor>`;
-    }
-
-    disableJavaLiveReload() {
-        var t;
-        (t = Oe.javaConnection) == null || t.setActive(!1);
-    }
-
-    enableJavaLiveReload() {
-        var t;
-        (t = Oe.javaConnection) == null || t.setActive(!0);
-    }
+  }
+  disableJavaLiveReload() {
+    var t;
+    (t = Oe.javaConnection) == null || t.setActive(!1);
+  }
+  enableJavaLiveReload() {
+    var t;
+    (t = Oe.javaConnection) == null || t.setActive(!0);
+  }
 };
 me([
-    b()
+  b()
 ], J.prototype, "expanded", 2);
 me([
-    b()
+  b()
 ], J.prototype, "themeEditorState", 2);
 J = me([
-    f("copilot-theme-editor-panel")
+  f("copilot-theme-editor-panel")
 ], J);
 const rs = {
-    header: "Theme Editor",
-    expanded: !0,
-    draggable: !0,
-    panelOrder: 0,
-    panel: "right",
-    floating: !1,
-    tag: "copilot-theme-editor-panel"
+  header: "Theme Editor",
+  expanded: !0,
+  draggable: !0,
+  panelOrder: 0,
+  panel: "right",
+  floating: !1,
+  tag: "copilot-theme-editor-panel"
 }, as = {
-    init(t) {
-        t.addPanel(rs);
-    }
+  init(t) {
+    t.addPanel(rs);
+  }
 };
 window.Vaadin.copilotPlugins.push(as);
 export {
-    J as CopilotThemeEditorPanel
+  J as CopilotThemeEditorPanel
 };

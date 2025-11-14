@@ -3,19 +3,14 @@ package pu.master.core.services;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpCookie;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-
 import pu.master.core.exceptions.UserNotFoundException;
-import pu.master.core.jwt.JwtCookieUtil;
 import pu.master.core.mappers.UserMapper;
 import pu.master.core.repositories.UserRepository;
 import pu.master.core.utils.SecurityUtils;
@@ -24,7 +19,6 @@ import pu.master.core.validators.UserValidator;
 import pu.master.domain.models.dtos.UserDto;
 import pu.master.domain.models.entities.Role;
 import pu.master.domain.models.entities.User;
-import pu.master.domain.models.requests.LoginRequest;
 import pu.master.domain.models.requests.RegistrationRequest;
 
 
@@ -36,29 +30,11 @@ public class UserService
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtCookieUtil jwtCookieUtil;
     private final SecurityUtils securityUtils;
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final UserMapper userMapper;
     private final UserValidator userValidator;
-
-
-    public HttpCookie login(final LoginRequest loginRequest)
-    {
-
-        final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword());
-
-        LOGGER.debug("Is user authenticated: {}", authenticationToken.isAuthenticated());
-
-        final UserDetails principal =
-                        (UserDetails) this.authenticationManager.authenticate(authenticationToken).getPrincipal();
-
-        return this.jwtCookieUtil.createJWTCookie(principal);
-    }
 
 
     public User registerUser(final RegistrationRequest registrationRequest)
@@ -82,14 +58,12 @@ public class UserService
     public User registerAdmin(final RegistrationRequest registrationRequest)
     {
         final User admin = createAdminData(registrationRequest);
-        return this.userRepository.save(admin);
+        final Optional<User> potentialAdmin = this.userRepository.findUserByEmail(registrationRequest.getEmail());
+        return potentialAdmin.orElseGet(() -> this.userRepository.save(admin));
+
     }
 
 
-    /**
-     * @param registrationRequest
-     * @return
-     */
     private User createUserData(final RegistrationRequest registrationRequest)
     {
         final User user = this.userMapper.mapUserRequestToUser(registrationRequest);

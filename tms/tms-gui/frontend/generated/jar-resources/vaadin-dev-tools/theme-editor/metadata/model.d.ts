@@ -1,13 +1,11 @@
-import {TemplateResult} from 'lit';
-import {ComponentReference} from '../../component-util';
-
+import { TemplateResult } from 'lit';
+import { ComponentReference } from '../../component-util';
 export declare enum EditorType {
     text = "text",
     checkbox = "checkbox",
     range = "range",
     color = "color"
 }
-
 export interface CssPropertyMetadata {
     propertyName: string;
     displayName: string;
@@ -18,7 +16,6 @@ export interface CssPropertyMetadata {
     icon?: string;
     checkedValue?: string;
 }
-
 export interface ComponentElementMetadata {
     selector: string;
     stateAttribute?: string;
@@ -27,7 +24,6 @@ export interface ComponentElementMetadata {
     description?: string;
     properties: CssPropertyMetadata[];
 }
-
 export interface ComponentMetadata {
     tagName: string;
     displayName: string;

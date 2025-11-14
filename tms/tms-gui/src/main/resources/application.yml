@@ -1,12 +1,12 @@
 spring:
   datasource:
-    username: ${TMS_DB_USERNAME}
-    url: ${TMS_DB_URL}
-    password: ${TMS_DB_PASSWORD}
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/tms
+    password: 1234
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: false
+    show-sql: true
     properties:
       hibernate.format_sql: true
   mail:
@@ -29,13 +29,7 @@ logging:
     root: info
     pu.master: debug
 
-jwt:
-  secret: f232@Gg2f32HJ*_56538fj2W@FJ@fmf9F@2ri92IT2tjf$@@fev
-
 application:
   admin:
-    username: ${TMS.ADMIN.USERNAME}
-    password: ${TMS.ADMIN.PASSWORD}
-
-vaadin:
-  launch-browser: true
+    username: admin
+    password: admin
