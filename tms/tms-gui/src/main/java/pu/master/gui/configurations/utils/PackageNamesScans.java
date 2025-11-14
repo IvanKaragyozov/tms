@@ -1,4 +1,4 @@
-package pu.master.gui.controllers.utils;
+package pu.master.gui.configurations.utils;
 
 
 public final class PackageNamesScans
