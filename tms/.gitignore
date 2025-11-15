@@ -1,0 +1,12 @@
+target
+tms.iml
+.idea
+../
+/tms-gui-proto/node_modules/
+/tms-gui-proto/package.json
+/tms-gui-proto/tsconfig.json
+/tms-gui-proto/types.d.ts
+/tms-gui-proto/vite.config.ts
+/tms-gui-proto/vite.generated.ts
+/tms-gui-proto/package-lock.json
+/tms-gui-proto/.flow-node-tasks.lock

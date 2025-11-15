@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.2</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>pu.master</groupId>
+    <artifactId>tms</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>tms-domain</module>
+        <module>tms-core</module>
+        <module>tms-gui</module>
+    </modules>
+
+    <properties>
+        <!-- Maven Properties -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <!-- Java version -->
+        <java.version>17</java.version>
+        <!-- Spring Security version -->
+        <spring-security-version>6.2.2</spring-security-version>
+        <!-- PostgreSQL version -->
+        <postgresql-version>42.7.3</postgresql-version>
+        <!-- Model Mapper version -->
+        <modelmapper-version>3.2.0</modelmapper-version>
+        <!-- JUnit version -->
+        <junit-version>5.10.2</junit-version>
+        <!-- Mockito Core version -->
+        <mockito-core-version>5.11.0</mockito-core-version>
+        <!-- Mockito JUnit-Jupiter version -->
+        <mockito-junitjupiter-version>5.11.0</mockito-junitjupiter-version>
+        <!-- Lombok version -->
+        <lombok-version>1.18.30</lombok-version>
+        <!-- Vaadin version -->
+        <vaadin-version>24.3.3</vaadin-version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Database driver-->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql-version}</version>
+            </dependency>
+
+            <!-- Model Mapper -->
+            <dependency>
+                <groupId>org.modelmapper</groupId>
+                <artifactId>modelmapper</artifactId>
+                <version>${modelmapper-version}</version>
+            </dependency>
+
+            <!-- Testing dependencies -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit-version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito-core-version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito-junitjupiter-version}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>
