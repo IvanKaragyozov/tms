@@ -110,6 +110,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Vaadin -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring</artifactId>
+            <version>${vaadin-version}</version>
+        </dependency>
+
 
     </dependencies>
 
