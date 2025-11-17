@@ -15,23 +15,25 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 
 import lombok.RequiredArgsConstructor;
+import pu.master.core.security.providers.LoginViewProvider;
 
 
 @RequiredArgsConstructor
 
 @Configuration
 @EnableWebSecurity
-// TODO: Enable security and create a dev profile
+// TODO: Create a dev profile
 public class WebSecurityConfig extends VaadinWebSecurity
 {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception
-    {
-        http.authorizeHttpRequests(auth -> auth.requestMatchers(AntPathRequestMatcher.antMatcher("/**")).permitAll())
-            .csrf(AbstractHttpConfigurer::disable);
+    private final LoginViewProvider loginViewProvider;
 
-        return http.build();
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        super.configure(http);
+
+        setLoginView(http, loginViewProvider.getLoginView());
     }
 
 

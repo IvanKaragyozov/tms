@@ -3,10 +3,15 @@ package pu.master.gui.views.login;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -14,13 +19,19 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import pu.master.domain.models.requests.LoginRequest;
 
-public class LoginDialog extends Dialog
+@AnonymousAllowed
+@Route(value = "/login")
+@PageTitle("Login | TMS")
+public class LoginView extends VerticalLayout
 {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoginDialog.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginView.class);
 
     private final LoginRequest loginRequest = new LoginRequest();
     private final BeanValidationBinder<LoginRequest> binder = new BeanValidationBinder<>(LoginRequest.class);
@@ -28,11 +39,14 @@ public class LoginDialog extends Dialog
     private final TextField username = new TextField("Username");
     private final PasswordField password = new PasswordField("Password");
 
+    private final AuthenticationManager authenticationManager;
 
-    public LoginDialog()
+
+    @Autowired
+    public LoginView(final AuthenticationManager authenticationManager)
     {
+        this.authenticationManager = authenticationManager;
         setWidth("400px");
-        setCloseOnEsc(true);
 
         username.setWidthFull();
         username.setErrorMessage("Username cannot be blank");
@@ -45,6 +59,7 @@ public class LoginDialog extends Dialog
 
         final Button loginButton = new Button("Login", VaadinIcon.SIGN_IN.create(), e -> handleLoginButtonClick());
         loginButton.addClickShortcut(Key.ENTER);
+        loginButton.setSizeFull();
 
         final VerticalLayout loginLayout = new VerticalLayout(username, password, loginButton);
         loginLayout.setWidthFull();
@@ -61,21 +76,28 @@ public class LoginDialog extends Dialog
         {
             binder.writeBean(loginRequest);
 
-            boolean loginSuccessful = true; // Replace with actual login logic
+            final Authentication authentication = authenticationManager.authenticate(
+                            new UsernamePasswordAuthenticationToken(
+                                            loginRequest.getUsername(),
+                                            loginRequest.getPassword()
+                            )
+            );
 
-            if (loginSuccessful)
+            if (authentication.isAuthenticated())
             {
+                SecurityContextHolder.getContext().setAuthentication(authentication);
                 Notification.show("Login successful");
-                this.close();
+                LOGGER.debug("User authenticated.");
             }
-            else
-            {
-                Notification.show("Login failed, please check your credentials.");
-            }
+
+        }
+        catch (final InternalAuthenticationServiceException e)
+        {
+            Notification.show("Incorrect username or password");
+            LOGGER.error("User tried to login with wrong credentials.");
         }
         catch (final ValidationException e)
         {
-            LOGGER.error("Validation exception occurred during login.", e);
             Notification.show("Please fix the errors in the form.");
         }
     }

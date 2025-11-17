@@ -14,7 +14,7 @@ import pu.master.gui.views.MainLayout;
 
 
 @AnonymousAllowed
-@PageTitle("Home")
+@PageTitle("Home | TMS")
 @Route(value = "/home", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 public class HomeView extends VerticalLayout

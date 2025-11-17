@@ -4,6 +4,7 @@ package pu.master.gui.views.registration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Anchor;
@@ -18,7 +19,6 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
 
 import pu.master.domain.models.requests.RegistrationRequest;
-import pu.master.gui.views.login.LoginDialog;
 
 
 public class RegistrationDialog extends Dialog
@@ -72,11 +72,11 @@ public class RegistrationDialog extends Dialog
 
         final Button registerButton = new Button("Register", e -> handleRegisterButtonClick());
 
-        Span instructionText = new Span("Already have an account? Click ");
-        Anchor loginLink = new Anchor("#", "here"); // Placeholder link
+        final Span instructionText = new Span("Already have an account? Click ");
+        final Anchor loginLink = new Anchor("#", "here"); // Placeholder link
         loginLink.getElement().addEventListener("click", e -> openLoginDialog());
         loginLink.getStyle().set("color", "blue"); // Make the "here" link blue
-        Div linkContainer = new Div(instructionText, loginLink);
+        final Div linkContainer = new Div(instructionText, loginLink);
         linkContainer.getStyle().set("color", "black"); // Make the rest of the text black
 
         final VerticalLayout dialogLayout = new VerticalLayout(
@@ -116,8 +116,7 @@ public class RegistrationDialog extends Dialog
 
     private void openLoginDialog()
     {
-        final LoginDialog loginDialog = new LoginDialog();
         this.close();
-        loginDialog.open();
+        UI.getCurrent().navigate("/login");
     }
 }
