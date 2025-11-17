@@ -5,10 +5,15 @@ import org.vaadin.lineawesome.LineAwesomeIcon;
 
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.avatar.Avatar;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
@@ -18,6 +23,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import pu.master.gui.views.home.HomeView;
+import pu.master.gui.views.registration.RegistrationDialog;
 
 
 /**
@@ -27,7 +33,9 @@ public class MainLayout extends AppLayout implements AfterNavigationObserver
 {
 
     private H1 viewTitle;
-    private SideNav nav;
+    private HorizontalLayout headerLayout;
+    private Avatar avatar;
+    private Button registerButton;
 
 
     public MainLayout()
@@ -46,7 +54,28 @@ public class MainLayout extends AppLayout implements AfterNavigationObserver
         viewTitle = new H1();
         viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
 
-        addToNavbar(true, toggle, viewTitle);
+        this.avatar = createAvatar();
+        this.registerButton = showRegisterButton();
+
+        headerLayout = new HorizontalLayout(toggle, viewTitle, avatar, registerButton);
+        headerLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        headerLayout.expand(viewTitle);
+        headerLayout.setWidthFull();
+        headerLayout.setSpacing(true);
+        headerLayout.getStyle().set("padding-right", "var(--lumo-space-m)");
+
+        addToNavbar(headerLayout);
+    }
+
+
+    // TODO: This is just a placeholder for "Profile" and "Logout". Add real avatars.
+    private Avatar createAvatar()
+    {
+        final Avatar avatar = new Avatar();
+        avatar.setName("?");
+        avatar.setAbbreviation("?");
+
+        return avatar;
     }
 
 
@@ -66,11 +95,25 @@ public class MainLayout extends AppLayout implements AfterNavigationObserver
 
     private SideNav createNavigation()
     {
-        this.nav = new SideNav();
+        final SideNav nav = new SideNav();
 
-        this.nav.addItem(new SideNavItem("Home", HomeView.class, LineAwesomeIcon.HOME_SOLID.create()));
+        nav.addItem(new SideNavItem("Home", HomeView.class, LineAwesomeIcon.HOME_SOLID.create()));
 
         return nav;
+    }
+
+
+    private Button showRegisterButton()
+    {
+        this.registerButton = new Button("Register", event -> openRegisterDialog());
+        return registerButton;
+    }
+
+
+    private void openRegisterDialog()
+    {
+        final RegistrationDialog registrationDialog = new RegistrationDialog();
+        registrationDialog.open();
     }
 
 

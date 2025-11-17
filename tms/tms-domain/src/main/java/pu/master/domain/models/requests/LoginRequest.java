@@ -3,7 +3,16 @@ package pu.master.domain.models.requests;
 
 import jakarta.validation.constraints.NotEmpty;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginRequest
 {
 
@@ -13,34 +22,4 @@ public class LoginRequest
     @NotEmpty(message = "Password cannot be empty")
     private String password;
 
-
-    public LoginRequest()
-    {
-    }
-
-
-    public String getUsername()
-    {
-        return username;
-    }
-
-
-    public LoginRequest setUsername(final String username)
-    {
-        this.username = username;
-        return this;
-    }
-
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-
-    public LoginRequest setPassword(final String password)
-    {
-        this.password = password;
-        return this;
-    }
 }
