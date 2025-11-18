@@ -14,7 +14,6 @@ import pu.master.gui.views.MainLayout;
 
 
 @AnonymousAllowed
-@PageTitle("Home | TMS")
 @Route(value = "/home", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 public class HomeView extends VerticalLayout
@@ -41,7 +40,7 @@ public class HomeView extends VerticalLayout
 
     private Image createHomeImage()
     {
-        final Image homeImage = new Image("images/home_page_img.jpg", "person completing tasks placeholder");
+        final Image homeImage = new Image("images/home_page_img.jpg", "Missing home image");
         homeImage.setHeight(60, Unit.PERCENTAGE);
         homeImage.setWidth(40, Unit.PERCENTAGE);
 

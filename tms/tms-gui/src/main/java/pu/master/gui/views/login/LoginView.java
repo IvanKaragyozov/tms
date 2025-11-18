@@ -12,11 +12,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -65,18 +66,42 @@ public class LoginView extends VerticalLayout
         final Button loginButton = new Button("Login", VaadinIcon.SIGN_IN.create(), e -> handleLoginButtonClick());
         loginButton.addClickShortcut(Key.ENTER);
 
+        final Div linkContainer = createRegisterHereLink();
+
         final H1 loginTitle = new H1("Task Management System");
         loginTitle.getStyle().set("text-align", "center");
 
-        final VerticalLayout form = new VerticalLayout(loginTitle, username, password, loginButton);
-        form.setWidthFull();
-        form.setPadding(true);
-        form.setSpacing(true);
-        form.setAlignItems(FlexComponent.Alignment.STRETCH);
+        final VerticalLayout form = createLoginForm(loginTitle, loginButton, linkContainer);
 
         final Div card = createLoginFormStyle();
         card.add(form);
         add(card);
+    }
+
+
+    private VerticalLayout createLoginForm(final H1 loginTitle, final Button loginButton, final Div linkContainer)
+    {
+        final VerticalLayout form = new VerticalLayout(loginTitle, username, password, loginButton, linkContainer);
+        form.setWidthFull();
+        form.setPadding(true);
+        form.setSpacing(true);
+        form.setAlignItems(Alignment.STRETCH);
+
+        return form;
+    }
+
+
+    private static Div createRegisterHereLink()
+    {
+        final Span registerInstruction = new Span("Don't have an account? Register ");
+        final Anchor registerLink = new Anchor("/register", "here");
+        registerLink.getStyle().set("color", "blue");
+        registerLink.add(registerInstruction);
+
+        final Div linkContainer = new Div(registerInstruction, registerLink);
+        linkContainer.getStyle().set("color", "black");
+
+        return linkContainer;
     }
 
 
@@ -97,7 +122,7 @@ public class LoginView extends VerticalLayout
 
     private void createBackgroundImage()
     {
-        super.getStyle().set("background-image", "url('images/tms_login_background.jpg')")
+        super.getStyle().set("background-image", "url('images/tms_login_background.png')")
              .set("background-size", "cover")
              .set("background-position", "center")
              .set("background-repeat", "no-repeat");

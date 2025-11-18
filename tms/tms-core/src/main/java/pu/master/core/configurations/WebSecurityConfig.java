@@ -35,7 +35,8 @@ public class WebSecurityConfig extends VaadinWebSecurity
                                         new AntPathRequestMatcher("/icons/**"),
                                         new AntPathRequestMatcher("/css/**"),
                                         new AntPathRequestMatcher("/js/**"),
-                                        new AntPathRequestMatcher("/webjars/**")
+                                        new AntPathRequestMatcher("/webjars/**"),
+                                        new AntPathRequestMatcher("/line-awesome/**")
                         ).permitAll()
         );
 
