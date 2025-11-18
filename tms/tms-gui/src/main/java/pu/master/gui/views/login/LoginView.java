@@ -12,8 +12,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -46,27 +49,58 @@ public class LoginView extends VerticalLayout
     public LoginView(final AuthenticationManager authenticationManager)
     {
         this.authenticationManager = authenticationManager;
-        setWidth("400px");
+
+        setSizeFull();
+        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
+
+        createBackgroundImage();
 
         username.setWidthFull();
-        username.setErrorMessage("Username cannot be blank");
-
         password.setWidthFull();
-        password.setErrorMessage("Password cannot be blank");
 
-        binder.setBean(loginRequest);
         binder.bindInstanceFields(this);
+        binder.setBean(loginRequest);
 
         final Button loginButton = new Button("Login", VaadinIcon.SIGN_IN.create(), e -> handleLoginButtonClick());
         loginButton.addClickShortcut(Key.ENTER);
-        loginButton.setSizeFull();
 
-        final VerticalLayout loginLayout = new VerticalLayout(username, password, loginButton);
-        loginLayout.setWidthFull();
-        loginLayout.setPadding(true);
-        loginLayout.setSpacing(true);
+        final H1 loginTitle = new H1("Task Management System");
+        loginTitle.getStyle().set("text-align", "center");
 
-        super.add(loginLayout);
+        final VerticalLayout form = new VerticalLayout(loginTitle, username, password, loginButton);
+        form.setWidthFull();
+        form.setPadding(true);
+        form.setSpacing(true);
+        form.setAlignItems(FlexComponent.Alignment.STRETCH);
+
+        final Div card = createLoginFormStyle();
+        card.add(form);
+        add(card);
+    }
+
+
+    private Div createLoginFormStyle()
+    {
+        final Div div = new Div();
+        div.getStyle()
+            .set("padding", "2rem")
+            .set("border-radius", "16px")
+            .set("background", "rgba(255,255,255,0.85)")
+            .set("box-shadow", "0 8px 24px rgba(0,0,0,0.15)")
+            .set("backdrop-filter", "blur(5px)")
+            .set("width", "380px");
+
+        return div;
+    }
+
+
+    private void createBackgroundImage()
+    {
+        super.getStyle().set("background-image", "url('images/tms_login_background.jpg')")
+             .set("background-size", "cover")
+             .set("background-position", "center")
+             .set("background-repeat", "no-repeat");
     }
 
 
