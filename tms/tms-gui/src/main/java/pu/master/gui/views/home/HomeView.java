@@ -11,10 +11,11 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
 import pu.master.gui.views.MainLayout;
+import pu.master.gui.views.utils.Routes;
 
 
 @PermitAll
-@Route(value = "/home", layout = MainLayout.class)
+@Route(value = Routes.HOME, layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 public class HomeView extends VerticalLayout
 {

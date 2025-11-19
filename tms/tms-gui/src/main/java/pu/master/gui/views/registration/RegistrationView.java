@@ -26,6 +26,8 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import pu.master.core.services.UserService;
 import pu.master.domain.models.requests.RegistrationRequest;
+import pu.master.gui.views.login.LoginView;
+import pu.master.gui.views.utils.Routes;
 
 
 @AnonymousAllowed
@@ -189,7 +191,7 @@ public class RegistrationView extends VerticalLayout
             this.userService.registerUser(registrationRequest);
             Notification.show("Registration successful! Please login.");
 
-            getUI().ifPresent(ui -> ui.navigate("/login"));
+            getUI().ifPresent(ui -> ui.navigate(Routes.LOGIN));
         }
         catch (final ValidationException ex)
         {

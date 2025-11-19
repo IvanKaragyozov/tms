@@ -29,9 +29,11 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import pu.master.domain.models.requests.LoginRequest;
+import pu.master.gui.views.utils.Routes;
+
 
 @AnonymousAllowed
-@Route(value = "/login")
+@Route(value = Routes.LOGIN)
 @PageTitle("Login | TMS")
 public class LoginView extends VerticalLayout
 {
@@ -100,7 +102,7 @@ public class LoginView extends VerticalLayout
     private static Div createRegisterHereLink()
     {
         final Span registerInstruction = new Span("Don't have an account? Register ");
-        final Anchor registerLink = new Anchor("/register", "here");
+        final Anchor registerLink = new Anchor(Routes.REGISTER, "here");
         registerLink.getStyle().set("color", "blue");
         registerLink.add(registerInstruction);
 
@@ -153,7 +155,7 @@ public class LoginView extends VerticalLayout
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 Notification.show("Login successful");
                 LOGGER.debug("User authenticated.");
-                getUI().ifPresent(ui -> ui.navigate("/home"));
+                getUI().ifPresent(ui -> ui.navigate(Routes.HOME));
             }
 
         }
