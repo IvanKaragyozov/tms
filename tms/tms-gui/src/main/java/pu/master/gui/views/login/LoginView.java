@@ -59,7 +59,7 @@ public class LoginView extends VerticalLayout
         createBackgroundImage();
         configureLoginRequest();
 
-        final Button loginButton = new Button("Login", VaadinIcon.SIGN_IN.create(), e -> handleLoginButtonClick());
+        final Button loginButton = new Button("Login", VaadinIcon.SIGN_IN.create(), e ->   handleLoginButtonClick());
         loginButton.addClickShortcut(Key.ENTER);
 
         final Div linkContainer = createRegisterHereLink();
