@@ -18,10 +18,13 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.data.validator.EmailValidator;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
+import pu.master.core.services.UserService;
 import pu.master.domain.models.requests.RegistrationRequest;
 
 
@@ -32,6 +35,8 @@ public class RegistrationView extends VerticalLayout
 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationView.class);
+
+    private final UserService userService;
 
     private final RegistrationRequest registrationRequest = new RegistrationRequest();
     private final BeanValidationBinder<RegistrationRequest> binder =
@@ -45,25 +50,20 @@ public class RegistrationView extends VerticalLayout
     private final TextField phoneNumber = new TextField("Phone Number");
 
 
-    public RegistrationView()
+    public RegistrationView(final UserService userService)
     {
+        this.userService = userService;
+
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         createBackgroundImage();
+        configureRegistrationRequest();
 
-        username.setWidthFull();
-        password.setWidthFull();
-        email.setWidthFull();
-        firstName.setWidthFull();
-        lastName.setWidthFull();
-        phoneNumber.setWidthFull();
-
-        binder.bindInstanceFields(this);
-        binder.setBean(registrationRequest);
-
-        final Button registerButton = new Button("Register", VaadinIcon.SIGN_IN_ALT.create(), e -> handleRegisterButtonClick());
+        final Button registerButton = new Button("Register",
+                                                 VaadinIcon.SIGN_IN_ALT.create(),
+                                                 e -> handleRegisterButtonClick());
         registerButton.addClickShortcut(Key.ENTER);
 
         final Div linkContainer = createLoginHereLink();
@@ -77,6 +77,49 @@ public class RegistrationView extends VerticalLayout
         card.add(form);
 
         add(card);
+    }
+
+
+    private void configureRegistrationRequest()
+    {
+        username.setWidthFull();
+        password.setWidthFull();
+        email.setWidthFull();
+        firstName.setWidthFull();
+        lastName.setWidthFull();
+        phoneNumber.setWidthFull();
+
+        binder.forField(username)
+              .asRequired("Username is mandatory")
+              .withValidator(value -> !userService.usernameExists(value), "Username already exists")
+              .bind(RegistrationRequest::getUsername, RegistrationRequest::setUsername);
+
+        binder.forField(password)
+              .asRequired("Password is mandatory")
+              .bind(RegistrationRequest::getPassword, RegistrationRequest::setPassword);
+
+        binder.forField(email)
+              .asRequired("Email is mandatory")
+              .withValidator(new EmailValidator("Invalid email address. Example: john.doe@example.com"))
+              .withValidator(value -> !userService.emailExists(value), "Email already exists")
+              .bind(RegistrationRequest::getEmail, RegistrationRequest::setEmail);
+
+        binder.forField(firstName)
+              .bind(RegistrationRequest::getFirstName, RegistrationRequest::setFirstName);
+
+        binder.forField(lastName)
+              .bind(RegistrationRequest::getLastName, RegistrationRequest::setLastName);
+
+        binder.forField(phoneNumber)
+              .withValidator(value -> !userService.phoneExists(value), "Phone number already exists")
+              .bind(RegistrationRequest::getPhoneNumber, RegistrationRequest::setPhoneNumber);
+
+        username.setValueChangeMode(ValueChangeMode.EAGER);
+        password.setValueChangeMode(ValueChangeMode.EAGER);
+        email.setValueChangeMode(ValueChangeMode.EAGER);
+        phoneNumber.setValueChangeMode(ValueChangeMode.EAGER);
+
+        binder.setBean(registrationRequest);
     }
 
 
@@ -143,14 +186,14 @@ public class RegistrationView extends VerticalLayout
         {
             binder.writeBean(registrationRequest);
 
-            // TODO: Add actual registration logic
-            Notification.show("Registration successful!");
+            this.userService.registerUser(registrationRequest);
+            Notification.show("Registration successful! Please login.");
 
-            getUI().ifPresent(ui -> ui.navigate("/home"));
+            getUI().ifPresent(ui -> ui.navigate("/login"));
         }
         catch (final ValidationException ex)
         {
-            LOGGER.error("Validation issue during registration", ex);
+            LOGGER.warn("Validation issue during registration", ex);
             Notification.show("Please fix the errors in the form.");
         }
     }

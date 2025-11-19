@@ -1,19 +1,19 @@
 package pu.master.gui.views.home;
 
 
+import jakarta.annotation.security.PermitAll;
+
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import pu.master.gui.views.MainLayout;
 
 
-@AnonymousAllowed
+@PermitAll
 @Route(value = "/home", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 public class HomeView extends VerticalLayout

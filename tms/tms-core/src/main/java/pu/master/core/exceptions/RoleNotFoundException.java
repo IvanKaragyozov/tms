@@ -1,7 +1,7 @@
 package pu.master.core.exceptions;
 
 
-public class RoleNotFoundException extends RuntimeException
+public class RoleNotFoundException extends TMSValidationException
 {
 
     public RoleNotFoundException()

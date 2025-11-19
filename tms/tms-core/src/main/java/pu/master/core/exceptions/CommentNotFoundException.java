@@ -1,7 +1,7 @@
 package pu.master.core.exceptions;
 
 
-public class CommentNotFoundException extends RuntimeException
+public class CommentNotFoundException extends TMSRuntimeException
 {
 
     public CommentNotFoundException()

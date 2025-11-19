@@ -1,7 +1,7 @@
 package pu.master.core.exceptions;
 
 
-public class RoleNameAlreadyExistsException extends RuntimeException
+public class RoleNameAlreadyExistsException extends TMSValidationException
 {
 
     public RoleNameAlreadyExistsException()

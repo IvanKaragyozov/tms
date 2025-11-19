@@ -1,7 +1,7 @@
 package pu.master.core.exceptions;
 
 
-public class UserNotFoundException extends RuntimeException
+public class UserNotFoundException extends TMSRuntimeException
 {
     public UserNotFoundException()
     {

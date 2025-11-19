@@ -1,7 +1,7 @@
 package pu.master.core.exceptions;
 
 
-public class EmailAlreadyExistsException extends RuntimeException
+public class EmailAlreadyExistsException extends TMSValidationException
 {
 
     public EmailAlreadyExistsException()

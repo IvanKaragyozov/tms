@@ -1,7 +1,7 @@
 package pu.master.core.exceptions;
 
 
-public class ProjectNotFoundException extends RuntimeException
+public class ProjectNotFoundException extends TMSRuntimeException
 {
     public ProjectNotFoundException()
     {

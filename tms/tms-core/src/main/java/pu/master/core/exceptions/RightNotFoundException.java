@@ -1,7 +1,7 @@
 package pu.master.core.exceptions;
 
 
-public class RightNotFoundException extends RuntimeException
+public class RightNotFoundException extends TMSRuntimeException
 {
 
     public RightNotFoundException()

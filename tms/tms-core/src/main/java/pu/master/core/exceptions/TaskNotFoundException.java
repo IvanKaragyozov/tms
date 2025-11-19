@@ -1,7 +1,7 @@
 package pu.master.core.exceptions;
 
 
-public class TaskNotFoundException extends RuntimeException
+public class TaskNotFoundException extends TMSRuntimeException
 {
 
     public TaskNotFoundException()

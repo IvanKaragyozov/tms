@@ -1,7 +1,7 @@
 package pu.master.core.exceptions;
 
 
-public class ForbiddenActionException extends RuntimeException
+public class ForbiddenActionException extends TMSRuntimeException
 {
 
     public ForbiddenActionException()

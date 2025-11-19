@@ -150,6 +150,27 @@ public class UserService
     }
 
 
+    public boolean usernameExists(final String username)
+    {
+        return userRepository.existsByUsername(username);
+    }
+
+
+    public boolean emailExists(final String email)
+    {
+        return userRepository.existsByEmail(email);
+    }
+
+    public boolean phoneExists(final String phoneNumber)
+    {
+        if (phoneNumber.isEmpty())
+        {
+            return false;
+        }
+        return userRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+
     private Role getDefaultUserRole()
     {
         return this.roleService.getRoleByName(RoleNames.USER.name());

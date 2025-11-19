@@ -1,7 +1,7 @@
 package pu.master.core.exceptions;
 
 
-public class RightNameAlreadyExistsException extends RuntimeException
+public class RightNameAlreadyExistsException extends TMSValidationException
 {
 
     public RightNameAlreadyExistsException()

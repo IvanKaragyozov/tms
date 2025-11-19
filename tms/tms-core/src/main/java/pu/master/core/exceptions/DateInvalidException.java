@@ -1,7 +1,7 @@
 package pu.master.core.exceptions;
 
 
-public class DateInvalidException extends RuntimeException
+public class DateInvalidException extends TMSValidationException
 {
     public DateInvalidException()
     {

@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -56,12 +57,7 @@ public class LoginView extends VerticalLayout
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         createBackgroundImage();
-
-        username.setWidthFull();
-        password.setWidthFull();
-
-        binder.bindInstanceFields(this);
-        binder.setBean(loginRequest);
+        configureLoginRequest();
 
         final Button loginButton = new Button("Login", VaadinIcon.SIGN_IN.create(), e -> handleLoginButtonClick());
         loginButton.addClickShortcut(Key.ENTER);
@@ -76,6 +72,16 @@ public class LoginView extends VerticalLayout
         final Div card = createLoginFormStyle();
         card.add(form);
         add(card);
+    }
+
+
+    private void configureLoginRequest()
+    {
+        username.setWidthFull();
+        password.setWidthFull();
+
+        binder.bindInstanceFields(this);
+        binder.setBean(loginRequest);
     }
 
 
@@ -147,10 +153,11 @@ public class LoginView extends VerticalLayout
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 Notification.show("Login successful");
                 LOGGER.debug("User authenticated.");
+                getUI().ifPresent(ui -> ui.navigate("/home"));
             }
 
         }
-        catch (final InternalAuthenticationServiceException e)
+        catch (final InternalAuthenticationServiceException | BadCredentialsException e)
         {
             Notification.show("Incorrect username or password");
             LOGGER.error("User tried to login with wrong credentials.");

@@ -1,7 +1,7 @@
 package pu.master.core.exceptions;
 
 
-public class UsernameAlreadyExistsException extends RuntimeException
+public class UsernameAlreadyExistsException extends TMSValidationException
 {
 
     public UsernameAlreadyExistsException()

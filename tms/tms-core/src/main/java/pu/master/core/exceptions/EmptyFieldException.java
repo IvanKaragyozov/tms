@@ -1,7 +1,7 @@
 package pu.master.core.exceptions;
 
 
-public class EmptyFieldException extends RuntimeException
+public class EmptyFieldException extends TMSValidationException
 {
     public EmptyFieldException()
     {
