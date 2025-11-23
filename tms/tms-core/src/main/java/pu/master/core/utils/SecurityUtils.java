@@ -6,14 +6,17 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import com.vaadin.flow.spring.security.AuthenticationContext;
 
 import lombok.RequiredArgsConstructor;
 
 import pu.master.core.exceptions.UserNotFoundException;
 import pu.master.core.repositories.UserRepository;
-import pu.master.core.utils.constants.RoleNames;
+import pu.master.core.utils.constants.TMSRole;
 import pu.master.domain.models.entities.Role;
 import pu.master.domain.models.entities.User;
 
@@ -24,6 +27,8 @@ public class SecurityUtils
 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityUtils.class);
+
+    private final AuthenticationContext authenticationContext;
 
     private final UserRepository userRepository;
 
@@ -37,14 +42,17 @@ public class SecurityUtils
      */
     public User getCurrentLoggedInUser()
     {
-        final String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        final Optional<User> potentialLoggedInUser = this.userRepository.findUserByUsername(currentUsername);
-        LOGGER.debug("Retrieving current logged in user with username: [{}]", currentUsername);
-
-        return potentialLoggedInUser.orElseThrow(() -> {
-            LOGGER.error(String.format("Could not find current logged-in user with username [%s]", currentUsername));
-            return new UserNotFoundException(String.format("User with username [%s] not found", currentUsername));
-        });
+        return authenticationContext.getAuthenticatedUser(UserDetails.class)
+                                    .map(user -> this.userRepository.findUserByUsername(user.getUsername()))
+                                    .orElseThrow(() -> {
+                                        LOGGER.error("Could not find current logged-in user by username");
+                                        return new UserNotFoundException(
+                                                        "Could not find current logged-in user by username");
+                                    })
+                                    .orElseThrow(() -> {
+                                        LOGGER.error("Could not find current authenticated user");
+                                        return new UserNotFoundException("Could not find current authenticated user");
+                                    });
     }
 
 
@@ -58,7 +66,7 @@ public class SecurityUtils
         final User currentUser = getCurrentLoggedInUser();
         return currentUser.getRoles().stream()
                           .map(Role::getName)
-                          .anyMatch(roleName -> roleName.equals(RoleNames.ADMIN.name()));
+                          .anyMatch(roleName -> roleName.equals(TMSRole.ADMIN.getRoleName()));
     }
 
 
@@ -67,7 +75,7 @@ public class SecurityUtils
      */
     public void logout()
     {
-        SecurityContextHolder.getContext().setAuthentication(null);
+        this.authenticationContext.logout();
     }
 
 

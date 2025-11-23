@@ -10,6 +10,7 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -26,6 +27,8 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinServletRequest;
+import com.vaadin.flow.server.VaadinServletResponse;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import pu.master.domain.models.requests.LoginRequest;
@@ -61,7 +64,7 @@ public class LoginView extends VerticalLayout
         createBackgroundImage();
         configureLoginRequest();
 
-        final Button loginButton = new Button("Login", VaadinIcon.SIGN_IN.create(), e ->   handleLoginButtonClick());
+        final Button loginButton = new Button("Login", VaadinIcon.SIGN_IN.create(), e -> handleLoginButtonClick());
         loginButton.addClickShortcut(Key.ENTER);
 
         final Div linkContainer = createRegisterHereLink();
@@ -117,12 +120,12 @@ public class LoginView extends VerticalLayout
     {
         final Div div = new Div();
         div.getStyle()
-            .set("padding", "2rem")
-            .set("border-radius", "16px")
-            .set("background", "rgba(255,255,255,0.85)")
-            .set("box-shadow", "0 8px 24px rgba(0,0,0,0.15)")
-            .set("backdrop-filter", "blur(5px)")
-            .set("width", "380px");
+           .set("padding", "2rem")
+           .set("border-radius", "16px")
+           .set("background", "rgba(255,255,255,0.85)")
+           .set("box-shadow", "0 8px 24px rgba(0,0,0,0.15)")
+           .set("backdrop-filter", "blur(5px)")
+           .set("width", "380px");
 
         return div;
     }
@@ -153,6 +156,12 @@ public class LoginView extends VerticalLayout
             if (authentication.isAuthenticated())
             {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                final HttpSessionSecurityContextRepository repo = new HttpSessionSecurityContextRepository();
+                repo.saveContext(SecurityContextHolder.getContext(),
+                                 VaadinServletRequest.getCurrent().getHttpServletRequest(),
+                                 VaadinServletResponse.getCurrent().getHttpServletResponse());
+
                 Notification.show("Login successful");
                 LOGGER.debug("User authenticated.");
                 getUI().ifPresent(ui -> ui.navigate(Routes.HOME));

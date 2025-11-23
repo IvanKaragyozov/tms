@@ -13,7 +13,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class UserDto extends BaseDto
+// Rename to ProfileUIBean and don't inherit BaseDto
+public class UserUIBean extends BaseDto
 {
 
     private String username;
@@ -31,9 +32,5 @@ public class UserDto extends BaseDto
     private LocalDate dateCreatedAt;
 
     private LocalDate dateLastModifiedAt;
-
-    private List<TaskDto> tasks;
-
-    private Set<RoleDto> roles;
 
 }

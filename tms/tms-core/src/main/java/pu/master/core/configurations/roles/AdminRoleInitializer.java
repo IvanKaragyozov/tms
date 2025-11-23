@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import pu.master.core.repositories.RightRepository;
 import pu.master.core.repositories.RoleRepository;
-import pu.master.core.utils.constants.RoleNames;
+import pu.master.core.utils.constants.TMSRole;
 import pu.master.domain.models.entities.Right;
 import pu.master.domain.models.entities.Role;
 
@@ -36,7 +36,7 @@ class AdminRoleInitializer extends BaseRoleInitializer
     @PostConstruct
     void createAdminRole()
     {
-        final String adminRoleName = RoleNames.ADMIN.name();
+        final String adminRoleName = TMSRole.ADMIN.name();
         final Set<Right> adminRights = RoleInitializerUtils.ADMIN_RIGHTS;
 
         final Role adminRole = super.createRoleIfNotExists(adminRoleName, adminRights);

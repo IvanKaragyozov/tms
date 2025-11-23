@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
@@ -30,15 +31,17 @@ public class WebSecurityConfig extends VaadinWebSecurity
     protected void configure(final HttpSecurity http) throws Exception
     {
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                        new AntPathRequestMatcher("/images/**"),
-                                        new AntPathRequestMatcher("/icons/**"),
-                                        new AntPathRequestMatcher("/css/**"),
-                                        new AntPathRequestMatcher("/js/**"),
-                                        new AntPathRequestMatcher("/webjars/**"),
-                                        new AntPathRequestMatcher("/line-awesome/**")
-                        ).permitAll()
-        );
+                            .requestMatchers(
+                                            new AntPathRequestMatcher("/images/**"),
+                                            new AntPathRequestMatcher("/icons/**"),
+                                            new AntPathRequestMatcher("/css/**"),
+                                            new AntPathRequestMatcher("/js/**"),
+                                            new AntPathRequestMatcher("/webjars/**"),
+                                            new AntPathRequestMatcher("/line-awesome/**")
+                            ).permitAll()
+            )
+            .securityContext(context -> context.securityContextRepository(new HttpSessionSecurityContextRepository()))
+            .sessionManagement(session -> session.sessionFixation().migrateSession());
 
         super.configure(http);
 
