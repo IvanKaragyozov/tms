@@ -1,9 +1,7 @@
-package pu.master.domain.models.dtos;
+package pu.master.domain.models.uibeans;
 
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-// Rename to ProfileUIBean and don't inherit BaseDto
-public class UserUIBean extends BaseDto
+public class ProfileUIBean
 {
 
     private String username;

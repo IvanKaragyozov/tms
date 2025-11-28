@@ -28,6 +28,8 @@
         <maven.compiler.target>17</maven.compiler.target>
         <!-- Java version -->
         <java.version>17</java.version>
+        <!-- Vaadin version -->
+        <vaadin-version>24.3.3</vaadin-version>
         <!-- Spring Security version -->
         <spring-security-version>6.2.2</spring-security-version>
         <!-- PostgreSQL version -->
@@ -42,8 +44,6 @@
         <mockito-junitjupiter-version>5.11.0</mockito-junitjupiter-version>
         <!-- Lombok version -->
         <lombok-version>1.18.30</lombok-version>
-        <!-- Vaadin version -->
-        <vaadin-version>24.3.3</vaadin-version>
     </properties>
 
     <dependencyManagement>

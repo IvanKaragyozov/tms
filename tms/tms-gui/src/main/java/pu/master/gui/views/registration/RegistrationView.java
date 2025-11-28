@@ -16,7 +16,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -26,12 +26,11 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import pu.master.core.services.UserService;
 import pu.master.domain.models.requests.RegistrationRequest;
-import pu.master.gui.views.login.LoginView;
 import pu.master.gui.views.utils.Routes;
 
 
 @AnonymousAllowed
-@Route(value = "/register")
+@Route(value = Routes.REGISTER)
 @PageTitle("Register | TMS")
 public class RegistrationView extends VerticalLayout
 {
@@ -41,8 +40,7 @@ public class RegistrationView extends VerticalLayout
     private final UserService userService;
 
     private final RegistrationRequest registrationRequest = new RegistrationRequest();
-    private final BeanValidationBinder<RegistrationRequest> binder =
-                    new BeanValidationBinder<>(RegistrationRequest.class);
+    private final Binder<RegistrationRequest> binder = new Binder<>(RegistrationRequest.class);
 
     private final TextField username = new TextField("Username");
     private final PasswordField password = new PasswordField("Password");
@@ -93,7 +91,7 @@ public class RegistrationView extends VerticalLayout
 
         binder.forField(username)
               .asRequired("Username is mandatory")
-              .withValidator(value -> !userService.usernameExists(value), "Username already exists")
+              .withValidator(value -> !userService.usernameExists(value), "Username already in use")
               .bind(RegistrationRequest::getUsername, RegistrationRequest::setUsername);
 
         binder.forField(password)
@@ -103,7 +101,7 @@ public class RegistrationView extends VerticalLayout
         binder.forField(email)
               .asRequired("Email is mandatory")
               .withValidator(new EmailValidator("Invalid email address. Example: john.doe@example.com"))
-              .withValidator(value -> !userService.emailExists(value), "Email already exists")
+              .withValidator(value -> !userService.emailExists(value), "Email already in use")
               .bind(RegistrationRequest::getEmail, RegistrationRequest::setEmail);
 
         binder.forField(firstName)
@@ -113,7 +111,7 @@ public class RegistrationView extends VerticalLayout
               .bind(RegistrationRequest::getLastName, RegistrationRequest::setLastName);
 
         binder.forField(phoneNumber)
-              .withValidator(value -> !userService.phoneExists(value), "Phone number already exists")
+              .withValidator(value -> !userService.phoneExists(value), "Phone number already in use")
               .bind(RegistrationRequest::getPhoneNumber, RegistrationRequest::setPhoneNumber);
 
         username.setValueChangeMode(ValueChangeMode.EAGER);

@@ -2,7 +2,6 @@ package pu.master.core.services;
 
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -14,9 +13,9 @@ import pu.master.core.exceptions.UserNotFoundException;
 import pu.master.core.mappers.UserMapper;
 import pu.master.core.repositories.UserRepository;
 import pu.master.core.utils.SecurityUtils;
-import pu.master.core.utils.constants.RoleNames;
+import pu.master.core.utils.constants.TMSRole;
 import pu.master.core.validators.UserValidator;
-import pu.master.domain.models.dtos.UserDto;
+import pu.master.domain.models.uibeans.ProfileUIBean;
 import pu.master.domain.models.entities.Role;
 import pu.master.domain.models.entities.User;
 import pu.master.domain.models.requests.RegistrationRequest;
@@ -95,12 +94,10 @@ public class UserService
     }
 
 
-    public List<UserDto> getAllUserDtos()
+    public ProfileUIBean getCurrentLoggedInUserUIBean()
     {
-        final List<User> allUsers = this.userRepository.findAll();
-        return allUsers.stream()
-                       .map(this.userMapper::mapUserToDto)
-                       .toList();
+        final User currentuser = securityUtils.getCurrentLoggedInUser();
+        return this.userMapper.mapUserToUIBean(currentuser);
     }
 
 
@@ -111,14 +108,6 @@ public class UserService
             LOGGER.error(String.format("Could not find user with id [%d]", userId));
             return new UserNotFoundException(String.format("User with id [%d] not found", userId));
         });
-    }
-
-
-    public UserDto getUserDtoById(final long userId)
-    {
-        final User user = getUserById(userId);
-
-        return this.userMapper.mapUserToDto(user);
     }
 
 
@@ -142,11 +131,11 @@ public class UserService
     }
 
 
-    public UserDto getUserDtoByUsername(final String username)
+    public ProfileUIBean getUserUIBeanByUsername(final String username)
     {
         final User user = getUserByUsername(username);
 
-        return this.userMapper.mapUserToDto(user);
+        return this.userMapper.mapUserToUIBean(user);
     }
 
 
@@ -173,12 +162,27 @@ public class UserService
 
     private Role getDefaultUserRole()
     {
-        return this.roleService.getRoleByName(RoleNames.USER.name());
+        return this.roleService.getRoleByName(TMSRole.USER.getRoleName());
     }
 
 
     private Role getAdminRole()
     {
-        return this.roleService.getRoleByName(RoleNames.ADMIN.name());
+        return this.roleService.getRoleByName(TMSRole.ADMIN.getRoleName());
+    }
+
+    public ProfileUIBean updateUserProfile(final ProfileUIBean userToUpdate)
+    {
+        final boolean isUserValid = this.userValidator.validateProfileUIBean(userToUpdate);
+        if (isUserValid)
+        {
+            final User mappedUser = this.userMapper.mapUserUIBeanToUser(userToUpdate);
+            final User existingUser = getUserByUsername(userToUpdate.getUsername());
+            mappedUser.setId(existingUser.getId());
+            final User updatedUser = this.userRepository.save(existingUser);
+            return this.userMapper.mapUserToUIBean(updatedUser);
+        }
+
+        return null;
     }
 }

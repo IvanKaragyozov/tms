@@ -11,7 +11,6 @@ import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
@@ -22,20 +21,23 @@ import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
+import pu.master.core.services.UserService;
 import pu.master.core.utils.SecurityUtils;
 import pu.master.gui.views.home.HomeView;
-import pu.master.gui.views.login.LoginView;
+import pu.master.gui.views.utils.Routes;
 
 
 public class MainLayout extends AppLayout implements AfterNavigationObserver
 {
 
-    private H1 viewTitle;
+    private final H1 viewTitle = new H1();
+    private final UserService userService;
     private final SecurityUtils securityUtils;
 
 
-    public MainLayout(final SecurityUtils securityUtils)
+    public MainLayout(final UserService userService, final SecurityUtils securityUtils)
     {
+        this.userService = userService;
         this.securityUtils = securityUtils;
 
         setPrimarySection(Section.DRAWER);
@@ -49,7 +51,6 @@ public class MainLayout extends AppLayout implements AfterNavigationObserver
         final DrawerToggle toggle = new DrawerToggle();
         toggle.setAriaLabel("Menu toggle");
 
-        viewTitle = new H1();
         viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
 
         final Avatar avatar = createAvatar();
@@ -92,18 +93,22 @@ public class MainLayout extends AppLayout implements AfterNavigationObserver
     {
         final ContextMenu avatarMenu = new ContextMenu();
         avatarMenu.setOpenOnClick(true);
-        // TODO: Add profile view
-        avatarMenu.addItem("Profile", e -> Notification.show("Work in progress"));
+        avatarMenu.addItem("Profile", e -> handleProfile());
         avatarMenu.addItem("Logout", e -> handleLogout());
 
         return avatarMenu;
     }
 
 
+    private void handleProfile()
+    {
+        getUI().ifPresent(ui -> ui.navigate(Routes.PROFILE));
+    }
+
+
     private void handleLogout()
     {
         securityUtils.logout();
-        getUI().ifPresent(ui -> ui.navigate(LoginView.class));
     }
 
 
@@ -138,7 +143,7 @@ public class MainLayout extends AppLayout implements AfterNavigationObserver
 
 
     @Override
-    public void afterNavigation(AfterNavigationEvent event)
+    public void afterNavigation(final AfterNavigationEvent event)
     {
         viewTitle.setText(getCurrentPageTitle());
     }
