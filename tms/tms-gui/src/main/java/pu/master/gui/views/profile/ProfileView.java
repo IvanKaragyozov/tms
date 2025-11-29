@@ -21,7 +21,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AccessDeniedErrorRouter;
 
 import pu.master.core.services.UserService;
-import pu.master.domain.models.uibeans.ProfileUIBean;
+import pu.master.domain.models.uibeans.UserUIBean;
 import pu.master.gui.views.MainLayout;
 import pu.master.gui.views.utils.Routes;
 
@@ -35,7 +35,7 @@ public class ProfileView extends VerticalLayout
 
     private final UserService userService;
 
-    private final Binder<ProfileUIBean> binder = new Binder<>(ProfileUIBean.class);
+    private final Binder<UserUIBean> binder = new Binder<>(UserUIBean.class);
 
     private final TextField username = new TextField("Username");
     private final TextField firstName = new TextField("First Name");
@@ -43,13 +43,13 @@ public class ProfileView extends VerticalLayout
     private final EmailField email = new EmailField("Email");
     private final TextField phoneNumber = new TextField("Phone Number");
     private final TextField createdAt = new TextField("Created At");
-    private final TextField lastModifiedAt = new TextField("Last Modified At");
+    private final TextField lastChange = new TextField("Last Change");
 
     private final Button editButton = new Button("Edit", VaadinIcon.EDIT.create());
     private final Button saveButton = new Button("Save", VaadinIcon.CHECK.create());
     private final Button cancelButton = new Button("Cancel", VaadinIcon.CLOSE.create());
 
-    private ProfileUIBean currentUser;
+    private UserUIBean currentUser;
 
 
     @Autowired
@@ -61,7 +61,7 @@ public class ProfileView extends VerticalLayout
         setPadding(true);
         setSpacing(true);
 
-        fetchUser();
+        updateUser();
         configureFields();
         configureBinder();
         configureButtons();
@@ -72,9 +72,16 @@ public class ProfileView extends VerticalLayout
     }
 
 
-    private void fetchUser()
+    private void updateUser()
     {
         this.currentUser = userService.getCurrentLoggedInUserUIBean();
+        binder.setBean(currentUser);
+    }
+
+
+    private void updateUser(final UserUIBean userUIBean)
+    {
+        this.currentUser = userUIBean;
         binder.setBean(currentUser);
     }
 
@@ -95,22 +102,22 @@ public class ProfileView extends VerticalLayout
         createdAt.setReadOnly(true);
         createdAt.setValue(currentUser.getDateCreatedAt().toString());
 
-        lastModifiedAt.setReadOnly(true);
-        lastModifiedAt.setValue(currentUser.getDateCreatedAt().toString());
+        lastChange.setReadOnly(true);
+        lastChange.setValue(currentUser.getDateCreatedAt().toString());
     }
 
 
     private void configureBinder()
     {
         binder.forField(firstName)
-              .bind(ProfileUIBean::getFirstName, ProfileUIBean::setFirstName);
+              .bind(UserUIBean::getFirstName, UserUIBean::setFirstName);
 
         binder.forField(lastName)
-              .bind(ProfileUIBean::getLastName, ProfileUIBean::setLastName);
+              .bind(UserUIBean::getLastName, UserUIBean::setLastName);
 
         binder.forField(phoneNumber)
               .withValidator(value -> !userService.phoneExists(value), "Phone already in use")
-              .bind(ProfileUIBean::getPhoneNumber, ProfileUIBean::setPhoneNumber);
+              .bind(UserUIBean::getPhoneNumber, UserUIBean::setPhoneNumber);
     }
 
 
@@ -119,7 +126,7 @@ public class ProfileView extends VerticalLayout
         saveButton.addClickListener(e -> {
             if (binder.validate().isOk())
             {
-                userService.updateUserProfile(binder.getBean());
+                updateUser(userService.updateUserProfile(binder.getBean()));
                 Notification.show("Profile updated successfully");
                 setViewMode();
             }
@@ -145,7 +152,7 @@ public class ProfileView extends VerticalLayout
                         email,
                         phoneNumber,
                         createdAt,
-                        lastModifiedAt
+                        lastChange
         );
 
         form.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));

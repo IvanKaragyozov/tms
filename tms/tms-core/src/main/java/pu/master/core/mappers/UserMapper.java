@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import pu.master.domain.models.uibeans.ProfileUIBean;
+import pu.master.domain.models.uibeans.UserUIBean;
 import pu.master.domain.models.entities.User;
 import pu.master.domain.models.requests.RegistrationRequest;
 
@@ -34,14 +34,14 @@ public class UserMapper
     }
 
 
-    public ProfileUIBean mapUserToUIBean(final User user)
+    public UserUIBean mapUserToUIBean(final User user)
     {
         LOGGER.debug("Mapping User to UserUIBean");
-        return this.modelMapper.map(user, ProfileUIBean.class);
+        return this.modelMapper.map(user, UserUIBean.class);
     }
 
 
-    public User mapUserUIBeanToUser(final ProfileUIBean userUIBean)
+    public User mapUserUIBeanToUser(final UserUIBean userUIBean)
     {
         LOGGER.debug("Mapping UserUIBean to User");
         return this.modelMapper.map(userUIBean, User.class);

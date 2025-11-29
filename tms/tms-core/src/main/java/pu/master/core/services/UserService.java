@@ -15,7 +15,7 @@ import pu.master.core.repositories.UserRepository;
 import pu.master.core.utils.SecurityUtils;
 import pu.master.core.utils.constants.TMSRole;
 import pu.master.core.validators.UserValidator;
-import pu.master.domain.models.uibeans.ProfileUIBean;
+import pu.master.domain.models.uibeans.UserUIBean;
 import pu.master.domain.models.entities.Role;
 import pu.master.domain.models.entities.User;
 import pu.master.domain.models.requests.RegistrationRequest;
@@ -94,7 +94,7 @@ public class UserService
     }
 
 
-    public ProfileUIBean getCurrentLoggedInUserUIBean()
+    public UserUIBean getCurrentLoggedInUserUIBean()
     {
         final User currentuser = securityUtils.getCurrentLoggedInUser();
         return this.userMapper.mapUserToUIBean(currentuser);
@@ -131,7 +131,7 @@ public class UserService
     }
 
 
-    public ProfileUIBean getUserUIBeanByUsername(final String username)
+    public pu.master.domain.models.uibeans.UserUIBean getUserUIBeanByUsername(final String username)
     {
         final User user = getUserByUsername(username);
 
@@ -171,18 +171,18 @@ public class UserService
         return this.roleService.getRoleByName(TMSRole.ADMIN.getRoleName());
     }
 
-    public ProfileUIBean updateUserProfile(final ProfileUIBean userToUpdate)
+    public UserUIBean updateUserProfile(final UserUIBean userToUpdate)
     {
-        final boolean isUserValid = this.userValidator.validateProfileUIBean(userToUpdate);
-        if (isUserValid)
-        {
-            final User mappedUser = this.userMapper.mapUserUIBeanToUser(userToUpdate);
-            final User existingUser = getUserByUsername(userToUpdate.getUsername());
-            mappedUser.setId(existingUser.getId());
-            final User updatedUser = this.userRepository.save(existingUser);
-            return this.userMapper.mapUserToUIBean(updatedUser);
-        }
+        final User existingUser = getUserByUsername(userToUpdate.getUsername());
 
-        return null;
+        existingUser.setFirstName(userToUpdate.getFirstName());
+        existingUser.setLastName(userToUpdate.getLastName());
+        existingUser.setEmail(userToUpdate.getEmail());
+        existingUser.setPhoneNumber(userToUpdate.getPhoneNumber());
+        existingUser.setActive(userToUpdate.isActive());
+        existingUser.setDateLastModifiedAt(LocalDate.now());
+
+        final User saved = userRepository.save(existingUser);
+        return userMapper.mapUserToUIBean(saved);
     }
 }

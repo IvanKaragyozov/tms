@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class ProfileUIBean
+public class UserUIBean
 {
 
     private String username;

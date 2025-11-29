@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import pu.master.core.exceptions.EmailAlreadyExistsException;
 import pu.master.core.exceptions.UsernameAlreadyExistsException;
 import pu.master.core.repositories.UserRepository;
-import pu.master.domain.models.uibeans.ProfileUIBean;
 import pu.master.domain.models.requests.RegistrationRequest;
 
 
@@ -53,10 +52,4 @@ public class UserValidator
         return true;
     }
 
-
-    public boolean validateProfileUIBean(final ProfileUIBean user)
-    {
-        // TODO: Add validations
-        return true;
-    }
 }
