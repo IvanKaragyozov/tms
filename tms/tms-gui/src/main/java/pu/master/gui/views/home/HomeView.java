@@ -7,9 +7,11 @@ import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
+import pu.master.gui.views.ViewHeader;
 import pu.master.gui.views.MainLayout;
 import pu.master.gui.views.utils.Routes;
 
@@ -17,6 +19,8 @@ import pu.master.gui.views.utils.Routes;
 @PermitAll
 @Route(value = Routes.HOME, layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
+@PageTitle("Home | TMS")
+@ViewHeader("Home")
 public class HomeView extends VerticalLayout
 {
 

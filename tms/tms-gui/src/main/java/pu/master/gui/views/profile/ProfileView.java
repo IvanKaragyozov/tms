@@ -18,7 +18,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.auth.AccessDeniedErrorRouter;
 
 import pu.master.core.services.UserService;
 import pu.master.domain.models.uibeans.UserUIBean;
@@ -29,7 +28,6 @@ import pu.master.gui.views.utils.Routes;
 @PermitAll
 @Route(value = Routes.PROFILE, layout = MainLayout.class)
 @PageTitle("Profile | TMS")
-@AccessDeniedErrorRouter
 public class ProfileView extends VerticalLayout
 {
 

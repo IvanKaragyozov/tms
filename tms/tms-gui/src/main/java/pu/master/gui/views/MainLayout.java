@@ -18,10 +18,8 @@ import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
-import pu.master.core.services.UserService;
 import pu.master.core.utils.SecurityUtils;
 import pu.master.gui.views.home.HomeView;
 import pu.master.gui.views.utils.Routes;
@@ -31,13 +29,11 @@ public class MainLayout extends AppLayout implements AfterNavigationObserver
 {
 
     private final H1 viewTitle = new H1();
-    private final UserService userService;
     private final SecurityUtils securityUtils;
 
 
-    public MainLayout(final UserService userService, final SecurityUtils securityUtils)
+    public MainLayout(final SecurityUtils securityUtils)
     {
-        this.userService = userService;
         this.securityUtils = securityUtils;
 
         setPrimarySection(Section.DRAWER);
@@ -145,13 +141,13 @@ public class MainLayout extends AppLayout implements AfterNavigationObserver
     @Override
     public void afterNavigation(final AfterNavigationEvent event)
     {
-        viewTitle.setText(getCurrentPageTitle());
+        viewTitle.setText(getViewHeader());
     }
 
 
-    private String getCurrentPageTitle()
+    private String getViewHeader()
     {
-        final PageTitle title = getContent().getClass().getAnnotation(PageTitle.class);
-        return title == null ? "" : title.value();
+        final ViewHeader header = getContent().getClass().getAnnotation(ViewHeader.class);
+        return (header == null) ? "" : header.value();
     }
 }

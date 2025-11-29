@@ -26,12 +26,14 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import pu.master.core.services.UserService;
 import pu.master.domain.models.requests.RegistrationRequest;
+import pu.master.gui.views.ViewHeader;
 import pu.master.gui.views.utils.Routes;
 
 
 @AnonymousAllowed
 @Route(value = Routes.REGISTER)
 @PageTitle("Register | TMS")
+@ViewHeader("Register")
 public class RegistrationView extends VerticalLayout
 {
 
