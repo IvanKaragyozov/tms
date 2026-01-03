@@ -15,10 +15,10 @@ import pu.master.core.repositories.UserRepository;
 import pu.master.core.utils.SecurityUtils;
 import pu.master.core.utils.constants.TMSRole;
 import pu.master.core.validators.UserValidator;
-import pu.master.domain.models.uibeans.UserUIBean;
 import pu.master.domain.models.entities.Role;
 import pu.master.domain.models.entities.User;
 import pu.master.domain.models.requests.RegistrationRequest;
+import pu.master.domain.models.uibeans.UserUIBean;
 
 
 @RequiredArgsConstructor

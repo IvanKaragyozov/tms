@@ -20,6 +20,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import pu.master.core.services.UserService;
+import pu.master.core.services.formatters.TMSDateFormatter;
 import pu.master.domain.models.uibeans.UserUIBean;
 import pu.master.gui.views.MainLayout;
 import pu.master.gui.views.utils.Routes;
@@ -40,7 +41,7 @@ public class ProfileView extends VerticalLayout
     private final TextField lastName = new TextField("Last Name");
     private final EmailField email = new EmailField("Email");
     private final TextField phoneNumber = new TextField("Phone Number");
-    private final TextField createdAt = new TextField("Created At");
+    private final TextField createdAt = new TextField("Account Created");
     private final TextField lastChange = new TextField("Last Change");
 
     private final Button editButton = new Button("Edit", VaadinIcon.EDIT.create());
@@ -60,13 +61,13 @@ public class ProfileView extends VerticalLayout
         setSpacing(true);
 
         updateUser();
-        configureFields();
+        configureUserFields();
         configureBinder();
         configureButtons();
 
         add(buildLayout());
 
-        setViewMode();
+        setViewOnlyMode();
     }
 
 
@@ -84,7 +85,7 @@ public class ProfileView extends VerticalLayout
     }
 
 
-    private void configureFields()
+    private void configureUserFields()
     {
         username.setReadOnly(true);
         username.setValue(currentUser.getUsername());
@@ -98,10 +99,10 @@ public class ProfileView extends VerticalLayout
         phoneNumber.setValue(currentUser.getPhoneNumber());
 
         createdAt.setReadOnly(true);
-        createdAt.setValue(currentUser.getDateCreatedAt().toString());
+        createdAt.setValue(TMSDateFormatter.format(currentUser.getDateCreatedAt()));
 
         lastChange.setReadOnly(true);
-        lastChange.setValue(currentUser.getDateCreatedAt().toString());
+        lastChange.setValue(TMSDateFormatter.format(currentUser.getDateLastModifiedAt()));
     }
 
 
@@ -126,13 +127,13 @@ public class ProfileView extends VerticalLayout
             {
                 updateUser(userService.updateUserProfile(binder.getBean()));
                 Notification.show("Profile updated successfully");
-                setViewMode();
+                setViewOnlyMode();
             }
         });
 
         cancelButton.addClickListener(e -> {
             binder.readBean(currentUser);
-            setViewMode();
+            setViewOnlyMode();
         });
 
         editButton.addClickListener(e -> setEditMode());
@@ -141,19 +142,17 @@ public class ProfileView extends VerticalLayout
 
     private Component buildLayout()
     {
-        final H2 header = new H2("Your Profile");
+        final H2 header = new H2("Profile");
 
         final FormLayout form = new FormLayout(
                         username,
+                        email,
                         firstName,
                         lastName,
-                        email,
                         phoneNumber,
                         createdAt,
                         lastChange
         );
-
-        form.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
 
         final HorizontalLayout actions = new HorizontalLayout(editButton, saveButton, cancelButton);
         actions.setSpacing(true);
@@ -162,11 +161,10 @@ public class ProfileView extends VerticalLayout
     }
 
 
-    private void setViewMode()
+    private void setViewOnlyMode()
     {
         firstName.setReadOnly(true);
         lastName.setReadOnly(true);
-        email.setReadOnly(true);
         phoneNumber.setReadOnly(true);
 
         editButton.setVisible(true);
@@ -179,7 +177,6 @@ public class ProfileView extends VerticalLayout
     {
         firstName.setReadOnly(false);
         lastName.setReadOnly(false);
-        email.setReadOnly(false);
         phoneNumber.setReadOnly(false);
 
         editButton.setVisible(false);
