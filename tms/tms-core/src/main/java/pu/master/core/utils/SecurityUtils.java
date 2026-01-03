@@ -1,11 +1,8 @@
 package pu.master.core.utils;
 
 
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Component;
 import com.vaadin.flow.spring.security.AuthenticationContext;
 
 import lombok.RequiredArgsConstructor;
-
 import pu.master.core.exceptions.UserNotFoundException;
 import pu.master.core.repositories.UserRepository;
 import pu.master.core.utils.constants.TMSRole;
