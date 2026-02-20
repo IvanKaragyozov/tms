@@ -30,4 +30,5 @@ public class UserUIBean
 
     private LocalDate dateLastModifiedAt;
 
+    private byte[] profilePicture;
 }

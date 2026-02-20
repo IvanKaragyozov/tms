@@ -1,11 +1,15 @@
 package pu.master.gui.views.profile;
 
 
+import java.io.ByteArrayInputStream;
+
 import jakarta.annotation.security.PermitAll;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Unit;
+import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
@@ -18,6 +22,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 
 import pu.master.core.services.UserService;
 import pu.master.core.services.formatters.TMSDateFormatter;
@@ -60,7 +65,7 @@ public class ProfileView extends VerticalLayout
         setPadding(true);
         setSpacing(true);
 
-        updateUser();
+        setUserToCurrent();
         configureUserFields();
         configureBinder();
         configureButtons();
@@ -71,7 +76,7 @@ public class ProfileView extends VerticalLayout
     }
 
 
-    private void updateUser()
+    private void setUserToCurrent()
     {
         this.currentUser = userService.getCurrentLoggedInUserUIBean();
         binder.setBean(currentUser);
@@ -142,6 +147,7 @@ public class ProfileView extends VerticalLayout
 
     private Component buildLayout()
     {
+
         final H2 header = new H2("Profile");
 
         final FormLayout form = new FormLayout(
@@ -157,7 +163,38 @@ public class ProfileView extends VerticalLayout
         final HorizontalLayout actions = new HorizontalLayout(editButton, saveButton, cancelButton);
         actions.setSpacing(true);
 
-        return new VerticalLayout(header, form, actions);
+        final VerticalLayout pfpLayout = getPfpLayout();
+        return new VerticalLayout(pfpLayout, header, form, actions);
+    }
+
+
+    private VerticalLayout getPfpLayout()
+    {
+        final Avatar profilePicture = new Avatar();
+        final String avatarSize = "6em";
+        profilePicture.setWidth(avatarSize);
+        profilePicture.setHeight(avatarSize);
+
+        getProfilePictureUrl(profilePicture);
+
+        final VerticalLayout pfpLayout = new VerticalLayout(profilePicture);
+        pfpLayout.setAlignItems(Alignment.CENTER);
+
+        return pfpLayout;
+    }
+
+
+    private void getProfilePictureUrl(final Avatar avatar)
+    {
+        final byte[] pfpByteArray = currentUser.getProfilePicture();
+        if (pfpByteArray != null && pfpByteArray.length > 0)
+        {
+            avatar.setImageResource(new StreamResource("profile.png", () -> new ByteArrayInputStream(pfpByteArray)));
+        }
+        else
+        {
+            avatar.setName(currentUser.getUsername());
+        }
     }
 
 
