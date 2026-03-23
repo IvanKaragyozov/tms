@@ -55,6 +55,9 @@ public class User extends BaseEntity
     @Column(name = "date_last_modified_at")
     private LocalDate dateLastModifiedAt;
 
+    @Column(name = "profile_picture")
+    private byte[] profilePicture;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
                     name = "user_roles",

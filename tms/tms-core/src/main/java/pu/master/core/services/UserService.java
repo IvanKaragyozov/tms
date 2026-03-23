@@ -185,4 +185,13 @@ public class UserService
         final User saved = userRepository.save(existingUser);
         return userMapper.mapUserToUIBean(saved);
     }
+
+    public void updateUserProfilePicture(final UserUIBean user, final byte[] profilePicture)
+    {
+        final User existingUser = getUserByUsername(user.getUsername());
+        existingUser.setProfilePicture(profilePicture);
+        userRepository.save(existingUser);
+
+        LOGGER.info("Updated profile picture for user with username: [{}]", user.getUsername());
+    }
 }

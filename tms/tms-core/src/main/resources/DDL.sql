@@ -37,6 +37,7 @@ CREATE TABLE users
     password              VARCHAR(255) NOT NULL,
     phone_number          VARCHAR(15) UNIQUE,
     username              VARCHAR(64)  NOT NULL UNIQUE,
+    profile_picture       BYTEA,
     CONSTRAINT PK_users_id PRIMARY KEY (id)
 );
 

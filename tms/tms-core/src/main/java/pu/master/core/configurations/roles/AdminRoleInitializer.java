@@ -7,6 +7,7 @@ import jakarta.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import pu.master.core.repositories.RightRepository;
@@ -32,7 +33,7 @@ class AdminRoleInitializer extends BaseRoleInitializer
         super(roleRepository, rightRepository);
     }
 
-
+    @Cacheable
     @PostConstruct
     void createAdminRole()
     {

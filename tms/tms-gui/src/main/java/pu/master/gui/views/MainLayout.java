@@ -1,6 +1,8 @@
 package pu.master.gui.views;
 
 
+import java.io.ByteArrayInputStream;
+
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -18,9 +20,11 @@ import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import pu.master.core.utils.SecurityUtils;
+import pu.master.domain.models.entities.User;
 import pu.master.gui.views.home.HomeView;
 import pu.master.gui.views.utils.Routes;
 
@@ -72,11 +76,23 @@ public class MainLayout extends AppLayout implements AfterNavigationObserver
     // TODO: Update avatar functionality
     private Avatar createAvatar()
     {
-        final String firstLetter = securityUtils.getCurrentLoggedInUser().getUsername().substring(0, 1);
+        final User currentUser = securityUtils.getCurrentLoggedInUser();
+
+//        final String firstLetter = currentUser.getUsername().substring(0, 1);
 
         final Avatar avatar = new Avatar();
-        avatar.setName(firstLetter);
-        avatar.setAbbreviation(firstLetter);
+        final byte[] pfpByteArray = currentUser.getProfilePicture();
+        if (pfpByteArray != null && pfpByteArray.length > 0)
+        {
+
+            avatar.setImageResource(new StreamResource("profile.png", () -> new ByteArrayInputStream(pfpByteArray)));
+        }
+        else
+        {
+            avatar.setName(currentUser.getUsername());
+        }
+//        avatar.setName(firstLetter);
+//        avatar.setAbbreviation(firstLetter);
 
         final ContextMenu avatarMenu = createAvatarMenu();
         avatarMenu.setTarget(avatar);

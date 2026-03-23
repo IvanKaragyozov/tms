@@ -171,6 +171,7 @@ public class LoginView extends VerticalLayout
         catch (final InternalAuthenticationServiceException | BadCredentialsException e)
         {
             Notification.show("Incorrect username or password");
+            password.clear();
             LOGGER.error("User tried to login with wrong credentials.");
         }
         catch (final ValidationException e)
